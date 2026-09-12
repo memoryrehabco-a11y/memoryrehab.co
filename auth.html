@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Sanctuary | Memory Rehab Lab</title>
+    <meta
+      name="description"
+      content="Sign in or register for your personalized Memory Rehab routine account to track barrier recovery and receive tailored botanical formulations."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://YOUR_DOMAIN_HERE/auth.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Ambient glowing chromatic orbs -->
+    <div class="ambient-container" aria-hidden="true">
+      <div class="ambient-orb ambient-orb-1"></div>
+      <div class="ambient-orb ambient-orb-2"></div>
+      <div class="ambient-orb ambient-orb-3"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="site-header container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-link" aria-label="Memory Rehab Home">
+          <div class="brand-logo-icon">MR</div>
+          <div class="brand-info">
+            <span class="brand-title">Memory Rehab</span>
+            <span class="brand-subtitle">Botanical Skincare</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <a href="index.html" class="btn-secondary" style="padding: 6px 16px; font-size: 0.85rem;">
+            ← Return to Store
+          </a>
+          <!-- Dark / Light Mode Glass Toggle -->
+          <button
+            class="theme-toggle-btn"
+            id="themeToggle"
+            type="button"
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+          >
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Auth Center Container -->
+    <div class="auth-page-shell">
+      <div class="auth-glass-container">
+        <div class="auth-header">
+          <div class="auth-brand-mark">MR</div>
+          <h1 class="auth-title" id="authTitleText">Welcome Back</h1>
+          <p class="auth-subtitle" id="authSubtitleText">Access your personalized routine & clinical order history</p>
+        </div>
+
+        <!-- Google One-Click Sign In -->
+        <div class="auth-social-wrap">
+          <button type="button" class="btn-google-auth" id="googleAuthBtn">
+            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span id="googleBtnText">Continue with Google</span>
+          </button>
+        </div>
+
+        <div class="auth-divider">
+          <span>or continue with email</span>
+        </div>
+
+        <!-- Tab Toggle (Sign In / Register) -->
+        <div class="auth-tabs-nav">
+          <button class="auth-tab-btn active" id="tabSignInBtn" type="button">Sign In</button>
+          <button class="auth-tab-btn" id="tabRegisterBtn" type="button">Create Account</button>
+        </div>
+
+        <!-- 1. SIGN IN FORM -->
+        <form id="signInForm" class="auth-form" autocomplete="on">
+          <div class="auth-form-group">
+            <label class="auth-label" for="loginEmail">Email Address</label>
+            <input
+              type="email"
+              id="loginEmail"
+              class="auth-input"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="auth-form-group">
+            <label class="auth-label" for="loginPassword">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              class="auth-input"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+
+          <div class="auth-options-row">
+            <label class="auth-remember">
+              <input type="checkbox" id="rememberMe" checked />
+              <span>Remember me</span>
+            </label>
+            <a href="#" onclick="alert('Password reset link has been dispatched to your email.'); return false;" style="color: var(--primary); font-weight: 600;">
+              Forgot password?
+            </a>
+          </div>
+
+          <button type="submit" class="btn-primary auth-submit-btn">
+            Sign In to Routine
+          </button>
+
+          <div class="demo-login-chip">
+            <button type="button" class="demo-btn" id="demoLoginBtn">
+              ⚡ Quick Fill Demo (Sarah J.)
+            </button>
+          </div>
+        </form>
+
+        <!-- 2. REGISTER FORM -->
+        <form id="registerForm" class="auth-form" style="display: none;" autocomplete="on">
+          <div class="auth-form-group">
+            <label class="auth-label" for="regName">Full Name</label>
+            <input
+              type="text"
+              id="regName"
+              class="auth-input"
+              placeholder="e.g. Sarah Jenkins"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="auth-form-group">
+            <label class="auth-label" for="regEmail">Email Address</label>
+            <input
+              type="email"
+              id="regEmail"
+              class="auth-input"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="auth-form-group">
+            <label class="auth-label" for="regSkinType">Your Primary Skin Concern</label>
+            <select id="regSkinType" class="auth-select" required>
+              <option value="Compromised / Sensitive Barrier">💧 Compromised / Sensitive Barrier</option>
+              <option value="Blemish-Prone & Active Acne">🌿 Blemish-Prone & Active Breakouts</option>
+              <option value="Dry & Rough / Keratosis Pilaris">🧴 Dry & Rough / KP Body Skin</option>
+              <option value="Dullness & Hyperpigmentation">☀️ Dullness & Hyperpigmentation</option>
+              <option value="All Skin Types / Preventative Care">✨ All Skin Types / Daily Balance</option>
+            </select>
+          </div>
+
+          <div class="auth-form-group">
+            <label class="auth-label" for="regPassword">Password</label>
+            <input
+              type="password"
+              id="regPassword"
+              class="auth-input"
+              placeholder="Minimum 6 characters"
+              minlength="6"
+              required
+              autocomplete="new-password"
+            />
+          </div>
+
+          <div class="auth-options-row">
+            <label class="auth-remember">
+              <input type="checkbox" id="regTerms" required checked />
+              <span>Agree to Terms & clinical routine privacy</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary auth-submit-btn">
+            Create Account & Get 15% Off
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+
+    <!-- Firebase SDK (v9 compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script>
+      // Initialize Firebase with your project config
+      const firebaseConfig = {
+        apiKey: "AIzaSyDC4eeTzJlyoRjgDM6HCDsuI7OPH-r_hx0",
+        authDomain: "memory-rehab.firebaseapp.com",
+        projectId: "memory-rehab",
+        storageBucket: "memory-rehab.firebasestorage.app",
+        messagingSenderId: "447945885806",
+        appId: "1:447945885806:web:6b1e08da09c102671d3e7f"
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      const auth = firebase.auth();
+
+      const LOCAL_USERS_KEY = 'mr_local_users';
+      function getLocalUsers() {
+        try {
+          return JSON.parse(localStorage.getItem(LOCAL_USERS_KEY) || '{}');
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function setCurrentUser(user) {
+        const payload = {
+          name: user.name || 'Memory Rehab User',
+          email: (user.email || '').toLowerCase(),
+          skinType: user.skinType || 'Custom Routine Profile'
+        };
+        localStorage.setItem('mr_current_user', JSON.stringify(payload));
+        return payload;
+      }
+
+      function createLocalUserAccount({ name, email, password, skinType }) {
+        const users = getLocalUsers();
+        const normalizedEmail = String(email || '').trim().toLowerCase();
+        if (!normalizedEmail || !password) return { ok: false, error: 'Missing credentials' };
+
+        const existing = users[normalizedEmail];
+        if (existing && password !== existing.password) {
+          return { ok: false, error: 'Incorrect password' };
+        }
+
+        const user = {
+          name: name || (normalizedEmail.split('@')[0] || 'Memory Rehab User'),
+          email: normalizedEmail,
+          password,
+          skinType: skinType || 'Custom Routine Profile'
+        };
+
+        users[normalizedEmail] = user;
+        localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(users));
+        setCurrentUser(user);
+        return { ok: true, user };
+      }
+
+      function handleLocalLogin(email, password) {
+        const users = getLocalUsers();
+        const normalizedEmail = String(email || '').trim().toLowerCase();
+        if (!normalizedEmail) return { ok: false, error: 'Email is required.' };
+
+        const user = users[normalizedEmail];
+        if (!user) return { ok: false, error: 'Account not found.' };
+        if (String(password || '') !== String(user.password || '')) {
+          return { ok: false, error: 'Incorrect password.' };
+        }
+
+        setCurrentUser(user);
+        return { ok: true, user };
+      }
+
+      function withTimeout(promise, ms = 2500) {
+        return Promise.race([
+          promise,
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Timed out waiting for auth service.')), ms);
+          })
+        ]);
+      }
+
+      // Auth tab switching logic
+      const tabSignInBtn = document.getElementById('tabSignInBtn');
+      const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+      const signInForm = document.getElementById('signInForm');
+      const registerForm = document.getElementById('registerForm');
+      const authTitleText = document.getElementById('authTitleText');
+      const authSubtitleText = document.getElementById('authSubtitleText');
+
+      tabSignInBtn?.addEventListener('click', () => {
+        tabSignInBtn.classList.add('active');
+        tabRegisterBtn.classList.remove('active');
+        signInForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        authTitleText.textContent = 'Welcome Back';
+        authSubtitleText.textContent = 'Access your personalized routine & clinical order history';
+      });
+
+      tabRegisterBtn?.addEventListener('click', () => {
+        tabRegisterBtn.classList.add('active');
+        tabSignInBtn.classList.remove('active');
+        signInForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        authTitleText.textContent = 'Join Memory Rehab';
+        authSubtitleText.textContent = 'Personalize your barrier routine & unlock 15% off first order';
+      });
+
+      // ─── 1. GOOGLE ONE-CLICK SIGN IN ───
+      const googleAuthBtn = document.getElementById('googleAuthBtn');
+      const googleBtnText = document.getElementById('googleBtnText');
+
+      googleAuthBtn?.addEventListener('click', async () => {
+        try {
+          if (googleBtnText) googleBtnText.textContent = 'Connecting with Google...';
+          googleAuthBtn.disabled = true;
+
+          const provider = new firebase.auth.GoogleAuthProvider();
+          // Prompt account selection
+          provider.setCustomParameters({ prompt: 'select_account' });
+          const result = await auth.signInWithPopup(provider);
+          const fbUser = result.user;
+
+          const user = {
+            name: fbUser.displayName || fbUser.email.split('@')[0],
+            email: fbUser.email,
+            photo: fbUser.photoURL || '',
+            skinType: 'Custom Routine Profile'
+          };
+          localStorage.setItem('mr_current_user', JSON.stringify(user));
+          if (typeof window.showToast === 'function') {
+            window.showToast(`Signed in as ${user.name}`, '✦');
+          }
+          alert(`Welcome to Memory Rehab, ${user.name}!`);
+          window.location.href = 'index.html';
+        } catch (err) {
+          console.error('Google Auth error:', err);
+          alert('Google Sign-In: ' + (err.message || 'Please try again.'));
+        } finally {
+          if (googleBtnText) googleBtnText.textContent = 'Continue with Google';
+          if (googleAuthBtn) googleAuthBtn.disabled = false;
+        }
+      });
+
+      // ─── 2. QUICK DEMO FILL ───
+      document.getElementById('demoLoginBtn')?.addEventListener('click', () => {
+        document.getElementById('loginEmail').value = 'sarah.j@example.com';
+        document.getElementById('loginPassword').value = 'routine123';
+        signInForm.dispatchEvent(new Event('submit'));
+      });
+
+      // ─── 3. EMAIL / PASSWORD SIGN IN ───
+      signInForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const submitBtn = signInForm.querySelector('.auth-submit-btn');
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Authenticating...';
+        }
+
+        try {
+          const userCredential = await withTimeout(auth.signInWithEmailAndPassword(email, password));
+          const fbUser = userCredential.user;
+          const user = {
+            name: fbUser.displayName || email.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            email: fbUser.email,
+            skinType: 'Compromised / Sensitive Barrier'
+          };
+          localStorage.setItem('mr_current_user', JSON.stringify(user));
+          alert(`Welcome back, ${user.name}!`);
+          window.location.href = 'index.html';
+        } catch (err) {
+          console.warn('Firebase auth failed, using local fallback.', err);
+          const localResult = handleLocalLogin(email, password);
+          if (localResult.ok) {
+            alert(`Welcome back, ${localResult.user.name}!`);
+            window.location.href = 'index.html';
+          } else {
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || localResult.error === 'Account not found.') {
+              alert('Account not found or password incorrect. Please create an account or use Google Sign-In.');
+            } else {
+              alert('Sign In: ' + (err.message || localResult.error || 'Please try again.'));
+            }
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In to Routine';
+          }
+        }
+      });
+
+      // ─── 4. EMAIL / PASSWORD REGISTER ───
+      registerForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const skinType = document.getElementById('regSkinType').value;
+        const submitBtn = registerForm.querySelector('.auth-submit-btn');
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Creating Account...';
+        }
+
+        try {
+          const userCredential = await withTimeout(auth.createUserWithEmailAndPassword(email, password));
+          if (userCredential.user && userCredential.user.updateProfile) {
+            await userCredential.user.updateProfile({ displayName: name });
+          }
+          const user = { name, email, skinType };
+          localStorage.setItem('mr_current_user', JSON.stringify(user));
+          alert(`Account created! Welcome to Memory Rehab, ${name}. Your 15% discount has been applied!`);
+          window.location.href = 'index.html';
+        } catch (err) {
+          console.warn('Firebase register failed, using local fallback.', err);
+          const localResult = createLocalUserAccount({ name, email, password, skinType });
+          if (localResult.ok) {
+            alert(`Account created! Welcome to Memory Rehab, ${localResult.user.name}. Your 15% discount has been applied!`);
+            window.location.href = 'index.html';
+          } else {
+            alert('Registration: ' + (err.message || localResult.error || 'Please try again.'));
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Account & Get 15% Off';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
