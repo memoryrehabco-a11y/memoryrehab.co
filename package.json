@@ -1,0 +1,21 @@
+{
+  "name": "memory-rehab-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Memory Rehab Lab — Luxury Clinical Barrier Skincare Storefront",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "skincare",
+    "luxury",
+    "ecommerce",
+    "glassmorphism",
+    "standalone"
+  ],
+  "author": "Memory Rehab Lab",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
