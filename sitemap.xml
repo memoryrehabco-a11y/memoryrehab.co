@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- 1. Storefront Homepage -->
+  <url>
+    <loc>https://memoryrehab.co/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_20-12-25.jpg</image:loc>
+      <image:title>Memory Rehab Lab Botanical Skincare</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/index.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 2. Account & Sanctuary -->
+  <url>
+    <loc>https://memoryrehab.co/auth.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 3. Formulations & Product Detail Pages -->
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=1</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-58.jpg</image:loc>
+      <image:title>Faerie Dew Barrier Face Cream</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=2</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-54.jpg</image:loc>
+      <image:title>For The Love Of Sun Vitamin C Serum</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=3</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-56.jpg</image:loc>
+      <image:title>Exile Acne Fix Treatment Gel</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=4</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-50.jpg</image:loc>
+      <image:title>Vita Sea Fruit Active Toner</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=5</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-51.jpg</image:loc>
+      <image:title>Blue Blooded Balancing Mist</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=6</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-57.jpg</image:loc>
+      <image:title>Jade Lustre Youth Botanical Elixir</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=7</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-34-01.jpg</image:loc>
+      <image:title>Heavenly Buff Velvet Body Milk</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=8</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-47.jpg</image:loc>
+      <image:title>Cupid's Pout Nourishing Lip Butter</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=9</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-49.jpg</image:loc>
+      <image:title>Palm Culture Clarifying Black Soap</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://memoryrehab.co/product.html?id=10</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://memoryrehab.co/photo_2026-09-09_17-33-52.jpg</image:loc>
+      <image:title>Reveal Strawberry Enzyme Body Polish</image:title>
+    </image:image>
+  </url>
+
+</urlset>
