@@ -23,14 +23,22 @@ function applyStorefrontThemeColor(hex) {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  const isLightShade = brightness > 190;
+
   const darken = (v, a) => Math.min(255, Math.max(0, v + a)).toString(16).padStart(2, '0');
-  const hover = '#' + darken(r, -15) + darken(g, -15) + darken(b, -15);
+  const hover = isLightShade
+    ? '#' + darken(r, -22) + darken(g, -22) + darken(b, -22)
+    : '#' + darken(r, -15) + darken(g, -15) + darken(b, -15);
+
   const root = document.documentElement;
   root.style.setProperty('--primary', hex);
   root.style.setProperty('--primary-hover', hover);
-  root.style.setProperty('--primary-soft', `rgba(${r},${g},${b},0.14)`);
-  root.style.setProperty('--primary-glow', `rgba(${r},${g},${b},0.45)`);
-  root.style.setProperty('--glass-border-subtle', `rgba(${r},${g},${b},0.25)`);
+  root.style.setProperty('--btn-primary-text', isLightShade ? '#0f172a' : '#ffffff');
+  root.style.setProperty('--btn-primary-border', isLightShade ? 'rgba(15, 23, 42, 0.22)' : 'rgba(255, 255, 255, 0.35)');
+  root.style.setProperty('--primary-soft', isLightShade ? 'rgba(15, 23, 42, 0.06)' : `rgba(${r},${g},${b},0.14)`);
+  root.style.setProperty('--primary-glow', isLightShade ? 'rgba(15, 23, 42, 0.12)' : `rgba(${r},${g},${b},0.45)`);
+  root.style.setProperty('--glass-border-subtle', isLightShade ? 'rgba(15, 23, 42, 0.18)' : `rgba(${r},${g},${b},0.25)`);
   localStorage.setItem('mr_light_accent', hex);
 }
 
@@ -304,6 +312,9 @@ const DARK_PALETTES = {
  * Curated list of high-luxury pastel accent hues for dynamic cycling
  */
 const PASTEL_ROTATION_PALETTE = [
+  { name: 'Pure White', hex: '#ffffff' },
+  { name: 'Pearl Porcelain', hex: '#f8fafc' },
+  { name: 'Silk Alabaster', hex: '#f1f5f9' },
   { name: 'Rose Pink', hex: '#f48bb3' },
   { name: 'Baby Pink', hex: '#f9a8d4' },
   { name: 'Blush Rose', hex: '#fda4af' },

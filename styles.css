@@ -20,6 +20,8 @@
   --primary-hover: #ed73a1;
   --primary-soft: rgba(244, 139, 179, 0.14);
   --primary-glow: rgba(244, 139, 179, 0.45);
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: rgba(255, 255, 255, 0.35);
   
   --secondary: #ffccd9;
   --accent-blush: #fce7f0;
@@ -519,15 +521,15 @@ input {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, var(--primary) 0%, #f672a3 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--btn-primary-text, #ffffff);
   padding: 0.85rem 1.6rem;
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: -0.01em;
   box-shadow: var(--shadow-glow);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--btn-primary-border, rgba(255, 255, 255, 0.35));
   position: relative;
   overflow: hidden;
 }
@@ -610,13 +612,14 @@ input {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), #ec4899);
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   display: grid;
   place-items: center;
-  color: #ffffff;
+  color: var(--btn-primary-text, #ffffff);
   font-weight: 800;
   font-size: 1rem;
   box-shadow: 0 6px 18px var(--primary-glow);
+  border: 1px solid var(--btn-primary-border, transparent);
 }
 
 [data-theme="dark"] .brand-logo-icon,
@@ -1471,12 +1474,12 @@ input {
   gap: 6px;
   padding: 9px 18px;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--primary) 0%, #f672a3 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--btn-primary-text, #ffffff);
   font-size: 0.88rem;
   font-weight: 700;
   box-shadow: 0 4px 14px var(--primary-glow);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--btn-primary-border, rgba(255, 255, 255, 0.35));
   transition: var(--transition);
 }
 
