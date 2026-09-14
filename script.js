@@ -122,6 +122,32 @@ function applyStorefrontTextSettings(settings = {}) {
       el.textContent = settings.promoCode;
     });
   }
+
+  if (settings.brandMonogram) {
+    document.querySelectorAll('.brand-logo-icon').forEach((el) => {
+      el.textContent = settings.brandMonogram;
+    });
+  }
+
+  if (settings.footerBio) {
+    document.querySelectorAll('.footer-brand-bio').forEach((el) => {
+      el.textContent = settings.footerBio;
+    });
+  }
+
+  if (settings.footerCopyright) {
+    const year = new Date().getFullYear();
+    const copyrightText = settings.footerCopyright.replace('{year}', year);
+    document.querySelectorAll('.footer-copyright-text').forEach((el) => {
+      el.textContent = copyrightText;
+    });
+  }
+
+  if (settings.footerTagline) {
+    document.querySelectorAll('.footer-tagline-text').forEach((el) => {
+      el.textContent = settings.footerTagline;
+    });
+  }
 }
 
 // All supported dark mode palettes (name → CSS variable overrides)
@@ -848,7 +874,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateShippingProgress(total) {
-    const freeShippingGoal = 60000.0;
+    const freeShippingGoal = (window.STORE_CONFIG && window.STORE_CONFIG.freeShippingThreshold) || 60000.0;
     if (!shippingGoalText || !shippingGoalPercent || !shippingProgressFill) return;
 
     if (total >= freeShippingGoal) {
@@ -988,7 +1014,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const bundleItem = {
         id: 'bundle-3step',
         name: 'Complete 3-Step Barrier Routine Set (Vita Sea + Vitamin C + Faerie Dew)',
-        price: 107,
+        price: 107000,
         image: 'photo_2026-09-09_17-33-58.jpg',
         size: '3-Piece Set',
         quantity: 1
@@ -1226,7 +1252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const product = {
         id: 'gal-' + Date.now(),
         name: tile.dataset.name || 'Botanical Formulation',
-        price: Number(tile.dataset.price || 32),
+        price: Number(tile.dataset.price || 32000),
         image: tile.dataset.image || tile.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1') || 'photo_2026-09-09_17-33-58.jpg',
         size: 'Full Size'
       };
@@ -1257,6 +1283,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 10. PRODUCT DETAIL PAGE LOADER (product.html) ---
   window.loadProductDetailPage = function () {
     const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id') || '1';
     let catalog = window.MEMORY_REHAB_CATALOG || {};
     try {
       const rawCustom = localStorage.getItem('mr_custom_products');
@@ -1272,7 +1299,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hero details
     const pdpMainImg = document.getElementById('pdpMainImg');
-    if (pdpMainImg) pdpMainImg.src = prod.image;
+    if (pdpMainImg) {
+      pdpMainImg.src = prod.image;
+      pdpMainImg.alt = prod.name;
+    }
     const pdpStepBadge = document.getElementById('pdpStepBadge');
     if (pdpStepBadge) pdpStepBadge.textContent = prod.step;
     const pdpSkinType = document.getElementById('pdpSkinType');
@@ -1284,9 +1314,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdpReviewCount = document.getElementById('pdpReviewCount');
     if (pdpReviewCount) pdpReviewCount.textContent = `(${prod.reviews} verified customer reviews)`;
     const pdpPrice = document.getElementById('pdpPrice');
-    if (pdpPrice) pdpPrice.textContent = `$${prod.price.toFixed(2)}`;
+    if (pdpPrice) pdpPrice.textContent = formatCurrency(prod.price);
     const pdpOrigPrice = document.getElementById('pdpOrigPrice');
-    if (pdpOrigPrice) pdpOrigPrice.textContent = `$${prod.originalPrice.toFixed(2)}`;
+    if (pdpOrigPrice) pdpOrigPrice.textContent = formatCurrency(prod.originalPrice || prod.price);
+    const pdpDiscountPill = document.getElementById('pdpDiscountPill');
+    if (pdpDiscountPill) {
+      if (prod.originalPrice && prod.originalPrice > prod.price) {
+        const discountPercent = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
+        pdpDiscountPill.textContent = `SAVE ${discountPercent}%`;
+        pdpDiscountPill.style.display = 'inline-block';
+      } else {
+        pdpDiscountPill.style.display = 'none';
+      }
+    }
     const pdpDescription = document.getElementById('pdpDescription');
     if (pdpDescription) pdpDescription.textContent = prod.summary;
 
@@ -1368,6 +1408,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (pdpQtyVal) pdpQtyVal.textContent = pdpQty;
       if (pdpBtnPrice) pdpBtnPrice.textContent = formatCurrency(prod.price * pdpQty);
     }
+
+    // Initialize button price immediately
+    updatePdpPrice();
 
     pdpQtyMinus?.addEventListener('click', () => {
       if (pdpQty > 1) {
@@ -1468,11 +1511,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (card) {
             if (liveData.price !== undefined) {
               const curPriceEl = card.querySelector('.current-price');
-              if (curPriceEl) curPriceEl.textContent = `$${parseFloat(liveData.price).toFixed(2)}`;
+              if (curPriceEl) curPriceEl.textContent = formatCurrency(liveData.price);
             }
             if (liveData.originalPrice !== undefined) {
               const origPriceEl = card.querySelector('.original-price');
-              if (origPriceEl) origPriceEl.textContent = `$${parseFloat(liveData.originalPrice).toFixed(2)}`;
+              if (origPriceEl) origPriceEl.textContent = formatCurrency(liveData.originalPrice);
             }
             if (liveData.name) {
               const titleEl = card.querySelector('.card-title');
@@ -1798,10 +1841,10 @@ function hydrateStorefrontCatalog() {
         if (titleEl) titleEl.textContent = p.name;
 
         const priceEl = card.querySelector('.current-price');
-        if (priceEl && p.price !== undefined) priceEl.textContent = `$${Number(p.price).toFixed(2)}`;
+        if (priceEl && p.price !== undefined) priceEl.textContent = formatCurrency(p.price);
 
         const origPriceEl = card.querySelector('.original-price');
-        if (origPriceEl && p.originalPrice) origPriceEl.textContent = `$${Number(p.originalPrice).toFixed(2)}`;
+        if (origPriceEl && p.originalPrice) origPriceEl.textContent = formatCurrency(p.originalPrice);
 
         const imgEl = card.querySelector('.card-media-wrap img');
         if (imgEl && p.image) {
@@ -1840,8 +1883,8 @@ function hydrateStorefrontCatalog() {
         newCard.dataset.id = id;
         newCard.dataset.category = stepSlug;
         newCard.dataset.name = p.name || 'New Botanical Formulation';
-        newCard.dataset.price = p.price || 45;
-        newCard.dataset.originalPrice = p.originalPrice || 55;
+        newCard.dataset.price = p.price || 45000;
+        newCard.dataset.originalPrice = p.originalPrice || 55000;
         newCard.dataset.image = p.image || 'photo_2026-09-09_17-33-58.jpg';
         newCard.dataset.rating = p.rating || '5.0';
         newCard.dataset.reviews = p.reviews || '12';
@@ -1881,8 +1924,8 @@ function hydrateStorefrontCatalog() {
             </div>
             <div class="card-footer-row">
               <div class="price-container">
-                <span class="current-price">$${Number(p.price || 0).toFixed(2)}</span>
-                <span class="original-price">$${Number(p.originalPrice || p.price || 0).toFixed(2)}</span>
+                <span class="current-price">${formatCurrency(p.price || 0)}</span>
+                <span class="original-price">${formatCurrency(p.originalPrice || p.price || 0)}</span>
               </div>
               <button class="card-add-cart-btn" type="button" aria-label="Add ${p.name || ''} to cart">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

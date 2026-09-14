@@ -374,7 +374,7 @@
                 <span class="brand-subtitle">Botanical Skincare</span>
               </div>
             </div>
-            <p>
+            <p class="footer-brand-bio">
               High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.
             </p>
           </div>
@@ -409,8 +409,8 @@
         </div>
 
         <div class="footer-bottom-row">
-          <span>© <span id="year"></span> Memory Rehab Lab. All rights reserved.</span>
-          <span>Crafted with botanical purity & clinical precision.</span>
+          <span class="footer-copyright-text">© <span id="year"></span> Memory Rehab Lab. All rights reserved.</span>
+          <span class="footer-tagline-text">Crafted with botanical purity & clinical precision.</span>
         </div>
       </div>
     </footer>
@@ -494,7 +494,7 @@
 
         // Get current product ID from URL
         const params   = new URLSearchParams(window.location.search);
-        const productId = params.get('id') || 'faerie-dew';
+        const productId = params.get('id') || '1';
 
         // ── Auth Gate Logic ──
         const currentUser = (() => {

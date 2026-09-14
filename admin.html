@@ -157,7 +157,7 @@
 
             <div class="admin-field-group">
               <label class="admin-label" for="settingAnnouncement">Announcement Ticker Text</label>
-              <input type="text" id="settingAnnouncement" class="admin-input" value="Free Express Shipping On Orders $60+ • 100% Clean Biocompatible Actives" />
+              <input type="text" id="settingAnnouncement" class="admin-input" value="Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives" />
             </div>
 
             <div class="admin-field-group">
@@ -171,8 +171,8 @@
             </div>
 
             <div class="admin-field-group">
-              <label class="admin-label" for="settingShippingThreshold">Free Shipping Threshold ($)</label>
-              <input type="number" id="settingShippingThreshold" class="admin-input" value="60" min="10" />
+              <label class="admin-label" for="settingShippingThreshold">Free Shipping Threshold (₦)</label>
+              <input type="number" id="settingShippingThreshold" class="admin-input" value="60000" min="1000" />
             </div>
           </div>
 
@@ -227,6 +227,40 @@
               <label class="admin-label" for="settingWelcomeDescription">Welcome Description</label>
               <textarea id="settingWelcomeDescription" class="admin-input" rows="3">Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.</textarea>
             </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h2 class="admin-card-title">🏷️ Footer &amp; Brand Identity</h2>
+          <p class="admin-card-desc">Control the footer brand monogram, bio text, copyright notice, and crafted tagline shown at the bottom of every page.</p>
+
+          <div class="admin-grid-form">
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingBrandMonogram">Brand Monogram (e.g. MR)</label>
+              <input type="text" id="settingBrandMonogram" class="admin-input" value="MR" maxlength="4" style="text-transform: uppercase; font-weight: 700; font-size: 1.1rem;" />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterBio">Footer Brand Bio</label>
+              <textarea id="settingFooterBio" class="admin-input" rows="3">High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.</textarea>
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterCopyright">Copyright Notice</label>
+              <input type="text" id="settingFooterCopyright" class="admin-input" value="Memory Rehab Lab. All rights reserved." />
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">The © symbol and current year are added automatically.</p>
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterTagline">Crafted Tagline</label>
+              <input type="text" id="settingFooterTagline" class="admin-input" value="Crafted with botanical purity &amp; clinical precision." />
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="button" class="btn-primary" id="saveFooterSettingsBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Footer Settings
+            </button>
           </div>
         </div>
 
@@ -629,8 +663,8 @@
                 <tr>
                   <th>Photo</th>
                   <th>Product Name</th>
-                  <th>Price ($)</th>
-                  <th>Original ($)</th>
+                  <th>Price (₦)</th>
+                  <th>Original (₦)</th>
                   <th>Badge</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -678,13 +712,13 @@
           </div>
 
           <div class="admin-field-group">
-            <label class="admin-label" for="editProdPrice">Price ($)</label>
-            <input type="number" step="0.01" id="editProdPrice" class="admin-input" />
+            <label class="admin-label" for="editProdPrice">Price (₦)</label>
+            <input type="number" step="1" id="editProdPrice" class="admin-input" />
           </div>
 
           <div class="admin-field-group">
-            <label class="admin-label" for="editProdOrigPrice">Original Strikethrough Price ($)</label>
-            <input type="number" step="0.01" id="editProdOrigPrice" class="admin-input" />
+            <label class="admin-label" for="editProdOrigPrice">Original Strikethrough Price (₦)</label>
+            <input type="number" step="1" id="editProdOrigPrice" class="admin-input" />
           </div>
 
           <div class="admin-field-group">
@@ -953,6 +987,10 @@
             if (ls.welcomeDescription) document.getElementById('settingWelcomeDescription').value = ls.welcomeDescription;
             if (ls.heroImageUrl) document.getElementById('settingHeroImageUrl').value = ls.heroImageUrl;
             if (ls.welcomeImageUrl) document.getElementById('settingWelcomeImageUrl').value = ls.welcomeImageUrl;
+            if (ls.brandMonogram) document.getElementById('settingBrandMonogram').value = ls.brandMonogram;
+            if (ls.footerBio) document.getElementById('settingFooterBio').value = ls.footerBio;
+            if (ls.footerCopyright) document.getElementById('settingFooterCopyright').value = ls.footerCopyright;
+            if (ls.footerTagline) document.getElementById('settingFooterTagline').value = ls.footerTagline;
           }
         } catch(e) {}
 
@@ -977,6 +1015,10 @@
             if (data.welcomeDescription) document.getElementById('settingWelcomeDescription').value = data.welcomeDescription;
             if (data.heroImageUrl) document.getElementById('settingHeroImageUrl').value = data.heroImageUrl;
             if (data.welcomeImageUrl) document.getElementById('settingWelcomeImageUrl').value = data.welcomeImageUrl;
+            if (data.brandMonogram) document.getElementById('settingBrandMonogram').value = data.brandMonogram;
+            if (data.footerBio) document.getElementById('settingFooterBio').value = data.footerBio;
+            if (data.footerCopyright) document.getElementById('settingFooterCopyright').value = data.footerCopyright;
+            if (data.footerTagline) document.getElementById('settingFooterTagline').value = data.footerTagline;
             if (data.themeAccentColor) {
               applyThemeColor(data.themeAccentColor);
               const picker = document.getElementById('themeColorPicker');
@@ -1363,8 +1405,8 @@
           tr.innerHTML = [
             '<td><div class="admin-thumb-wrap" data-id="' + id + '" title="Click to upload new photo from your device"><img src="' + (p.image || '') + '" alt="" /><div class="admin-thumb-upload-overlay">📷</div></div></td>',
             '<td><input type="text" class="admin-name-input admin-input" value="' + (p.name || '').replace(/"/g, '&quot;') + '" data-field="name" /></td>',
-            '<td><div style="display:flex;align-items:center;gap:4px;"><span>$</span><input type="number" step="0.01" class="admin-price-input admin-input" value="' + (p.price || 0) + '" data-field="price" /></div></td>',
-            '<td><div style="display:flex;align-items:center;gap:4px;"><span>$</span><input type="number" step="0.01" class="admin-price-input admin-input" value="' + (p.originalPrice || p.price || 0) + '" data-field="originalPrice" /></div></td>',
+            '<td><div style="display:flex;align-items:center;gap:4px;"><span>₦</span><input type="number" step="1" class="admin-price-input admin-input" value="' + (p.price || 0) + '" data-field="price" /></div></td>',
+            '<td><div style="display:flex;align-items:center;gap:4px;"><span>₦</span><input type="number" step="1" class="admin-price-input admin-input" value="' + (p.originalPrice || p.price || 0) + '" data-field="originalPrice" /></div></td>',
             '<td><input type="text" class="admin-input" style="width:110px;" value="' + (p.badge || 'Popular') + '" data-field="badge" /></td>',
             '<td><select class="admin-input" style="width:100px;padding:6px 10px;" data-field="inStock"><option value="true" ' + (p.inStock !== false ? 'selected' : '') + '>In Stock</option><option value="false" ' + (p.inStock === false ? 'selected' : '') + '>Sold Out</option></select></td>',
             '<td><div style="display:flex;gap:6px;"><button type="button" class="admin-save-pill-btn" data-action="edit-details" data-id="' + id + '" style="background:rgba(255,255,255,0.25);color:var(--text-main);border:1px solid var(--glass-border);">⚙️ Specs</button><button type="button" class="admin-save-pill-btn" data-action="save-row" data-id="' + id + '">Save</button></div></td>'
@@ -1617,7 +1659,7 @@
         // Save locally first
         persistProductsLocally();
         if (typeof window.showToast === 'function') {
-          window.showToast(name + ' updated to $' + price.toFixed(2) + '!', '✦');
+          window.showToast(name + ' updated to ₦' + Number(price).toLocaleString('en-NG') + '!', '✦');
         }
 
         // Cloud sync
@@ -1695,6 +1737,10 @@
         const welcomeDescription = document.getElementById('settingWelcomeDescription').value.trim() || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
         const heroImageUrl = document.getElementById('settingHeroImageUrl').value.trim() || 'photo_2026-09-09_17-33-58.jpg';
         const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl').value.trim() || 'photo_2026-09-09_20-12-25.jpg';
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
 
         const settingsData = {
           storeName,
@@ -1712,7 +1758,11 @@
           welcomeTitle,
           welcomeDescription,
           heroImageUrl,
-          welcomeImageUrl
+          welcomeImageUrl,
+          brandMonogram,
+          footerBio,
+          footerCopyright,
+          footerTagline
         };
 
         // 1. Save locally
@@ -1735,6 +1785,48 @@
         }
       });
 
+      // ── Footer & Brand Identity Save ──
+      const saveFooterSettingsBtn = document.getElementById('saveFooterSettingsBtn');
+      saveFooterSettingsBtn?.addEventListener('click', async () => {
+        saveFooterSettingsBtn.disabled = true;
+        saveFooterSettingsBtn.textContent = 'Saving…';
+
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+
+        const footerData = { brandMonogram, footerBio, footerCopyright, footerTagline };
+
+        // Save locally (merge with existing settings)
+        try {
+          const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+          localStorage.setItem('mr_store_settings', JSON.stringify({ ...existing, ...footerData }));
+        } catch(e) {}
+
+        // Apply live to the page (if admin preview is open alongside)
+        if (typeof window.applyStorefrontTextSettings === 'function') {
+          window.applyStorefrontTextSettings(footerData);
+        }
+
+        if (typeof window.showToast === 'function') {
+          window.showToast('Footer & brand identity saved!', '🏷️');
+        }
+
+        // Push to cloud
+        try {
+          await db.collection('store_settings').doc('general').set({
+            ...footerData,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch (err) {
+          console.warn('Cloud footer settings notice:', err.message);
+        } finally {
+          saveFooterSettingsBtn.disabled = false;
+          saveFooterSettingsBtn.textContent = 'Save Footer Settings';
+        }
+      });
+
       seedDatabaseBtn?.addEventListener('click', async () => {
         if (!confirm('This will synchronize all catalog formulations into your Local Storage & Firebase Cloud. Continue?')) {
           return;
@@ -1752,10 +1844,10 @@
           const settingsData = {
             storeName: 'Memory Rehab Lab',
             storeTagline: 'Botanical Skincare',
-            announcement: 'Free Express Shipping On Orders $60+ • 100% Clean Biocompatible Actives',
+            announcement: 'Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives',
             promoCode: 'GLOW15',
             promoDiscount: 15,
-            freeShippingThreshold: 60.00,
+            freeShippingThreshold: 60000.00,
             heroEyebrow: 'Step-by-Step Clinical Care',
             heroHeadline: 'Healthy skin starts with a rehabilitated barrier.',
             heroDescription: 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.',
@@ -1765,7 +1857,11 @@
             welcomeTitle: 'Your skin barrier, restored with pure botanicals.',
             welcomeDescription: 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.',
             heroImageUrl: 'photo_2026-09-09_17-33-58.jpg',
-            welcomeImageUrl: 'photo_2026-09-09_20-12-25.jpg'
+            welcomeImageUrl: 'photo_2026-09-09_20-12-25.jpg',
+            brandMonogram: 'MR',
+            footerBio: 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.',
+            footerCopyright: 'Memory Rehab Lab. All rights reserved.',
+            footerTagline: 'Crafted with botanical purity & clinical precision.'
           };
           persistSettingsLocally(settingsData);
 
@@ -1879,10 +1975,10 @@
       function generateConfigCode() {
         const storeName = document.getElementById('settingStoreName')?.value || 'Memory Rehab Lab';
         const storeTagline = document.getElementById('settingStoreTagline')?.value || 'Botanical Skincare';
-        const announcement = document.getElementById('settingAnnouncement')?.value || 'Free Express Shipping On Orders $60+ • 100% Clean Biocompatible Actives';
+        const announcement = document.getElementById('settingAnnouncement')?.value || 'Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives';
         const promoCode = document.getElementById('settingPromoCode')?.value || 'GLOW15';
         const promoDiscount = parseInt(document.getElementById('settingDiscountPercent')?.value, 10) || 15;
-        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold')?.value) || 60;
+        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold')?.value) || 60000;
         const heroEyebrow = document.getElementById('settingHeroEyebrow')?.value || 'Step-by-Step Clinical Care';
         const heroHeadline = document.getElementById('settingHeroHeadline')?.value || 'Healthy skin starts with a rehabilitated barrier.';
         const heroDescription = document.getElementById('settingHeroDescription')?.value || 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.';
@@ -1891,6 +1987,10 @@
         const welcomeEyebrow = document.getElementById('settingWelcomeEyebrow')?.value || 'Apothecary Welcome';
         const welcomeTitle = document.getElementById('settingWelcomeTitle')?.value || 'Your skin barrier, restored with pure botanicals.';
         const welcomeDescription = document.getElementById('settingWelcomeDescription')?.value || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
 
         const storeConfig = {
           storeName: storeName,
@@ -1898,7 +1998,7 @@
           promoCode: promoCode,
           promoDiscount: promoDiscount,
           freeShippingThreshold: freeShippingThreshold,
-          currencySymbol: '$',
+          currencySymbol: '₦',
           heroEyebrow: heroEyebrow,
           heroHeadline: heroHeadline,
           heroDescription: heroDescription,
@@ -1907,6 +2007,10 @@
           welcomeEyebrow: welcomeEyebrow,
           welcomeTitle: welcomeTitle,
           welcomeDescription: welcomeDescription,
+          brandMonogram: brandMonogram,
+          footerBio: footerBio,
+          footerCopyright: footerCopyright,
+          footerTagline: footerTagline,
           announcements: [
             announcement,
             '100% Clean Biocompatible Actives',
