@@ -10,6 +10,17 @@
 // and the storefront will fail to initialize.
 window.MEMORY_REHAB_CATALOG = window.MEMORY_REHAB_CATALOG || {};
 
+// --- OFFICIAL CONTACT & SOCIAL MEDIA CONFIGURATION ---
+window.MEMORY_REHAB_CONTACT = {
+  whatsappNumber: '+2349112488271',
+  whatsappDisplay: '+234 911 248 8271',
+  whatsappUrl: 'https://wa.me/2349112488271',
+  instagramHandle: 'memoryrehab.co',
+  instagramUrl: 'https://instagram.com/memoryrehab.co',
+  tiktokHandle: 'memoryrehab.co',
+  tiktokUrl: 'https://www.tiktok.com/@memoryrehab.co'
+};
+
 // ═══════════════════════════════════════════════════════════════
 //  GLOBAL THEME HELPERS (called by Firestore sync + admin page)
 // ═══════════════════════════════════════════════════════════════
@@ -780,55 +791,83 @@ document.addEventListener('DOMContentLoaded', () => {
   const shippingProgressFill = document.getElementById('shippingProgressFill');
   const addBundleBtn = document.getElementById('addBundleBtn');
 
-  let cart = [
-    {
-      id: '1',
-      name: 'Faerie Dew™ Barrier Face Cream',
-      price: 42,
-      image: 'photo_2026-09-09_17-33-58.jpg',
-      size: '30ml',
-      quantity: 1
-    }
-  ];
+  function loadPersistedCart() {
+    try {
+      const raw = localStorage.getItem('mr_cart');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((item) => {
+            if (Number(item.price) <= 100) item.price = 42000;
+            return item;
+          });
+        }
+      }
+    } catch (e) {}
+    return [
+      {
+        id: '1',
+        name: 'Faerie Dew™ Barrier Face Cream',
+        price: 42000,
+        image: 'photo_2026-09-09_17-33-58.jpg',
+        size: '30ml',
+        quantity: 1
+      }
+    ];
+  }
+
+  let cart = loadPersistedCart();
+
+  function saveCartLocally() {
+    try {
+      localStorage.setItem('mr_cart', JSON.stringify(cart));
+    } catch (e) {}
+  }
 
   let activeShippingCost = 0;
   let activeTotalCost = 0;
 
   function calculateShippingFallback(subtotal, countryCode) {
+    const freeThreshold = (window.STORE_CONFIG && window.STORE_CONFIG.freeShippingThreshold) || 60000.0;
+    if (subtotal >= freeThreshold) return 0;
     const country = (countryCode || 'NG').toUpperCase();
-    if (country === 'NG') return 800.0;
-    if (country === 'US' || country === 'GB') return Math.max(1200, Number((subtotal * 0.05).toFixed(2)));
-    return 2500.0;
+    if (country === 'NG') return 3500.0;
+    if (country === 'US' || country === 'GB') return Math.max(12000, Number((subtotal * 0.1).toFixed(0)));
+    return 15000.0;
   }
 
   async function refreshCheckoutSummary() {
-    const subtotal = cart.reduce((s, it) => s + it.price * it.quantity, 0);
+    const subtotal = cart.reduce((s, it) => s + Number(it.price) * it.quantity, 0);
     const country = (checkoutCountry && checkoutCountry.value) || 'NG';
-    const address = (document.getElementById('checkoutAddress') && document.getElementById('checkoutAddress').value) || '';
-    const postalCode = '';
+    const freeThreshold = (window.STORE_CONFIG && window.STORE_CONFIG.freeShippingThreshold) || 60000.0;
 
-    if (checkoutSubtotal) checkoutSubtotal.textContent = `₦${subtotal.toFixed(2)}`;
+    if (checkoutSubtotal) checkoutSubtotal.textContent = formatCurrency(subtotal);
     if (checkoutShippingCost) checkoutShippingCost.textContent = '…';
     if (checkoutTotalDisplay) checkoutTotalDisplay.textContent = '…';
 
     try {
-      const resp = await fetch('/api/shipping/rates', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: subtotal, country, address, postalCode })
-      });
-      const data = await resp.json();
-      const ship = Number(data && data.amount ? data.amount : 0) || calculateShippingFallback(subtotal, country);
-      activeShippingCost = Number(ship.toFixed(2));
-      activeTotalCost = Number((subtotal + activeShippingCost).toFixed(2));
-
-      if (checkoutShippingCost) checkoutShippingCost.textContent = `₦${activeShippingCost.toFixed(2)}`;
-      if (checkoutTotalDisplay) checkoutTotalDisplay.textContent = `₦${activeTotalCost.toFixed(2)}`;
+      if (subtotal >= freeThreshold) {
+        activeShippingCost = 0;
+      } else {
+        const resp = await fetch('/api/shipping/rates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: subtotal, country })
+        });
+        const data = await resp.json();
+        const ship = Number(data && data.amount ? data.amount : 0) || calculateShippingFallback(subtotal, country);
+        activeShippingCost = Number(ship);
+      }
     } catch (err) {
       activeShippingCost = calculateShippingFallback(subtotal, country);
-      activeTotalCost = Number((subtotal + activeShippingCost).toFixed(2));
-      if (checkoutShippingCost) checkoutShippingCost.textContent = `₦${activeShippingCost.toFixed(2)}`;
-      if (checkoutTotalDisplay) checkoutTotalDisplay.textContent = `₦${activeTotalCost.toFixed(2)}`;
+    }
+
+    activeTotalCost = subtotal + activeShippingCost;
+    if (checkoutShippingCost) {
+      checkoutShippingCost.textContent = activeShippingCost === 0 ? 'FREE (Unlocked 🎉)' : formatCurrency(activeShippingCost);
+    }
+    if (checkoutTotalDisplay) {
+      checkoutTotalDisplay.textContent = formatCurrency(activeTotalCost);
     }
   }
 
@@ -943,6 +982,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateShippingProgress(subtotal);
     updateCartBadge();
+    saveCartLocally();
 
     // Cart controls are handled by a single delegated listener attached once (see setup below),
     // so we avoid re-attaching listeners each render which can cause memory churn.
@@ -1037,6 +1077,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const checkoutModal = document.getElementById('checkoutModal');
       if (checkoutModal) checkoutModal.style.display = 'block';
       await refreshCheckoutSummary();
+    });
+  }
+
+  // Direct Order via WhatsApp
+  const whatsappOrderBtn = document.getElementById('whatsappOrderBtn');
+  if (whatsappOrderBtn) {
+    whatsappOrderBtn.addEventListener('click', () => {
+      let text = 'Hello Memory Rehab! 🌿%0AI would like to place an order:%0A%0A';
+      if (!cart || cart.length === 0) {
+        text = 'Hello Memory Rehab! 🌿%0AI would like to inquire about your botanical skincare routine formulations.';
+      } else {
+        cart.forEach((item, i) => {
+          text += `${i + 1}. ${item.quantity}x *${item.name}* - ₦${(item.price * item.quantity).toLocaleString()}%0A`;
+        });
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        text += `%0A*Subtotal:* ₦${subtotal.toLocaleString()}%0A%0APlease let me know delivery availability and payment details. Thank you!`;
+      }
+      window.open(`https://wa.me/2349112488271?text=${text}`, '_blank');
     });
   }
 
@@ -1727,10 +1785,24 @@ function initRitualVideoPlayer() {
   if (playToggle) {
     playToggle.addEventListener('click', () => {
       if (video.paused) {
-        video.play();
+        video.play().catch(() => {});
       } else {
         video.pause();
       }
+    });
+  }
+
+  // Mobile autoplay assurance
+  video.muted = true;
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      const playOnFirstInteraction = () => {
+        video.play().catch(() => {});
+      };
+      window.addEventListener('touchstart', playOnFirstInteraction, { once: true, passive: true });
+      window.addEventListener('scroll', playOnFirstInteraction, { once: true, passive: true });
+      window.addEventListener('click', playOnFirstInteraction, { once: true });
     });
   }
 

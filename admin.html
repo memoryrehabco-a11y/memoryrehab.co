@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title>Admin Portal | Memory Rehab Lab</title>
     <meta name="robots" content="noindex, nofollow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -173,6 +173,21 @@
             <div class="admin-field-group">
               <label class="admin-label" for="settingShippingThreshold">Free Shipping Threshold (₦)</label>
               <input type="number" id="settingShippingThreshold" class="admin-input" value="60000" min="1000" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingWhatsApp">WhatsApp Support Number</label>
+              <input type="text" id="settingWhatsApp" class="admin-input" value="+2349112488271" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingInstagram">Instagram Account</label>
+              <input type="text" id="settingInstagram" class="admin-input" value="memoryrehab.co" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingTikTok">TikTok Account</label>
+              <input type="text" id="settingTikTok" class="admin-input" value="memoryrehab.co" />
             </div>
           </div>
 
@@ -991,6 +1006,9 @@
             if (ls.footerBio) document.getElementById('settingFooterBio').value = ls.footerBio;
             if (ls.footerCopyright) document.getElementById('settingFooterCopyright').value = ls.footerCopyright;
             if (ls.footerTagline) document.getElementById('settingFooterTagline').value = ls.footerTagline;
+            if (ls.whatsappNumber) document.getElementById('settingWhatsApp').value = ls.whatsappNumber;
+            if (ls.instagramHandle) document.getElementById('settingInstagram').value = ls.instagramHandle;
+            if (ls.tiktokHandle) document.getElementById('settingTikTok').value = ls.tiktokHandle;
           }
         } catch(e) {}
 
@@ -1019,6 +1037,9 @@
             if (data.footerBio) document.getElementById('settingFooterBio').value = data.footerBio;
             if (data.footerCopyright) document.getElementById('settingFooterCopyright').value = data.footerCopyright;
             if (data.footerTagline) document.getElementById('settingFooterTagline').value = data.footerTagline;
+            if (data.whatsappNumber) document.getElementById('settingWhatsApp').value = data.whatsappNumber;
+            if (data.instagramHandle) document.getElementById('settingInstagram').value = data.instagramHandle;
+            if (data.tiktokHandle) document.getElementById('settingTikTok').value = data.tiktokHandle;
             if (data.themeAccentColor) {
               applyThemeColor(data.themeAccentColor);
               const picker = document.getElementById('themeColorPicker');
@@ -1736,11 +1757,14 @@
         const welcomeTitle = document.getElementById('settingWelcomeTitle').value.trim() || 'Your skin barrier, restored with pure botanicals.';
         const welcomeDescription = document.getElementById('settingWelcomeDescription').value.trim() || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
         const heroImageUrl = document.getElementById('settingHeroImageUrl').value.trim() || 'photo_2026-09-09_17-33-58.jpg';
-        const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl').value.trim() || 'photo_2026-09-09_20-12-25.jpg';
+        const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl')?.value.trim() || 'blue-blooded-welcome.jpg';
         const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
         const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
         const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
         const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+        const whatsappNumber = document.getElementById('settingWhatsApp')?.value.trim() || '+2349112488271';
+        const instagramHandle = document.getElementById('settingInstagram')?.value.trim() || 'memoryrehab.co';
+        const tiktokHandle = document.getElementById('settingTikTok')?.value.trim() || 'memoryrehab.co';
 
         const settingsData = {
           storeName,
@@ -1762,7 +1786,10 @@
           brandMonogram,
           footerBio,
           footerCopyright,
-          footerTagline
+          footerTagline,
+          whatsappNumber,
+          instagramHandle,
+          tiktokHandle
         };
 
         // 1. Save locally
