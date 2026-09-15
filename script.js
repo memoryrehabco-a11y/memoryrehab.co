@@ -1120,28 +1120,49 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('checkoutAddress')?.addEventListener('input', refreshCheckoutSummary);
 
   checkoutPayBtn?.addEventListener('click', async () => {
-    const email = (checkoutEmail && checkoutEmail.value) || '';
-    if (!email) { alert('Please enter an email for the receipt.'); return; }
+    if (cart.length === 0) { showToast('Your bag is empty!', '⚠️'); return; }
+    const subtotal = cart.reduce((s, it) => s + Number(it.price) * it.quantity, 0);
+    const total = subtotal + activeShippingCost;
+    const email = (checkoutEmail && checkoutEmail.value.trim()) || '';
+    const country = (checkoutCountry && checkoutCountry.value) || 'NG';
+    const address = document.getElementById('checkoutAddress')?.value.trim() || '';
 
-    const subtotal = cart.reduce((s, it) => s + it.price * it.quantity, 0);
-    const total = Number((subtotal + activeShippingCost).toFixed(2));
+    // Build WhatsApp order message
+    let waText = 'Hello Memory Rehab! 🌿%0A*New Order Request*%0A%0A';
+    cart.forEach((item, i) => {
+      waText += `${i + 1}. ${item.quantity}x *${item.name}* (${item.size || ''}) — ${formatCurrency(item.price * item.quantity)}%0A`;
+    });
+    waText += `%0A*Subtotal:* ${formatCurrency(subtotal)}%0A`;
+    waText += `*Shipping:* ${activeShippingCost === 0 ? 'FREE' : formatCurrency(activeShippingCost)}%0A`;
+    waText += `*Total:* ${formatCurrency(total)}%0A`;
+    if (country) waText += `*Ship To:* ${country}%0A`;
+    if (address) waText += `*Address:* ${address}%0A`;
+    if (email) waText += `*Email:* ${email}%0A`;
+    waText += `%0AKindly confirm availability and payment details. Thank you! 🙏`;
 
-    try {
-      const resp = await fetch('/api/payments/initiate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: total, email })
-      });
-      const data = await resp.json();
-      if (!resp.ok || !data || !data.data || !data.data.authorization_url) {
-        alert('Payment start failed.');
-        return;
-      }
-      window.location.href = data.data.authorization_url;
-    } catch (err) {
-      console.warn('Payment start error:', err);
-      alert('Unable to start payment.');
+    // Try payment API first; fall back to WhatsApp if unavailable
+    if (email) {
+      try {
+        const resp = await fetch('/api/payments/initiate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: total, email })
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && data.data && data.data.authorization_url) {
+            window.location.href = data.data.authorization_url;
+            return;
+          }
+        }
+      } catch (e) { /* API unavailable — fall through to WhatsApp */ }
     }
+
+    // WhatsApp checkout fallback
+    closeCheckout();
+    closeCartDrawer();
+    window.open(`https://wa.me/2349112488271?text=${waText}`, '_blank');
+    showToast('Opening WhatsApp to complete your order!', '✅');
   });
 
   // Routine Filter Tabs
@@ -1612,19 +1633,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Small debug console used to capture runtime errors and developer messages
 window.__mr_debug = {
-  enabled: true,
+  enabled: false,
   show(msg, level = 'log') {
-    try {
-      const overlay = document.getElementById('debugOverlay');
-      const msgs = document.getElementById('debugMessages');
-      if (!overlay || !msgs) return;
-      const line = document.createElement('div');
-      line.className = 'debug-line';
-      const time = new Date().toLocaleTimeString();
-      line.innerHTML = `<div style="font-size:0.78rem; color:var(--primary); margin-bottom:4px;">[${time}] ${level}</div><div>${String(msg)}</div>`;
-      msgs.prepend(line);
-      overlay.style.display = 'flex';
-    } catch (e) { /* ignore */ }
+    // Disabled in production to prevent mobile overlay intrusions
+    return;
   }
 };
 
@@ -1743,7 +1755,6 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     if (/Android/i.test(navigator.userAgent || '')) {
       document.body.classList.add('platform-android');
-      window.__mr_debug && window.__mr_debug.show('Platform detected: Android — applying Android-only fonts', 'info');
     } else {
       document.body.classList.remove('platform-android');
     }
@@ -1874,6 +1885,11 @@ function initRitualVideoPlayer() {
 //  DYNAMIC STOREFRONT CATALOG HYDRATION (Admin Changes Sync Live)
 // ═══════════════════════════════════════════════════════════════
 function hydrateStorefrontCatalog() {
+  if (typeof formatCurrency !== 'function') {
+    console.warn('[Memory Rehab] Storefront hydration deferred: formatCurrency not ready yet.');
+    return;
+  }
+
   try {
     const rawCustom = localStorage.getItem('mr_custom_products');
     let catalog = window.MEMORY_REHAB_CATALOG || {};
