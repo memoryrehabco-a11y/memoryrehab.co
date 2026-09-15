@@ -87,10 +87,8 @@ img, picture, video {
   body.platform-android .nav-actions { gap: 8px; }
   body.platform-android .btn-primary, body.platform-android .btn-secondary { font-size: 0.88rem; padding: 0.7rem 1.2rem; }
 
-  /* Product grid — FOUR columns on Android phones */
-  body.platform-android .product-cards-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  body.platform-android .product-card .card-title { font-size: 0.62rem; }
-  body.platform-android .product-card .card-price { font-size: 0.7rem; }
+  /* Product grid — TWO columns on Android phones / touch devices */
+  body.platform-android .product-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
   /* Compact some controls to fit touch interactions */
   body.platform-android .cart-toggle-btn { padding: 6px 12px; font-size: 0.86rem; }
@@ -1371,12 +1369,12 @@ input {
   .product-cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Phone: 4 columns — compact grid */
+/* Phone: 2 columns — clean luxury mobile grid */
 @media (max-width: 599px) {
   .product-cards-grid,
   body.platform-android .product-cards-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 6px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
   }
 }
 
@@ -1462,10 +1460,10 @@ input {
   background: #f1e4eb;
 }
 
-/* Mobile 2-col: reduce image height so cards aren't huge */
+/* Mobile 2-col: tall enough image for a premium feel */
 @media (max-width: 599px) {
   .card-media-wrap {
-    height: 90px;
+    height: 175px;
   }
 }
 
@@ -1627,80 +1625,94 @@ input {
   flex: 1;
 }
 
-/* Mobile 4-col compact content */
+/* Mobile 2-col readable content */
 @media (max-width: 599px) {
   .card-content-wrap {
-    padding: 5px 5px 8px;
+    padding: 12px 12px 14px;
   }
   .card-title {
-    font-size: 0.62rem;
-    line-height: 1.25;
-    margin-bottom: 3px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
     -webkit-line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
   }
   .card-summary,
-  .card-ingredient-chips,
-  .skin-type-tag,
-  .card-category-row,
+  .card-ingredient-chips {
+    display: none !important;
+  }
+  .skin-type-tag {
+    font-size: 0.72rem;
+    display: block;
+  }
+  .card-category-row {
+    display: flex;
+    margin-bottom: 4px;
+  }
+  .card-category-tag {
+    font-size: 0.68rem;
+  }
+  .card-rating {
+    font-size: 0.68rem;
+  }
   .original-price {
     display: none !important;
   }
   .current-price {
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: 800;
   }
   .card-footer-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 4px;
-    padding-top: 4px;
+    gap: 8px;
+    padding-top: 8px;
     border-top: none;
-    margin-top: 0;
+    margin-top: 4px;
   }
   .card-add-cart-btn {
-    padding: 5px 6px;
-    font-size: 0.6rem;
+    padding: 9px 10px;
+    font-size: 0.78rem;
     justify-content: center;
-    gap: 2px;
+    gap: 4px;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: none;
   }
   .card-add-cart-btn svg {
-    width: 11px;
-    height: 11px;
+    width: 14px;
+    height: 14px;
   }
   .card-badge-row {
-    top: 4px;
-    left: 4px;
-    gap: 2px;
+    top: 8px;
+    left: 8px;
+    gap: 4px;
   }
   .step-badge,
   .card-badge {
-    font-size: 0.45rem;
-    padding: 1px 4px;
+    font-size: 0.55rem;
+    padding: 2px 6px;
     letter-spacing: 0;
   }
   .card-wishlist-btn {
-    top: 4px;
-    right: 4px;
-    width: 22px;
-    height: 22px;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
   }
   .card-wishlist-btn svg {
-    width: 11px;
-    height: 11px;
+    width: 13px;
+    height: 13px;
   }
   .product-card {
-    border-radius: 10px;
+    border-radius: 14px;
   }
   .card-media-wrap {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
   }
   /* Disable heavy hover effects on mobile for performance */
   .product-card:hover {
@@ -4338,7 +4350,7 @@ input {
   }
 
   .product-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .school-cards-grid {
@@ -5942,11 +5954,11 @@ body.theme-morph-smooth .admin-card {
     max-width: 100%;
   }
 
-  /* Product grid: keep 4 columns on phones — NOT 1 column */
+  /* Product grid: 2 columns on phones — readable cards */
   .product-cards-grid,
   body.platform-android .product-cards-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 6px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px;
   }
 
   /* Hero grid single column */
