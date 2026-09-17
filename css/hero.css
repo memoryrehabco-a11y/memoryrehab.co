@@ -97,41 +97,6 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
-/* Hello Bubble-Style Floating Diagnostic Pill in Top-Right */
-.hero-floating-quiz-pill {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 9999px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--primary-dark, #065f46);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(16, 185, 129, 0.35);
-  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
-  cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-.hero-floating-quiz-pill:hover {
-  transform: scale(1.04);
-  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.28);
-  background: #ffffff;
-}
-
-[data-theme="dark"] .hero-floating-quiz-pill {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
-  border-color: rgba(52, 211, 153, 0.4);
-}
 
 /* Precision Interactive Hotspot over 'SHOP NOW' button */
 .hero-billboard-cta-hotspot {
@@ -354,15 +319,6 @@
     left: 14px;
     padding: 5px 10px;
     font-size: 0.72rem;
-  }
-  .hero-floating-quiz-pill {
-    top: 14px;
-    right: 14px;
-    padding: 5px 12px;
-    font-size: 0.74rem;
-  }
-  .hero-floating-quiz-pill .quiz-pill-sub {
-    display: none;
   }
   /* Mobile Hotspot mapped over SHOP NOW in portrait banner */
   .hero-billboard-cta-hotspot {

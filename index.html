@@ -347,16 +347,6 @@
             Step-by-Step Clinical Care
           </span>
 
-          <!-- Hello Bubble-Style Floating Diagnostic Badge in Top-Right -->
-          <button
-            type="button"
-            class="hero-floating-quiz-pill open-quiz-btn"
-            id="heroQuizBtn"
-            aria-label="Start Apothecary Skin Quiz"
-          >
-            <span>⚡ 60s Diagnostic</span>
-            <span class="quiz-pill-sub">→ Match Routine</span>
-          </button>
 
           <!-- Precision Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
           <a
@@ -380,10 +370,6 @@
               </svg>
               Step-by-Step Clinical Care
             </span>
-            <button type="button" class="hero-quiz-trigger-pill open-quiz-btn" aria-label="Start Apothecary Skin Quiz">
-              <span>⚡ 60s Skin Diagnostic</span>
-              <span style="font-weight: 400; opacity: 0.85;">→ Match Routine</span>
-            </button>
           </div>
 
           <!-- Authentic Bold Bubbly Headline (Fredoka Font matching Hello Bubble style) -->
@@ -1829,114 +1815,7 @@
       </div>
     </div>
 
-    <!-- ============================================================
-         APOTHECARY 60-SECOND SKIN DIAGNOSTIC QUIZ MODAL
-         ============================================================ -->
-    <div class="quiz-modal-backdrop" id="quizModal" aria-hidden="true">
-      <div class="quiz-modal-dialog" role="dialog" aria-modal="true" aria-label="Apothecary Skin Diagnostic Quiz">
-        <button type="button" class="quiz-modal-close" id="closeQuizModal" aria-label="Close quiz">✕</button>
 
-        <div class="quiz-progress-track">
-          <div class="quiz-progress-step active"></div>
-          <div class="quiz-progress-step"></div>
-          <div class="quiz-progress-step"></div>
-        </div>
-
-        <!-- Step 1: Primary Skin Concern -->
-        <div class="quiz-step-container active" id="quizStep1">
-          <div class="quiz-header">
-            <span class="quiz-eyebrow">Diagnostic Step 1 of 2</span>
-            <h3 class="quiz-title">What is your primary skin focus?</h3>
-            <p class="quiz-desc">Select the barrier concern you want to rehabilitate first.</p>
-          </div>
-          <div class="quiz-options-grid">
-            <button type="button" class="quiz-card-btn" data-question="concern" data-value="barrier">
-              <span class="quiz-card-icon">💧</span>
-              <div class="quiz-card-text">
-                <strong>Compromised Barrier &amp; Dryness</strong>
-                <small>Stinging, tightness, flaking, or sensitized moisture barrier</small>
-              </div>
-            </button>
-            <button type="button" class="quiz-card-btn" data-question="concern" data-value="acne">
-              <span class="quiz-card-icon">🌿</span>
-              <div class="quiz-card-text">
-                <strong>Breakouts &amp; Clogged Pores</strong>
-                <small>Active acne, blackheads, redness, or oily congestion</small>
-              </div>
-            </button>
-            <button type="button" class="quiz-card-btn" data-question="concern" data-value="hyperpigmentation">
-              <span class="quiz-card-icon">✨</span>
-              <div class="quiz-card-text">
-                <strong>Dullness &amp; Dark Spots</strong>
-                <small>Post-acne marks, uneven tone, or sun damage dullness</small>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Step 2: Sensitivity & Environment -->
-        <div class="quiz-step-container" id="quizStep2">
-          <div class="quiz-header">
-            <span class="quiz-eyebrow">Diagnostic Step 2 of 2</span>
-            <h3 class="quiz-title">How does your skin react to daily life?</h3>
-            <p class="quiz-desc">Tell us about your environment and skin sensitivity level.</p>
-          </div>
-          <div class="quiz-options-grid">
-            <button type="button" class="quiz-card-btn" data-question="sensitivity" data-value="sensitive">
-              <span class="quiz-card-icon">🍃</span>
-              <div class="quiz-card-text">
-                <strong>Hyper-Reactive / Sensitive</strong>
-                <small>Flushes easily, stings with perfumes, needs pure barrier lipids</small>
-              </div>
-            </button>
-            <button type="button" class="quiz-card-btn" data-question="sensitivity" data-value="urban">
-              <span class="quiz-card-icon">🏙️</span>
-              <div class="quiz-card-text">
-                <strong>Urban / Sun &amp; Air Conditioned</strong>
-                <small>Exposure to city pollution, tropical heat, humidity, and dry AC air</small>
-              </div>
-            </button>
-            <button type="button" class="quiz-card-btn" data-question="sensitivity" data-value="balanced">
-              <span class="quiz-card-icon">⚖️</span>
-              <div class="quiz-card-text">
-                <strong>Balanced / Daily Glass-Skin Glow</strong>
-                <small>Looking for high-efficacy preventative care and dewy glow</small>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Step 3: Custom Formulation Match Result -->
-        <div class="quiz-step-container" id="quizStep3">
-          <div class="quiz-header">
-            <span class="quiz-eyebrow">Apothecary Prescription Ready</span>
-            <h3 class="quiz-title" id="quizRecTitle">Your Personalized 3-Step Routine</h3>
-            <p class="quiz-desc" id="quizRecSub">Tailored to rehabilitate your skin barrier with zero filler or harsh irritants.</p>
-          </div>
-
-          <div class="quiz-result-box">
-            <div class="quiz-result-title">Curated 3-Step Regimen:</div>
-            <div class="quiz-routine-list" id="quizRoutineItems">
-              <!-- Injected dynamically via super-effects.js -->
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(16, 185, 129, 0.3);">
-              <div>
-                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: var(--text-muted);">Routine Price (15% Off):</span>
-                <div style="display: flex; align-items: baseline; gap: 8px;">
-                  <strong style="font-size: 1.35rem; color: var(--primary); font-weight: 800;" id="quizTotalPrice">₦100,300</strong>
-                  <span style="font-size: 0.85rem; text-decoration: line-through; opacity: 0.5;" id="quizOrigPrice">₦118,000</span>
-                </div>
-              </div>
-              <span style="font-size: 0.75rem; font-weight: 800; color: var(--success); background: rgba(16, 185, 129, 0.15); padding: 4px 8px; border-radius: 6px;">SAVE 15%</span>
-            </div>
-          </div>
-
-          <button type="button" class="btn-primary" id="quizAddRoutineBtn" style="width: 100%; justify-content: center; font-size: 0.95rem; padding: 14px 20px;">
-            ⚡ Add My Complete Routine to Cart
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Clinical Macro Loupe Inspector Reticle -->
     <div id="clinicalLoupe" class="clinical-loupe" aria-hidden="true">
