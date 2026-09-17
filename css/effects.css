@@ -130,16 +130,16 @@
 .ba-slider-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  max-height: 480px;
-  border-radius: 20px;
+  aspect-ratio: 4 / 3;
+  max-height: 520px;
+  border-radius: 24px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
   cursor: ew-resize;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
   border: 1px solid var(--border-subtle, rgba(0,0,0,0.08));
-  background: #000;
+  background: #0b0f19;
 }
 
 .ba-slider-container img {
@@ -149,6 +149,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 22%;
   pointer-events: none;
 }
 

@@ -391,6 +391,7 @@
       curtain.style.clipPath = `polygon(0 0, ${positionPct}% 0, ${positionPct}% 100%, 0 100%)`;
       handleLine.style.left = positionPct + '%';
       handleBtn.style.left = positionPct + '%';
+      handleBtn.setAttribute('aria-valuenow', Math.round(positionPct));
     }
 
     function handleMove(clientX) {
@@ -401,14 +402,19 @@
     }
 
     function onPointerDown(e) {
+      curtain.style.transition = '';
+      handleLine.style.transition = '';
+      handleBtn.style.transition = '';
       isDragging = true;
-      handleMove(e.clientX || (e.touches && e.touches[0].clientX));
+      const clientX = e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
+      if (clientX !== undefined) handleMove(clientX);
       SoundFX.playClick();
     }
 
     function onPointerMove(e) {
       if (!isDragging) return;
-      handleMove(e.clientX || (e.touches && e.touches[0].clientX));
+      const clientX = e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
+      if (clientX !== undefined) handleMove(clientX);
     }
 
     function onPointerUp() {
@@ -425,8 +431,44 @@
     window.addEventListener('touchmove', onPointerMove, { passive: true });
     window.addEventListener('touchend', onPointerUp, { passive: true });
 
+    // Keyboard accessibility
+    handleBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        setPosition(positionPct - 5);
+        SoundFX.playClick();
+      } else if (e.key === 'ArrowRight') {
+        setPosition(positionPct + 5);
+        SoundFX.playClick();
+      }
+    });
+
     // Initial state
     setPosition(50);
+
+    // Engaging visual peek hint when scrolled into viewport
+    let hasPeeked = false;
+    const observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !hasPeeked && !isDragging) {
+        hasPeeked = true;
+        curtain.style.transition = 'clip-path 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        handleLine.style.transition = 'left 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        handleBtn.style.transition = 'left 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+
+        setTimeout(() => { if (!isDragging) setPosition(62); }, 350);
+        setTimeout(() => { if (!isDragging) setPosition(38); }, 850);
+        setTimeout(() => {
+          if (!isDragging) {
+            setPosition(50);
+            setTimeout(() => {
+              curtain.style.transition = '';
+              handleLine.style.transition = '';
+              handleBtn.style.transition = '';
+            }, 450);
+          }
+        }, 1350);
+      }
+    }, { threshold: 0.35 });
+    observer.observe(container);
   }
 
   /* ============================================================
