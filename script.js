@@ -83,7 +83,7 @@ function applyStorefrontTextSettings(settings = {}) {
   }
 
   if (settings.heroDescription) {
-    const heroDescription = document.querySelector('.hero-description');
+    const heroDescription = document.querySelector('.hero-description, .hero-barrier-desc');
     if (heroDescription) heroDescription.textContent = settings.heroDescription;
   }
 

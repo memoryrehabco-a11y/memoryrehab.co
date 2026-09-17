@@ -104,7 +104,7 @@ const defaultStore = {
     announcement: process.env.STORE_ANNOUNCEMENT || 'Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives',
     heroEyebrow: process.env.HERO_EYEBROW || 'Step-by-Step Clinical Care',
     heroHeadline: process.env.HERO_HEADLINE || 'Healthy skin starts with a rehabilitated barrier.',
-    heroDescription: process.env.HERO_DESCRIPTION || 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.',
+    heroDescription: process.env.HERO_DESCRIPTION || 'No complicated million-step routines. Memory Rehab simplifies barrier repair into a targeted 3-product routine designed to soothe inflammation, replenish and lock in hydration, and support the repair of your skin barrier.',
     heroPrimaryCta: process.env.HERO_PRIMARY_CTA || 'Shop 3-Step Routine',
     heroSecondaryCta: process.env.HERO_SECONDARY_CTA || 'Build Routine & Save 15%',
     welcomeEyebrow: process.env.WELCOME_EYEBROW || 'Apothecary Welcome',
