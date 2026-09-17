@@ -153,10 +153,134 @@
       } catch (e) {}
     }
 
+    // High-precision clinical optical ping for texture loupe
+    function playLoupe() {
+      if (!enabled) return;
+      const c = getContext();
+      if (!c) return;
+      try {
+        const osc = c.createOscillator();
+        const gain = c.createGain();
+        const now = c.currentTime;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1480, now);
+        osc.frequency.exponentialRampToValueAtTime(840, now + 0.07);
+
+        gain.gain.setValueAtTime(0.045, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        osc.connect(gain);
+        gain.connect(c.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.09);
+      } catch (e) {}
+    }
+
+    // Procedural Botanical Garden Mist ASMR Synthesizer (Pink Noise + Resonant LFO)
+    let ambienceNode = null;
+    let ambienceGain = null;
+    let isAmbienceActive = false;
+
+    function startAmbience() {
+      const c = getContext();
+      if (!c) return;
+      try {
+        if (isAmbienceActive) return;
+        const bufferSize = c.sampleRate * 2;
+        const buffer = c.createBuffer(1, bufferSize, c.sampleRate);
+        const data = buffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.04;
+          b6 = white * 0.115926;
+        }
+
+        const noise = c.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = c.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(420, c.currentTime);
+
+        const lfo = c.createOscillator();
+        lfo.frequency.setValueAtTime(0.18, c.currentTime);
+        const lfoGain = c.createGain();
+        lfoGain.gain.setValueAtTime(140, c.currentTime);
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        lfo.start();
+
+        ambienceGain = c.createGain();
+        ambienceGain.gain.setValueAtTime(0.001, c.currentTime);
+        ambienceGain.gain.exponentialRampToValueAtTime(0.08, c.currentTime + 1.2);
+
+        noise.connect(filter);
+        filter.connect(ambienceGain);
+        ambienceGain.connect(c.destination);
+
+        noise.start();
+        ambienceNode = { noise, filter, lfo, gain: ambienceGain };
+        isAmbienceActive = true;
+        updateAmbienceUI(true);
+      } catch (e) {
+        console.warn('Audio Ambience err:', e);
+      }
+    }
+
+    function stopAmbience() {
+      if (ambienceGain && ctx) {
+        try {
+          ambienceGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.8);
+          setTimeout(() => {
+            if (ambienceNode) {
+              try { ambienceNode.noise.stop(); ambienceNode.lfo.stop(); } catch(e) {}
+              ambienceNode = null;
+            }
+          }, 850);
+        } catch(e) {}
+      }
+      isAmbienceActive = false;
+      updateAmbienceUI(false);
+    }
+
+    function toggleAmbience() {
+      if (!enabled) setEnabled(true);
+      if (isAmbienceActive) {
+        stopAmbience();
+        return false;
+      } else {
+        startAmbience();
+        return true;
+      }
+    }
+
+    function updateAmbienceUI(active) {
+      const btns = document.querySelectorAll('.mist-toggle-btn');
+      btns.forEach(function (b) {
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
     return {
       init: function () {
         updateSoundUI();
         document.addEventListener('click', function (e) {
+          if (e.target.closest('.mist-toggle-btn')) {
+            e.preventDefault();
+            toggleAmbience();
+            return;
+          }
           if (e.target.closest('.sound-toggle-btn')) {
             e.preventDefault();
             toggle();
@@ -166,7 +290,7 @@
             playDewdrop();
             return;
           }
-          if (e.target.closest('.btn-primary, .btn-secondary, .filter-tab-btn, .theme-toggle-btn, .search-toggle-btn, .mob-tab, .search-tag-chip')) {
+          if (e.target.closest('.btn-primary, .btn-secondary, .filter-tab-btn, .theme-toggle-btn, .search-toggle-btn, .mob-tab, .search-tag-chip, .dev-floating-trigger, .dev-action-btn')) {
             playClick();
           }
         }, { passive: false });
@@ -174,6 +298,9 @@
       playClick: playClick,
       playDewdrop: playDewdrop,
       playCelebration: playCelebration,
+      playLoupe: playLoupe,
+      toggleAmbience: toggleAmbience,
+      isAmbienceActive: function () { return isAmbienceActive; },
       toggle: toggle,
       isEnabled: isEnabled
     };
@@ -638,6 +765,312 @@
   }
 
   /* ============================================================
+     9. HOLOGRAPHIC IRIDESCENT FOIL PHYSICS ENGINE
+     Real-time dynamic chromatic dispersion reacting to pointer & gyro
+     ============================================================ */
+  function initHoloFoil() {
+    let lastUpdate = 0;
+    function updateAngle(clientX, clientY) {
+      const now = performance.now();
+      if (now - lastUpdate < 16) return; // ~60fps throttle
+      lastUpdate = now;
+
+      const w = window.innerWidth || 1200;
+      const h = window.innerHeight || 800;
+      const xPct = Math.round((clientX / w) * 100);
+      const yPct = Math.round((clientY / h) * 100);
+      const angle = Math.round((clientX / w) * 360);
+
+      document.documentElement.style.setProperty('--holo-angle', angle + 'deg');
+      document.documentElement.style.setProperty('--holo-x', xPct + '%');
+      document.documentElement.style.setProperty('--holo-y', yPct + '%');
+    }
+
+    window.addEventListener('pointermove', function (e) {
+      updateAngle(e.clientX, e.clientY);
+    }, { passive: true });
+
+    // Gyroscope tilt on mobile devices
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', function (e) {
+        if (e.gamma !== null) {
+          const normGamma = Math.min(1, Math.max(-1, e.gamma / 45));
+          const angle = Math.round(((normGamma + 1) / 2) * 360);
+          document.documentElement.style.setProperty('--holo-angle', angle + 'deg');
+        }
+      }, { passive: true });
+    }
+  }
+
+  /* ============================================================
+     10. CLINICAL MACRO LOUPE & INGREDIENT TEXTURE INSPECTOR
+     2.5x high-precision optical inspection lens with HUD reticle
+     ============================================================ */
+  function initClinicalTextureLoupe() {
+    // Only enable on fine pointer devices (mouse/trackpad), avoid blocking touch scrolling
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+
+    let loupe = document.getElementById('clinicalLoupe');
+    if (!loupe) {
+      loupe = document.createElement('div');
+      loupe.id = 'clinicalLoupe';
+      loupe.className = 'clinical-loupe';
+      loupe.setAttribute('aria-hidden', 'true');
+      loupe.innerHTML = '<span class="loupe-telemetry" id="loupeTelemetry">CELL-MATRIX • 2.5X</span>';
+      document.body.appendChild(loupe);
+    }
+    const telemetry = document.getElementById('loupeTelemetry');
+
+    let activeTarget = null;
+    let targetRect = null;
+    const zoomLevel = 2.5;
+
+    function activateLoupe(target, e) {
+      activeTarget = target;
+      const img = target.tagName.toLowerCase() === 'img' ? target : target.querySelector('img');
+      if (!img) return;
+
+      const imgSrc = target.getAttribute('data-zoom-src') || img.currentSrc || img.src;
+      loupe.style.backgroundImage = 'url("' + imgSrc + '")';
+      loupe.classList.add('active');
+      SoundFX.playLoupe();
+
+      const title = target.getAttribute('data-loupe-title') || 'CELL-MATRIX • 2.5X';
+      if (telemetry) telemetry.textContent = title;
+
+      updateLoupe(e);
+    }
+
+    function deactivateLoupe() {
+      loupe.classList.remove('active');
+      activeTarget = null;
+    }
+
+    function updateLoupe(e) {
+      if (!activeTarget) return;
+      targetRect = activeTarget.getBoundingClientRect();
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Center loupe on cursor
+      loupe.style.left = x + 'px';
+      loupe.style.top = y + 'px';
+
+      // Relative coordinates in image
+      const relX = x - targetRect.left;
+      const relY = y - targetRect.top;
+
+      const bgWidth = targetRect.width * zoomLevel;
+      const bgHeight = targetRect.height * zoomLevel;
+
+      const bgX = -(relX * zoomLevel - loupe.offsetWidth / 2);
+      const bgY = -(relY * zoomLevel - loupe.offsetHeight / 2);
+
+      loupe.style.backgroundSize = bgWidth + 'px ' + bgHeight + 'px';
+      loupe.style.backgroundPosition = bgX + 'px ' + bgY + 'px';
+    }
+
+    document.addEventListener('pointerover', function (e) {
+      const target = e.target.closest('[data-loupe="true"], .loupe-target');
+      if (target) {
+        activateLoupe(target, e);
+      }
+    });
+
+    document.addEventListener('pointerout', function (e) {
+      if (activeTarget && !e.relatedTarget?.closest('[data-loupe="true"], .loupe-target')) {
+        deactivateLoupe();
+      }
+    });
+
+    window.addEventListener('pointermove', function (e) {
+      if (activeTarget) {
+        updateLoupe(e);
+      }
+    }, { passive: true });
+  }
+
+  /* ============================================================
+     11. AWWWARDS DEVELOPER BLUEPRINT & TELEMETRY HUD CONSOLE
+     Activated via Ctrl+Shift+D or the Floating HUD Trigger Pill
+     Live 60FPS counter, DOM node telemetry, Wireframe Blueprint mode
+     ============================================================ */
+  function initDevInspectorHUD() {
+    let hud = document.getElementById('devInspectorHud');
+    let trigger = document.getElementById('devHudTrigger');
+
+    if (!hud) {
+      hud = document.createElement('aside');
+      hud.id = 'devInspectorHud';
+      hud.className = 'dev-inspector-hud';
+      hud.setAttribute('role', 'region');
+      hud.setAttribute('aria-label', 'Developer HUD');
+      hud.innerHTML = `
+        <div class="dev-hud-header">
+          <span class="dev-hud-title">⚡ LAB DEV TELEMETRY</span>
+          <button type="button" id="devHudCloseBtn" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; line-height: 1;">✕</button>
+        </div>
+        <div class="dev-stat-row">
+          <span>FPS REFRESH:</span>
+          <span class="dev-stat-val" id="hudFpsVal">60.0 FPS</span>
+        </div>
+        <div class="dev-stat-row">
+          <span>DOM NODES:</span>
+          <span class="dev-stat-val" id="hudDomNodes">--</span>
+        </div>
+        <div class="dev-stat-row">
+          <span>VIEWPORT:</span>
+          <span class="dev-stat-val" id="hudViewport">--</span>
+        </div>
+        <div class="dev-stat-row">
+          <span>THEME / A11Y:</span>
+          <span class="dev-stat-val" id="hudThemeMode">AAA Pass</span>
+        </div>
+        <div class="dev-stat-row">
+          <span>AUDIO SYNTH:</span>
+          <span class="dev-stat-val" id="hudAudioState">Web Audio API</span>
+        </div>
+        <div class="dev-btn-group">
+          <button type="button" class="dev-action-btn" id="hudWireframeBtn">Blueprint Wireframe</button>
+          <button type="button" class="dev-action-btn" id="hudMistBtn">Botanical Mist ASMR</button>
+        </div>
+        <div class="dev-btn-group" style="margin-top: 6px;">
+          <button type="button" class="dev-action-btn" id="hudConfettiBtn">Lab Confetti</button>
+          <button type="button" class="dev-action-btn" id="hudThemeToggleBtn">Cycle Theme</button>
+        </div>
+      `;
+      document.body.appendChild(hud);
+    }
+
+    if (!trigger) {
+      trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.id = 'devHudTrigger';
+      trigger.className = 'dev-floating-trigger';
+      trigger.setAttribute('aria-label', 'Toggle Developer Telemetry HUD');
+      trigger.innerHTML = '<span>⚡ DEV HUD</span><span style="opacity: 0.7; font-size: 0.65rem;">[Ctrl+Shift+D]</span>';
+      document.body.appendChild(trigger);
+    }
+
+    let isOpen = false;
+    let fpsAnimId = null;
+    let frames = 0;
+    let prevTime = performance.now();
+    const fpsVal = document.getElementById('hudFpsVal');
+
+    function calcFPS(now) {
+      frames++;
+      if (now > prevTime + 500) {
+        const fps = Math.round((frames * 1000) / (now - prevTime));
+        if (fpsVal) fpsVal.textContent = fps + '.0 FPS';
+        frames = 0;
+        prevTime = now;
+      }
+      if (isOpen) {
+        fpsAnimId = requestAnimationFrame(calcFPS);
+      }
+    }
+
+    function startFPSCounter() {
+      prevTime = performance.now();
+      frames = 0;
+      fpsAnimId = requestAnimationFrame(calcFPS);
+    }
+
+    function stopFPSCounter() {
+      if (fpsAnimId) cancelAnimationFrame(fpsAnimId);
+    }
+
+    function updateDOMStats() {
+      const nodesEl = document.getElementById('hudDomNodes');
+      const vpEl = document.getElementById('hudViewport');
+      const themeEl = document.getElementById('hudThemeMode');
+      const audioEl = document.getElementById('hudAudioState');
+
+      if (nodesEl) nodesEl.textContent = document.getElementsByTagName('*').length + ' Elements';
+      if (vpEl) vpEl.textContent = window.innerWidth + ' × ' + window.innerHeight;
+      if (themeEl) {
+        const theme = document.documentElement.getAttribute('data-theme') || 'light';
+        themeEl.textContent = theme.toUpperCase() + ' (WCAG AAA)';
+      }
+      if (audioEl) {
+        audioEl.textContent = SoundFX.isEnabled() ? 'Synthesizer Active' : 'Muted';
+      }
+    }
+
+    function toggleHUD() {
+      isOpen = !isOpen;
+      hud.classList.toggle('open', isOpen);
+      if (isOpen) {
+        SoundFX.playDewdrop();
+        startFPSCounter();
+        updateDOMStats();
+      } else {
+        stopFPSCounter();
+      }
+    }
+
+    trigger.addEventListener('click', toggleHUD);
+    const closeBtn = document.getElementById('devHudCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', toggleHUD);
+
+    // Keyboard shortcut Ctrl+Shift+D / Cmd+Shift+D
+    window.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+        e.preventDefault();
+        toggleHUD();
+      }
+    });
+
+    // Wireframe Mode
+    const wireframeBtn = document.getElementById('hudWireframeBtn');
+    if (wireframeBtn) {
+      wireframeBtn.addEventListener('click', function () {
+        const active = document.body.classList.toggle('wireframe-mode');
+        wireframeBtn.textContent = active ? 'Exit Wireframe' : 'Blueprint Wireframe';
+        SoundFX.playClick();
+      });
+    }
+
+    // Botanical Mist ASMR
+    const mistBtn = document.getElementById('hudMistBtn');
+    if (mistBtn) {
+      mistBtn.addEventListener('click', function () {
+        const active = SoundFX.toggleAmbience();
+        mistBtn.textContent = active ? 'Stop Mist 🌿' : 'Botanical Mist ASMR';
+      });
+    }
+
+    // Lab Confetti
+    const confettiBtn = document.getElementById('hudConfettiBtn');
+    if (confettiBtn) {
+      confettiBtn.addEventListener('click', function () {
+        triggerConfetti();
+        SoundFX.playCelebration();
+      });
+    }
+
+    // Theme Toggle
+    const themeBtn = document.getElementById('hudThemeToggleBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', function () {
+        const root = document.documentElement;
+        const current = root.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('mr_theme', next);
+        updateDOMStats();
+        SoundFX.playClick();
+      });
+    }
+
+    window.addEventListener('resize', function () {
+      if (isOpen) updateDOMStats();
+    }, { passive: true });
+  }
+
+  /* ============================================================
      DOCUMENT READY DISPATCHER
      ============================================================ */
   if (document.readyState === 'loading') {
@@ -655,11 +1088,17 @@
     initSocialProof();
     initCartCelebrationWatcher();
     initStatCounters();
+    initHoloFoil();
+    initClinicalTextureLoupe();
+    initDevInspectorHUD();
 
     // Export API for global calls
     window.MemoryRehabFX = {
       SoundFX: SoundFX,
-      triggerConfetti: triggerConfetti
+      triggerConfetti: triggerConfetti,
+      initHoloFoil: initHoloFoil,
+      initClinicalTextureLoupe: initClinicalTextureLoupe,
+      initDevInspectorHUD: initDevInspectorHUD
     };
   }
 

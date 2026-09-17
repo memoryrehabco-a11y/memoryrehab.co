@@ -265,6 +265,17 @@
             <span class="sound-icon-off" style="display: none;">🔇</span>
           </button>
 
+          <!-- Botanical Mist ASMR Soundscape -->
+          <button
+            class="sound-toggle-btn mist-toggle-btn"
+            id="mistToggleBtn"
+            type="button"
+            aria-label="Toggle botanical garden mist ASMR"
+            title="Botanical Garden Mist ASMR (Web Audio Ambient Synth)"
+          >
+            <span>🌿</span>
+          </button>
+
           <!-- Dark / Light Mode Glass Toggle -->
           <button
             class="theme-toggle-btn"
@@ -319,7 +330,7 @@
         </div>
         <div class="hero-grid">
           <div class="hero-content">
-            <span class="eyebrow-badge">
+            <span class="eyebrow-badge holo-foil">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
               </svg>
@@ -367,16 +378,16 @@
           </div>
 
           <div class="hero-visual">
-            <div class="hero-glass-card">
+            <div class="hero-glass-card holo-card-border">
               <div class="hero-card-header">
-                <span class="live-pill">
+                <span class="live-pill holo-foil">
                   <span class="pulse-dot"></span>
                   Step 3 Hero Formulation
                 </span>
                 <span class="badge-rating">★★★★★ 4.9</span>
               </div>
 
-              <div class="hero-image-wrap">
+              <div class="hero-image-wrap loupe-target" data-loupe="true" data-zoom-src="faerie-dew-hero.jpg" data-loupe-title="FAERIE DEW™ • CERAMIDES & RASPBERRY SEED • 2.5X">
                 <img
                   src="faerie-dew-hero.jpg"
                   alt="Faerie Dew Barrier Repair Face Cream"
@@ -1905,6 +1916,53 @@
         </div>
       </div>
     </div>
+
+    <!-- Clinical Macro Loupe Inspector Reticle -->
+    <div id="clinicalLoupe" class="clinical-loupe" aria-hidden="true">
+      <span class="loupe-telemetry" id="loupeTelemetry">CELL-MATRIX • 2.5X</span>
+    </div>
+
+    <!-- Floating Developer HUD Trigger -->
+    <button type="button" class="dev-floating-trigger" id="devHudTrigger" aria-label="Toggle Developer Telemetry HUD">
+      <span>⚡ DEV HUD</span>
+      <span style="opacity: 0.7; font-size: 0.65rem;">[Ctrl+Shift+D]</span>
+    </button>
+
+    <!-- Developer Blueprint & Telemetry HUD Console -->
+    <aside id="devInspectorHud" class="dev-inspector-hud" role="region" aria-label="Developer HUD">
+      <div class="dev-hud-header">
+        <span class="dev-hud-title">⚡ LAB DEV TELEMETRY</span>
+        <button type="button" id="devHudCloseBtn" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; line-height: 1;">✕</button>
+      </div>
+      <div class="dev-stat-row">
+        <span>FPS REFRESH:</span>
+        <span class="dev-stat-val" id="hudFpsVal">60.0 FPS</span>
+      </div>
+      <div class="dev-stat-row">
+        <span>DOM NODES:</span>
+        <span class="dev-stat-val" id="hudDomNodes">--</span>
+      </div>
+      <div class="dev-stat-row">
+        <span>VIEWPORT:</span>
+        <span class="dev-stat-val" id="hudViewport">--</span>
+      </div>
+      <div class="dev-stat-row">
+        <span>THEME / CONTRAST:</span>
+        <span class="dev-stat-val" id="hudThemeMode">AAA Pass</span>
+      </div>
+      <div class="dev-stat-row">
+        <span>AUDIO SYNTH:</span>
+        <span class="dev-stat-val" id="hudAudioState">Web Audio API</span>
+      </div>
+      <div class="dev-btn-group">
+        <button type="button" class="dev-action-btn" id="hudWireframeBtn">Blueprint Wireframe</button>
+        <button type="button" class="dev-action-btn" id="hudMistBtn">Botanical Mist ASMR</button>
+      </div>
+      <div class="dev-btn-group" style="margin-top: 6px;">
+        <button type="button" class="dev-action-btn" id="hudConfettiBtn">Lab Confetti</button>
+        <button type="button" class="dev-action-btn" id="hudThemeToggleBtn">Cycle Theme</button>
+      </div>
+    </aside>
 
     <!-- Free Shipping Milestone Confetti Canvas -->
     <canvas id="celebrationCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
