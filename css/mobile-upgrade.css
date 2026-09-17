@@ -1,0 +1,178 @@
+/* ==========================================================================
+   MEMORY REHAB - PROFESSIONAL MOBILE UPGRADE
+   Closes the gap vs hellobubble.com. Android-safe, touch-first, fluid type.
+   ========================================================================== */
+
+/* 1. ANDROID TEXT SIZE LOCK */
+html {
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+
+/* 2. FLUID TYPOGRAPHY */
+@media (max-width: 900px) {
+  h1 { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; line-height: 1.1; }
+  h2 { font-size: clamp(1.2rem, 5.5vw, 1.8rem) !important; line-height: 1.2; }
+  h3 { font-size: clamp(1rem, 4.5vw, 1.4rem) !important; line-height: 1.25; }
+  h4 { font-size: clamp(0.88rem, 3.8vw, 1.1rem) !important; line-height: 1.3; }
+  p  { font-size: clamp(0.82rem, 3.5vw, 0.95rem) !important; line-height: 1.6; }
+  .hero-headline { font-size: clamp(1.65rem, 7.5vw, 2.4rem) !important; letter-spacing: -0.03em !important; line-height: 1.08 !important; }
+  .hero-description { font-size: clamp(0.82rem, 3.8vw, 0.95rem) !important; line-height: 1.65 !important; }
+  .brand-title    { font-size: clamp(0.85rem, 3.5vw, 1rem) !important; }
+  .brand-subtitle { font-size: clamp(0.55rem, 2vw, 0.68rem) !important; }
+  .current-price  { font-size: clamp(0.82rem, 3.5vw, 0.95rem) !important; }
+  .card-title     { font-size: clamp(0.75rem, 3.2vw, 0.88rem) !important; }
+  .eyebrow-badge  { font-size: clamp(0.6rem, 2.4vw, 0.75rem) !important; }
+  .section-title-group h2 { font-size: clamp(1.2rem, 5.5vw, 1.75rem) !important; }
+  .section-title-group p  { font-size: clamp(0.8rem, 3.4vw, 0.92rem) !important; }
+}
+
+/* 3. TOUCH TARGETS 44px minimum */
+@media (max-width: 900px) {
+  .hamburger-btn, .cart-toggle-btn, .theme-toggle-btn, .card-add-cart-btn,
+  .filter-tab-btn, .mobile-nav-close, .cart-close-btn, .modal-close-btn,
+  .face-welcome-close, .ritual-ctrl-btn, .gallery-tile-btn,
+  .card-wishlist-btn, .card-quick-view-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  .btn-primary, .btn-secondary {
+    min-height: 48px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: clamp(0.82rem, 3.5vw, 0.92rem) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .cart-toggle-btn { min-height: 44px; padding: 0 12px !important; }
+}
+
+/* 4. NAV - minimal, logo + cart + hamburger only */
+@media (max-width: 900px) {
+  .theme-toggle-btn { display: none !important; }
+  .header-inner { padding: 8px 14px !important; }
+  .nav-actions { gap: 6px !important; }
+  .site-header { top: 6px !important; margin-top: 6px !important; margin-bottom: 12px !important; }
+}
+@media (max-width: 599px) {
+  .user-auth-pill { display: none !important; }
+  .hamburger-btn { width: 40px !important; height: 40px !important; min-width: 40px !important; }
+}
+
+/* 5. PRODUCT CARDS - hellobubble standard */
+@media (max-width: 900px) {
+  .product-cards-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .product-card { border-radius: 16px !important; }
+  .card-media-wrap { border-radius: 16px 16px 0 0; overflow: hidden; }
+  .card-media-wrap img { height: 165px !important; width: 100%; object-fit: cover; display: block; }
+  .card-content-wrap { padding: 8px 10px 12px !important; gap: 4px; display: flex; flex-direction: column; }
+  .card-summary, .card-ingredient-chips, .card-quick-view-btn, .skin-type-tag { display: none !important; }
+  .card-category-row { flex-direction: row !important; align-items: center !important; justify-content: space-between !important; gap: 4px !important; margin-bottom: 3px; }
+  .card-category-tag { font-size: 0.58rem !important; font-weight: 700; text-transform: uppercase; color: var(--primary) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+  .card-rating { font-size: 0.6rem !important; white-space: nowrap; }
+  .stars { font-size: 0.58rem; letter-spacing: -1px; }
+  .card-title { font-size: clamp(0.72rem, 3vw, 0.85rem) !important; font-weight: 700 !important; line-height: 1.3 !important; display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 2px 0 6px !important; }
+  .card-footer-row { display: flex !important; align-items: center !important; justify-content: space-between !important; margin-top: auto !important; gap: 6px; }
+  .price-container { display: flex; flex-direction: column; gap: 1px; }
+  .current-price { font-size: clamp(0.78rem, 3.2vw, 0.9rem) !important; font-weight: 800 !important; color: var(--text-main) !important; }
+  .original-price { font-size: 0.65rem !important; opacity: 0.55; }
+  .card-add-cart-btn { width: 36px !important; height: 36px !important; min-width: 36px !important; padding: 0 !important; border-radius: 50% !important; display: grid !important; place-items: center !important; flex-shrink: 0; font-size: 0 !important; }
+  .card-add-cart-btn svg { width: 16px !important; height: 16px !important; }
+  .step-badge, .card-badge { font-size: 0.52rem !important; padding: 2px 6px !important; font-weight: 700; }
+  .card-wishlist-btn { width: 30px !important; height: 30px !important; top: 8px !important; right: 8px !important; }
+  .card-wishlist-btn svg { width: 14px !important; height: 14px !important; }
+}
+@media (max-width: 359px) {
+  .product-cards-grid { grid-template-columns: 1fr !important; }
+  .card-media-wrap img { height: 200px !important; }
+}
+
+/* 6. WHATSAPP STICKY CTA - Nigerian market */
+.whatsapp-float-btn { display: none; }
+@media (max-width: 900px) {
+  .whatsapp-float-btn,
+  .floating-whatsapp-btn {
+    display: flex !important;
+    position: fixed !important;
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px !important;
+    z-index: 890 !important;
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 50% !important;
+    background: #25d366 !important;
+    color: #ffffff !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.45) !important;
+    font-size: 1.5rem !important;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    animation: wa-pulse 3s ease infinite !important;
+  }
+  .whatsapp-float-btn:hover,
+  .whatsapp-float-btn:active,
+  .floating-whatsapp-btn:hover,
+  .floating-whatsapp-btn:active {
+    transform: scale(1.08) !important;
+    box-shadow: 0 6px 28px rgba(37,211,102,0.6) !important;
+  }
+}
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+  50%       { box-shadow: 0 4px 28px rgba(37,211,102,0.75); }
+}
+
+/* 7. MARQUEE */
+@media (max-width: 480px) {
+  .bubble-marquee-bar { padding: 6px 0 !important; }
+  .marquee-item { font-size: 0.72rem !important; padding: 0 16px !important; }
+}
+
+/* 8. SECTION VERTICAL RHYTHM */
+@media (max-width: 900px) {
+  .hero-section           { padding: 6px 0 20px !important; }
+  .ritual-video-section   { padding: 16px 0 !important; }
+  .products-section       { padding: 20px 0 28px !important; }
+  .bundle-builder-section { padding: 16px 0 !important; }
+  .skin-school-section    { padding: 16px 0 !important; }
+  .gallery-section        { padding: 16px 0 !important; }
+  .trust-section          { padding: 16px 0 !important; }
+}
+
+/* 9. HERO - product image first */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .hero-visual { order: -1; }
+  .hero-glass-card { border-radius: 20px !important; overflow: hidden; }
+  .hero-image-wrap { height: 220px !important; overflow: hidden; border-radius: 0 !important; }
+  .hero-image-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; border-radius: 0 !important; }
+  .hero-card-header { padding: 10px 12px 0 !important; flex-wrap: wrap; gap: 6px; }
+  .floating-glass-badge { margin: 8px 12px 12px !important; padding: 8px 10px !important; flex-wrap: wrap; gap: 6px; }
+  .badge-details h4 { font-size: 0.72rem !important; }
+  .badge-details span { font-size: 0.62rem !important; }
+  .floating-glass-badge .btn-primary { font-size: 0.72rem !important; padding: 6px 10px !important; min-height: 32px !important; }
+  .live-pill    { font-size: 0.65rem !important; padding: 3px 8px !important; }
+  .badge-rating { font-size: 0.65rem !important; }
+}
+
+/* 10. PERFORMANCE - disable heavy effects on Android */
+@media (max-width: 900px) {
+  .glass-card, .product-card, .school-glass-card, .ritual-video-card, .bundle-glass-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .product-card:hover { transform: none !important; box-shadow: var(--shadow-md) !important; }
+  .ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
+  html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+}
+
+/* 11. ANDROID CHROME QUIRKS */
+@media (max-width: 900px) {
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  * { -webkit-tap-highlight-color: rgba(244, 139, 179, 0.15); tap-highlight-color: rgba(244, 139, 179, 0.15); }
+  input, select, textarea { font-size: 16px !important; }
+}

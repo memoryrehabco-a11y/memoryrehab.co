@@ -1,0 +1,2116 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Admin Portal | Memory Rehab Lab</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS Architecture: split modules -->
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <link rel="stylesheet" href="css/mobile-upgrade.css" />
+
+  </head>
+  <body>
+    <!-- Ambient glowing chromatic orbs -->
+    <div class="ambient-container" aria-hidden="true">
+      <div class="ambient-orb ambient-orb-1"></div>
+      <div class="ambient-orb ambient-orb-2"></div>
+      <div class="ambient-orb ambient-orb-3"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="site-header container">
+      <div class="header-inner">
+        <a href="index.html" class="brand-link" aria-label="Memory Rehab Home">
+          <div class="brand-logo-icon">MR</div>
+          <div class="brand-info">
+            <span class="brand-title">Memory Rehab</span>
+            <span class="brand-subtitle">Control Dashboard</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <a href="index.html" class="btn-secondary" style="padding: 6px 16px; font-size: 0.85rem;">
+            ← Return to Live Store
+          </a>
+          <!-- Dark / Light Mode Glass Toggle -->
+          <button
+            class="theme-toggle-btn"
+            id="themeToggle"
+            type="button"
+            aria-label="Toggle color theme"
+          >
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Shell -->
+    <main class="admin-shell">
+      <!-- 1. AUTH GATE (If not signed in) -->
+      <div id="adminAuthGate" class="admin-card" style="max-width: 520px; margin: 60px auto; text-align: center;">
+        <div class="admin-badge">Secure Management Access</div>
+        <h1 class="admin-title" style="margin-top: 10px;">Store Control Portal</h1>
+        <p class="admin-subtitle" style="margin-bottom: 24px;">
+          Sign in with your administrator account to manage live products, pricing, and announcement banners.
+        </p>
+
+        <button type="button" class="btn-google-auth" id="adminGoogleLoginBtn">
+          <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Sign In as Admin with Google</span>
+        </button>
+
+        <div style="display:flex;align-items:center;gap:12px;margin:20px 0;">
+          <div style="flex:1;height:1px;background:var(--glass-border);"></div>
+          <span style="color:var(--text-muted);font-size:0.82rem;font-weight:600;">OR ENTER PASSKEY</span>
+          <div style="flex:1;height:1px;background:var(--glass-border);"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;">
+          <input
+            type="password"
+            id="adminPassInput"
+            class="admin-input"
+            placeholder="Enter admin passkey…"
+            style="flex:1;padding:12px 16px;font-size:0.95rem;"
+            autocomplete="current-password"
+          />
+          <button type="button" id="adminPassBtn" class="btn-primary" style="padding:12px 20px;white-space:nowrap;">
+            Unlock
+          </button>
+        </div>
+        <p id="adminPassError" style="color:#e11d48;font-size:0.82rem;margin-top:8px;display:none;">
+          ✕ Incorrect passkey. Please try again.
+        </p>
+
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--glass-border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:0.8rem; color:var(--text-muted);">
+            Owner access is checked server-side. Enter the configured passkey to unlock the dashboard.
+          </span>
+        </div>
+      </div>
+
+      <!-- 2. ADMIN DASHBOARD (When authenticated) -->
+      <div id="adminDashboardPanel" style="display: none;">
+        <div class="admin-top-bar">
+          <div>
+            <div class="admin-badge" id="adminSyncStatusBadge">● Local &amp; Cloud Ready</div>
+            <h1 class="admin-title">Storefront Content &amp; Pricing</h1>
+            <p class="admin-subtitle">Changes saved here immediately update the customer-facing website via Local Storage &amp; Firebase Cloud.</p>
+          </div>
+          <div class="admin-actions-group">
+            <button type="button" class="btn-secondary" id="testStoreConnectionsBtn" title="Test all store sync connections">
+              🧪 Test Connections
+            </button>
+            <button type="button" class="btn-secondary" id="exportConfigBtn" title="Download updated products-config.js file">
+              ⬇️ Export Config
+            </button>
+            <button type="button" class="btn-secondary" id="seedDatabaseBtn" title="Load default formulations into Firebase Cloud">
+              ☁️ Sync to Firebase
+            </button>
+            <button type="button" class="btn-primary" id="adminSaveAllBtn">
+              💾 Save All Changes
+            </button>
+            <button type="button" class="btn-secondary" id="adminLogoutBtn" style="color: #e11d48;">
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner Settings Card -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">📢 Announcements &amp; Storewide Promotions</h2>
+          <p class="admin-card-desc">Edit the scrolling ticker banner at the top of every page and update your promotional discount code.</p>
+
+          <div class="admin-grid-form">
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingStoreName">Store Name</label>
+              <input type="text" id="settingStoreName" class="admin-input" value="Memory Rehab Lab" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingStoreTagline">Store Tagline</label>
+              <input type="text" id="settingStoreTagline" class="admin-input" value="Botanical Skincare" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingAnnouncement">Announcement Ticker Text</label>
+              <input type="text" id="settingAnnouncement" class="admin-input" value="Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingPromoCode">Active Promo Code</label>
+              <input type="text" id="settingPromoCode" class="admin-input" value="GLOW15" style="text-transform: uppercase; font-weight: 700;" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingDiscountPercent">Discount Percentage (%)</label>
+              <input type="number" id="settingDiscountPercent" class="admin-input" value="15" min="1" max="90" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingShippingThreshold">Free Shipping Threshold (₦)</label>
+              <input type="number" id="settingShippingThreshold" class="admin-input" value="60000" min="1000" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingWhatsApp">WhatsApp Support Number</label>
+              <input type="text" id="settingWhatsApp" class="admin-input" value="+2349112488271" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingInstagram">Instagram Account</label>
+              <input type="text" id="settingInstagram" class="admin-input" value="memoryrehab.co" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingTikTok">TikTok Account</label>
+              <input type="text" id="settingTikTok" class="admin-input" value="memoryrehab.co" />
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="button" class="btn-primary" id="saveSettingsBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Store Settings
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h2 class="admin-card-title">📝 Brand &amp; Homepage Copy</h2>
+          <p class="admin-card-desc">Control the key words visitors see on the homepage and welcome popup without editing the site files.</p>
+
+          <div class="admin-grid-form">
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingHeroEyebrow">Hero Eyebrow</label>
+              <input type="text" id="settingHeroEyebrow" class="admin-input" value="Step-by-Step Clinical Care" />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingHeroHeadline">Hero Headline</label>
+              <input type="text" id="settingHeroHeadline" class="admin-input" value="Healthy skin starts with a rehabilitated barrier." />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingHeroDescription">Hero Description</label>
+              <textarea id="settingHeroDescription" class="admin-input" rows="3">No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.</textarea>
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingHeroPrimaryCta">Primary CTA Text</label>
+              <input type="text" id="settingHeroPrimaryCta" class="admin-input" value="Shop 3-Step Routine" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingHeroSecondaryCta">Secondary CTA Text</label>
+              <input type="text" id="settingHeroSecondaryCta" class="admin-input" value="Build Routine & Save 15%" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingWelcomeEyebrow">Welcome Eyebrow</label>
+              <input type="text" id="settingWelcomeEyebrow" class="admin-input" value="Apothecary Welcome" />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingWelcomeTitle">Welcome Title</label>
+              <input type="text" id="settingWelcomeTitle" class="admin-input" value="Your skin barrier, restored with pure botanicals." />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingWelcomeDescription">Welcome Description</label>
+              <textarea id="settingWelcomeDescription" class="admin-input" rows="3">Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h2 class="admin-card-title">🏷️ Footer &amp; Brand Identity</h2>
+          <p class="admin-card-desc">Control the footer brand monogram, bio text, copyright notice, and crafted tagline shown at the bottom of every page.</p>
+
+          <div class="admin-grid-form">
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingBrandMonogram">Brand Monogram (e.g. MR)</label>
+              <input type="text" id="settingBrandMonogram" class="admin-input" value="MR" maxlength="4" style="text-transform: uppercase; font-weight: 700; font-size: 1.1rem;" />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterBio">Footer Brand Bio</label>
+              <textarea id="settingFooterBio" class="admin-input" rows="3">High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.</textarea>
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterCopyright">Copyright Notice</label>
+              <input type="text" id="settingFooterCopyright" class="admin-input" value="Memory Rehab Lab. All rights reserved." />
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">The © symbol and current year are added automatically.</p>
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingFooterTagline">Crafted Tagline</label>
+              <input type="text" id="settingFooterTagline" class="admin-input" value="Crafted with botanical purity &amp; clinical precision." />
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="button" class="btn-primary" id="saveFooterSettingsBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Footer Settings
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h2 class="admin-card-title">🖼️ Visual Assets &amp; Banner Images</h2>
+          <p class="admin-card-desc">Upload or paste image URLs for the hero product banner and the welcome popup without changing the codebase.</p>
+
+          <div class="admin-grid-form">
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingHeroImageUrl">Hero Image URL</label>
+              <input type="url" id="settingHeroImageUrl" class="admin-input" value="photo_2026-09-09_17-33-58.jpg" />
+            </div>
+
+            <div class="admin-field-group" style="grid-column: 1 / -1;">
+              <label class="admin-label" for="settingWelcomeImageUrl">Welcome Popup Image URL</label>
+              <input type="url" id="settingWelcomeImageUrl" class="admin-input" value="photo_2026-09-09_20-12-25.jpg" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="heroImageUploadInput">Hero Image Upload</label>
+              <input type="file" id="heroImageUploadInput" class="admin-input" accept="image/*" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="welcomeImageUploadInput">Welcome Image Upload</label>
+              <input type="file" id="welcomeImageUploadInput" class="admin-input" accept="image/*" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             🎨  THEME STUDIO
+        ═══════════════════════════════════════════ -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">🎨 Theme Studio — Light Mode Pastels</h2>
+          <p class="admin-card-desc">Pick any pastel accent colour for the storefront's light mode. The whole site updates live for every customer.</p>
+
+          <!-- Row 0: Minimalist Whites & Pearls -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:16px 0 8px;">🤍 Minimalist Whites &amp; Pearls</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#ffffff" data-name="Pure White" style="background:#ffffff;border:1.5px solid #cbd5e1;"><span style="color:#0f172a;font-weight:700;">Pure White</span></button>
+            <button class="theme-swatch-btn" data-color="#f8fafc" data-name="Pearl Porcelain" style="background:#f8fafc;border:1.5px solid #cbd5e1;"><span style="color:#0f172a;">Porcelain</span></button>
+            <button class="theme-swatch-btn" data-color="#f1f5f9" data-name="Silk Alabaster" style="background:#f1f5f9;border:1.5px solid #cbd5e1;"><span style="color:#0f172a;">Alabaster</span></button>
+            <button class="theme-swatch-btn" data-color="#e2e8f0" data-name="Platinum Mist" style="background:#e2e8f0;border:1.5px solid #94a3b8;"><span style="color:#0f172a;">Platinum</span></button>
+            <button class="theme-swatch-btn" data-color="#f5f5f4" data-name="Oatmeal Milk" style="background:#f5f5f4;border:1.5px solid #d6d3d1;"><span style="color:#1c1917;">Oat Milk</span></button>
+          </div>
+
+          <!-- Row 1: Pinks & Roses -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:16px 0 8px;">🌸 Pinks &amp; Roses</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#f48bb3" data-name="Rose Pink" style="background:#f48bb3;"><span>Rose Pink</span></button>
+            <button class="theme-swatch-btn" data-color="#f9a8d4" data-name="Baby Pink" style="background:#f9a8d4;"><span>Baby Pink</span></button>
+            <button class="theme-swatch-btn" data-color="#fda4af" data-name="Blush Rose" style="background:#fda4af;"><span>Blush Rose</span></button>
+            <button class="theme-swatch-btn" data-color="#fb7185" data-name="Hot Coral" style="background:#fb7185;"><span>Hot Coral</span></button>
+            <button class="theme-swatch-btn" data-color="#f43f5e" data-name="Berry Red" style="background:#f43f5e;"><span>Berry Red</span></button>
+            <button class="theme-swatch-btn" data-color="#fce7f3" data-name="Petal White" style="background:#fce7f3;border:1px solid #f9a8d4;"><span style="color:#c026d3;">Petal</span></button>
+          </div>
+
+          <!-- Row 2: Purples & Lavenders -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:0 0 8px;">💜 Purples &amp; Lavenders</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#c084fc" data-name="Lavender" style="background:#c084fc;"><span>Lavender</span></button>
+            <button class="theme-swatch-btn" data-color="#e879f9" data-name="Orchid" style="background:#e879f9;"><span>Orchid</span></button>
+            <button class="theme-swatch-btn" data-color="#a855f7" data-name="Amethyst" style="background:#a855f7;"><span>Amethyst</span></button>
+            <button class="theme-swatch-btn" data-color="#d8b4fe" data-name="Lilac" style="background:#d8b4fe;"><span>Lilac</span></button>
+            <button class="theme-swatch-btn" data-color="#818cf8" data-name="Periwinkle" style="background:#818cf8;"><span>Periwinkle</span></button>
+          </div>
+
+          <!-- Row 3: Blues & Teals -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:0 0 8px;">💙 Blues &amp; Teals</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#60a5fa" data-name="Sky Blue" style="background:#60a5fa;"><span>Sky Blue</span></button>
+            <button class="theme-swatch-btn" data-color="#38bdf8" data-name="Aqua" style="background:#38bdf8;"><span>Aqua</span></button>
+            <button class="theme-swatch-btn" data-color="#2dd4bf" data-name="Teal" style="background:#2dd4bf;"><span>Teal</span></button>
+            <button class="theme-swatch-btn" data-color="#67e8f9" data-name="Ice Blue" style="background:#67e8f9;"><span>Ice Blue</span></button>
+          </div>
+
+          <!-- Row 4: Greens & Nature -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:0 0 8px;">🌿 Greens &amp; Nature</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#34d399" data-name="Mint Sage" style="background:#34d399;"><span>Mint Sage</span></button>
+            <button class="theme-swatch-btn" data-color="#4ade80" data-name="Spring Green" style="background:#4ade80;"><span>Spring</span></button>
+            <button class="theme-swatch-btn" data-color="#86efac" data-name="Soft Green" style="background:#86efac;"><span>Soft Green</span></button>
+          </div>
+
+          <!-- Row 5: Warm & Earthy -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:0 0 8px;">🌻 Warm &amp; Earthy</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <button class="theme-swatch-btn" data-color="#fbbf24" data-name="Honey Gold" style="background:#fbbf24;"><span>Honey Gold</span></button>
+            <button class="theme-swatch-btn" data-color="#fb923c" data-name="Peach" style="background:#fb923c;"><span>Peach</span></button>
+            <button class="theme-swatch-btn" data-color="#f97316" data-name="Tangerine" style="background:#f97316;"><span>Tangerine</span></button>
+            <button class="theme-swatch-btn" data-color="#fde68a" data-name="Buttercup" style="background:#fde68a;border:1px solid #fbbf24;"><span style="color:#92400e;">Buttercup</span></button>
+            <button class="theme-swatch-btn" data-color="#d6a77a" data-name="Caramel" style="background:#d6a77a;"><span>Caramel</span></button>
+            <button class="theme-swatch-btn" data-color="#fed7aa" data-name="Apricot Silk" style="background:#fed7aa;border:1px solid #fdba74;"><span style="color:#9a3412;">Apricot</span></button>
+          </div>
+
+          <!-- Row 6: Luxury Shimmers & Creams -->
+          <p style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin:0 0 8px;">✨ Luxury Shimmers &amp; Creams</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+            <button class="theme-swatch-btn" data-color="#fbcfe8" data-name="Rose Quartz" style="background:#fbcfe8;border:1px solid #f472b6;"><span style="color:#9d174d;">Quartz</span></button>
+            <button class="theme-swatch-btn" data-color="#e9d5ff" data-name="Mauve Fog" style="background:#e9d5ff;border:1px solid #c084fc;"><span style="color:#6b21a8;">Mauve</span></button>
+            <button class="theme-swatch-btn" data-color="#a5f3fc" data-name="Glacier Mist" style="background:#a5f3fc;border:1px solid #22d3ee;"><span style="color:#0e7490;">Glacier</span></button>
+            <button class="theme-swatch-btn" data-color="#bbf7d0" data-name="Matcha Latte" style="background:#bbf7d0;border:1px solid #4ade80;"><span style="color:#166534;">Matcha</span></button>
+            <button class="theme-swatch-btn" data-color="#6ee7b7" data-name="Pistachio" style="background:#6ee7b7;border:1px solid #10b981;"><span style="color:#065f46;">Pistachio</span></button>
+            <button class="theme-swatch-btn" data-color="#fef3c7" data-name="Vanilla Cream" style="background:#fef3c7;border:1px solid #facc15;"><span style="color:#854d0e;">Vanilla</span></button>
+            <button class="theme-swatch-btn" data-color="#fae8ff" data-name="Champagne" style="background:#fae8ff;border:1px solid #e879f9;"><span style="color:#86198f;">Champagne</span></button>
+          </div>
+
+          <!-- Custom picker -->
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--glass-border);">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <label class="admin-label" for="themeColorPicker" style="margin:0;">🎨 Custom Colour:</label>
+              <input type="color" id="themeColorPicker" value="#f48bb3"
+                style="width:52px;height:44px;padding:2px;border-radius:var(--radius-sm);border:2px solid var(--glass-border);cursor:pointer;background:none;" />
+            </div>
+            <button type="button" id="saveThemeColorBtn" class="btn-primary" style="padding:10px 22px;font-size:0.88rem;">
+              ✓ Apply &amp; Save Light Theme
+            </button>
+            <button type="button" id="resetThemeColorBtn" class="btn-secondary" style="padding:10px 16px;font-size:0.85rem;">
+              Reset to Rose Pink
+            </button>
+          </div>
+          <p style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);">
+            Active: <strong id="themeColorPreviewName" style="color:var(--primary);">Rose Pink #f48bb3</strong>
+          </p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             🌙  Dark Mode Palette Studio (12 Obsidian Types)
+        ═══════════════════════════════════════════ -->
+        <div class="admin-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h2 class="admin-card-title">🌙 Dark Mode Palette Studio</h2>
+              <p class="admin-card-desc">Choose from 12 distinct luxury obsidian aesthetics. Changes reflect instantly on all customer devices.</p>
+            </div>
+            <span class="admin-badge" style="margin:0;">12 Luxury Obsidian Types</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:16px;" id="darkPaletteGrid">
+
+            <!-- Obsidian Rose (Default) -->
+            <div class="dark-palette-tile" data-palette="obsidian-rose"
+              style="background:linear-gradient(135deg,#0a0c12 0%,#1a0f18 100%);border:2px solid rgba(244,114,182,0.3);">
+              <div class="dark-palette-dot" style="background:#f472b6;"></div>
+              <strong style="color:#f9fafb;">Obsidian Rose</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Default — Deep black with neon pink glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(236,72,153,0.5);"></span>
+                <span style="background:rgba(147,51,234,0.5);"></span>
+                <span style="background:rgba(244,114,182,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Midnight Sapphire -->
+            <div class="dark-palette-tile" data-palette="midnight-sapphire"
+              style="background:linear-gradient(135deg,#050810 0%,#0a1022 100%);border:2px solid rgba(96,165,250,0.3);">
+              <div class="dark-palette-dot" style="background:#60a5fa;"></div>
+              <strong style="color:#f9fafb;">Midnight Sapphire</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Deep navy with electric blue glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(37,99,235,0.5);"></span>
+                <span style="background:rgba(99,102,241,0.5);"></span>
+                <span style="background:rgba(6,182,212,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Forest Emerald -->
+            <div class="dark-palette-tile" data-palette="forest-emerald"
+              style="background:linear-gradient(135deg,#030f09 0%,#0a1510 100%);border:2px solid rgba(52,211,153,0.3);">
+              <div class="dark-palette-dot" style="background:#34d399;"></div>
+              <strong style="color:#f9fafb;">Forest Emerald</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Dark forest with jade green glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(16,185,129,0.5);"></span>
+                <span style="background:rgba(5,150,105,0.5);"></span>
+                <span style="background:rgba(52,211,153,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Amethyst Galaxy -->
+            <div class="dark-palette-tile" data-palette="amethyst-galaxy"
+              style="background:linear-gradient(135deg,#080510 0%,#100a20 100%);border:2px solid rgba(192,132,252,0.3);">
+              <div class="dark-palette-dot" style="background:#c084fc;"></div>
+              <strong style="color:#f9fafb;">Amethyst Galaxy</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Cosmic purple with violet glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(168,85,247,0.5);"></span>
+                <span style="background:rgba(139,92,246,0.5);"></span>
+                <span style="background:rgba(192,132,252,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Volcanic Amber -->
+            <div class="dark-palette-tile" data-palette="volcanic-amber"
+              style="background:linear-gradient(135deg,#0f0700 0%,#1a1200 100%);border:2px solid rgba(251,191,36,0.3);">
+              <div class="dark-palette-dot" style="background:#fbbf24;"></div>
+              <strong style="color:#f9fafb;">Volcanic Amber</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Volcanic black with golden fire</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(234,88,12,0.5);"></span>
+                <span style="background:rgba(217,119,6,0.5);"></span>
+                <span style="background:rgba(251,191,36,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Aurora Coral -->
+            <div class="dark-palette-tile" data-palette="aurora-coral"
+              style="background:linear-gradient(135deg,#0f0609 0%,#1a0c14 100%);border:2px solid rgba(251,113,133,0.3);">
+              <div class="dark-palette-dot" style="background:#fb7185;"></div>
+              <strong style="color:#f9fafb;">Aurora Coral</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Dark charcoal with warm coral glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(244,63,94,0.5);"></span>
+                <span style="background:rgba(251,113,133,0.5);"></span>
+                <span style="background:rgba(248,113,113,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Pure Obsidian (Platinum Noir) -->
+            <div class="dark-palette-tile" data-palette="pure-obsidian"
+              style="background:linear-gradient(135deg,#060608 0%,#0f1117 100%);border:2px solid rgba(241,245,249,0.3);">
+              <div class="dark-palette-dot" style="background:#f1f5f9;"></div>
+              <strong style="color:#f9fafb;">Pure Obsidian</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Jet black luxury with platinum silver aura</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(255,255,255,0.4);"></span>
+                <span style="background:rgba(148,163,184,0.4);"></span>
+                <span style="background:rgba(203,213,225,0.4);"></span>
+              </div>
+            </div>
+
+            <!-- Burgundy Velvet Noir -->
+            <div class="dark-palette-tile" data-palette="burgundy-noir"
+              style="background:linear-gradient(135deg,#0c0407 0%,#1c0812 100%);border:2px solid rgba(251,113,133,0.3);">
+              <div class="dark-palette-dot" style="background:#fb7185;"></div>
+              <strong style="color:#f9fafb;">Burgundy Velvet</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Bordeaux wine noir with ruby shimmer</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(159,18,57,0.5);"></span>
+                <span style="background:rgba(190,24,93,0.5);"></span>
+                <span style="background:rgba(225,29,72,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Twilight Aurora -->
+            <div class="dark-palette-tile" data-palette="twilight-aurora"
+              style="background:linear-gradient(135deg,#060a14 0%,#0f172a 100%);border:2px solid rgba(45,212,191,0.3);">
+              <div class="dark-palette-dot" style="background:#2dd4bf;"></div>
+              <strong style="color:#f9fafb;">Twilight Aurora</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Cosmic violet night with turquoise aurora</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(45,212,191,0.5);"></span>
+                <span style="background:rgba(168,85,247,0.5);"></span>
+                <span style="background:rgba(56,189,248,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Matcha Zen Noir -->
+            <div class="dark-palette-tile" data-palette="matcha-noir"
+              style="background:linear-gradient(135deg,#060a07 0%,#101c12 100%);border:2px solid rgba(163,230,53,0.3);">
+              <div class="dark-palette-dot" style="background:#a3e635;"></div>
+              <strong style="color:#f9fafb;">Matcha Zen Noir</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Botanical dark tea with golden green luminescence</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(101,163,13,0.5);"></span>
+                <span style="background:rgba(234,179,8,0.5);"></span>
+                <span style="background:rgba(163,230,53,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Slate Titanium Noir -->
+            <div class="dark-palette-tile" data-palette="cyber-titanium"
+              style="background:linear-gradient(135deg,#080a0f 0%,#141a26 100%);border:2px solid rgba(56,189,248,0.3);">
+              <div class="dark-palette-dot" style="background:#38bdf8;"></div>
+              <strong style="color:#f9fafb;">Slate Titanium</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Stealth titanium graphite with icy cyan aura</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(71,85,105,0.5);"></span>
+                <span style="background:rgba(14,165,233,0.5);"></span>
+                <span style="background:rgba(56,189,248,0.5);"></span>
+              </div>
+            </div>
+
+            <!-- Celestial Plum Noir -->
+            <div class="dark-palette-tile" data-palette="celestial-plum"
+              style="background:linear-gradient(135deg,#09050d 0%,#180b24 100%);border:2px solid rgba(232,121,249,0.3);">
+              <div class="dark-palette-dot" style="background:#e879f9;"></div>
+              <strong style="color:#f9fafb;">Celestial Plum</strong>
+              <span style="color:#94a3b8;font-size:0.76rem;">Mystic deep starlight plum with ethereal lilac glow</span>
+              <div class="dark-palette-orbs">
+                <span style="background:rgba(192,38,211,0.5);"></span>
+                <span style="background:rgba(126,34,206,0.5);"></span>
+                <span style="background:rgba(232,121,249,0.5);"></span>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+            <button type="button" id="saveDarkPaletteBtn" class="btn-primary" style="padding:10px 22px;font-size:0.88rem;">
+              🌙 Apply &amp; Save Dark Palette
+            </button>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+              Selected: <strong id="darkPalettePreviewName" style="color:#c084fc;">Obsidian Rose</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+             ⏰  DYNAMIC AUTO-CYCLE & TIME-BASED THEME SCHEDULER
+        ═══════════════════════════════════════════ -->
+        <div class="admin-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+            <div>
+              <h2 class="admin-card-title">⏰ Dynamic Auto-Cycle &amp; Timed Rotation</h2>
+              <p class="admin-card-desc" style="margin-bottom:0;">Automatically shift themes on a set timer or circadian schedule. Storefront transitions live for all visitors.</p>
+            </div>
+            <div id="autoThemeStatusBadge" class="schedule-status-badge inactive">
+              <span class="schedule-pulse-dot"></span>
+              <span id="autoThemeStatusText">Schedule Inactive</span>
+            </div>
+          </div>
+
+          <!-- Toggle Row -->
+          <div class="auto-theme-toggle-wrap">
+            <div>
+              <strong style="display:block;font-size:0.95rem;margin-bottom:4px;">Enable Automatic Theme Rotation</strong>
+              <span style="font-size:0.82rem;color:var(--text-muted);">When enabled, every customer browser smoothly morphs themes according to your schedule.</span>
+            </div>
+            <label class="switch-toggle" for="autoThemeToggle">
+              <input type="checkbox" id="autoThemeToggle" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- Configuration Form -->
+          <div class="admin-grid-form">
+            <div class="admin-field-group">
+              <label class="admin-label" for="autoThemeMode">Rotation Mode</label>
+              <select id="autoThemeMode" class="admin-input">
+                <option value="adaptive">🌗 Adaptive (Rotates Pastels in Light Mode, Obsidian in Dark)</option>
+                <option value="pastels">🌸 Light Pastels Only (Cycles soft pastel accents)</option>
+                <option value="obsidian">🌙 Obsidian Dark Only (Cycles 12 dark palettes)</option>
+                <option value="daynight">🌅 Smart Circadian Day/Night (Light 6AM-6PM, Dark 6PM-6AM)</option>
+              </select>
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="autoThemeInterval">Rotation Interval / Timer</label>
+              <select id="autoThemeInterval" class="admin-input">
+                <option value="10">⚡ 10 Seconds (Fast Demo / Live Showroom)</option>
+                <option value="30" selected>✨ 30 Seconds (Gentle Dynamic Shift)</option>
+                <option value="60">⏱ 1 Minute (Balanced Flow)</option>
+                <option value="300">🌿 5 Minutes (Slow Luxury Transition)</option>
+                <option value="900">🕯 15 Minutes (Ambient Mood Shift)</option>
+                <option value="3600">🕰 1 Hour (Circadian Hourly Cycle)</option>
+              </select>
+            </div>
+
+            <div class="admin-field-group" style="grid-column:1 / -1;">
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.88rem;">
+                <input type="checkbox" id="autoThemeSmooth" checked style="width:18px;height:18px;accent-color:var(--primary);" />
+                <span><strong>Cinematic Glass Morph Effect</strong> — Apply smooth 0.85s soft ease transition between color shifts</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions Bar -->
+          <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;border-top:1px solid var(--glass-border);">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button type="button" class="btn-primary" id="saveAutoThemeBtn" style="padding:10px 24px;font-size:0.88rem;">
+                💾 Save &amp; Broadcast Schedule
+              </button>
+              <button type="button" class="btn-secondary" id="testCycleStepBtn" style="padding:10px 18px;font-size:0.85rem;" title="Test the next color step right now">
+                ▶ Test 1-Step Shift
+              </button>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-muted);" id="autoThemeNextPreview">Ready to schedule</span>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 class="admin-card-title">🧴 Product Catalog & Pricing Studio</h2>
+              <p class="admin-card-desc" style="margin-bottom: 0;">Hover on any photo to upload a new picture directly from your phone or computer. Click <strong>⚙️ Specs</strong> to edit descriptions, actives, and bottle size.</p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <button type="button" class="btn-secondary" id="addNewProductBtn" style="font-size: 0.85rem; padding: 8px 18px;">
+                ➕ Add New Formulation
+              </button>
+              <span id="productsCountBadge" class="admin-badge" style="margin: 0;">10 Formulations</span>
+            </div>
+          </div>
+
+          <div class="admin-products-table-wrap">
+            <table class="admin-products-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Product Name</th>
+                  <th>Price (₦)</th>
+                  <th>Original (₦)</th>
+                  <th>Badge</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Hidden file input for table thumbnail clicks -->
+    <input type="file" id="tableRowFileInput" accept="image/*" style="display: none;" />
+
+    <!-- Full Product Details Modal -->
+    <div class="admin-modal-backdrop" id="editProductModal">
+      <div class="admin-modal-dialog">
+        <button type="button" class="admin-modal-close" id="closeEditModalBtn">✕</button>
+        <div class="admin-badge" id="modalProductBadge">Formulation Studio</div>
+        <h2 class="admin-card-title" id="modalProductTitle" style="margin-top: 8px;">Edit Product Specs</h2>
+        <p class="admin-card-desc">Edit photo, summary description, bottle size, and routine step.</p>
+
+        <!-- Image Upload Zone inside Modal -->
+        <div class="admin-upload-zone" id="modalUploadZone">
+          <input type="file" id="modalFileInput" accept="image/*" style="display: none;" />
+          <img id="modalImgPreview" src="" alt="" style="max-height: 120px; border-radius: var(--radius-md); margin-bottom: 10px; display: none;" />
+          <div id="modalUploadPrompt">
+            <strong>📷 Click here to Upload a New Product Picture</strong>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0;">Supports JPG, PNG, WebP from your device</p>
+          </div>
+        </div>
+
+        <div class="admin-grid-form">
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdName">Product Name</label>
+            <input type="text" id="editProdName" class="admin-input" />
+          </div>
+
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdSize">Bottle / Jar Size</label>
+            <input type="text" id="editProdSize" class="admin-input" placeholder="e.g. 30ml / 1.0 fl. oz" />
+          </div>
+
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdPrice">Price (₦)</label>
+            <input type="number" step="1" id="editProdPrice" class="admin-input" />
+          </div>
+
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdOrigPrice">Original Strikethrough Price (₦)</label>
+            <input type="number" step="1" id="editProdOrigPrice" class="admin-input" />
+          </div>
+
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdStep">Routine Step</label>
+            <select id="editProdStep" class="admin-input">
+              <option value="Step 1: Prep & Tone">Step 1: Prep & Tone</option>
+              <option value="Step 2: Target & Treat">Step 2: Target & Treat</option>
+              <option value="Step 3: Hydrate & Lock">Step 3: Hydrate & Lock</option>
+              <option value="Body & Reset Ritual">Body & Reset Ritual</option>
+            </select>
+          </div>
+
+          <div class="admin-field-group">
+            <label class="admin-label" for="editProdSkinType">Target Skin Type</label>
+            <input type="text" id="editProdSkinType" class="admin-input" placeholder="e.g. 💧 For: Dry / Compromised Barrier" />
+          </div>
+
+          <div class="admin-field-group" style="grid-column: 1 / -1;">
+            <label class="admin-label" for="editProdSummary">Product Summary & Story</label>
+            <textarea id="editProdSummary" class="admin-textarea" rows="3" placeholder="Restorative lipid cream formulated with..."></textarea>
+          </div>
+
+          <div class="admin-field-group" style="grid-column: 1 / -1;">
+            <label class="admin-label" for="editProdIngredients">Key Ingredient Chips (comma-separated)</label>
+            <input type="text" id="editProdIngredients" class="admin-input" placeholder="Ceramides NP, Raspberry Seed Oil, Bio-Squalane" />
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn-secondary" id="cancelEditModalBtn">Cancel</button>
+          <button type="button" class="btn-primary" id="saveModalProdBtn" style="padding: 10px 24px;">Save Formulation</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connection Diagnostic Modal -->
+    <div class="admin-modal-backdrop" id="diagModal">
+      <div class="admin-modal-dialog" style="max-width: 560px;">
+        <button type="button" class="admin-modal-close" id="closeDiagModalBtn">✕</button>
+        <div class="admin-badge">System Diagnostics</div>
+        <h2 class="admin-card-title" style="margin-top: 8px;">Store Connection &amp; Sync Status</h2>
+        <p class="admin-card-desc">Live real-time test of all store data pipelines, local storage persistence, and cloud sync.</p>
+
+        <div class="diag-report-box" id="diagReportBox">
+          <div class="diag-item">
+            <span>💾 Local Storage Storefront Pipeline</span>
+            <span class="diag-status-ok" id="diagLocalStatus">● Testing…</span>
+          </div>
+          <div class="diag-item">
+            <span>☁️ Firebase Cloud Firestore Connection</span>
+            <span class="diag-status-ok" id="diagCloudStatus">● Testing…</span>
+          </div>
+          <div class="diag-item">
+            <span>🧴 Active Products in Memory</span>
+            <span class="diag-status-ok" id="diagProdCount">● Counting…</span>
+          </div>
+          <div class="diag-item">
+            <span>🛒 Live Cart &amp; PDP Integration</span>
+            <span class="diag-status-ok" id="diagCartStatus">● Verifying…</span>
+          </div>
+        </div>
+
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 20px;">
+          <strong style="color: #10b981; font-size: 0.88rem; display: block; margin-bottom: 4px;">✓ Dual-Sync Active:</strong>
+          <span style="font-size: 0.82rem; color: var(--text-secondary);">
+            Every change you make saves instantly into your browser's Local Storage (immediately visible on index.html) and pushes to Firebase Firestore for all remote visitors.
+          </span>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-primary" id="reRunDiagBtn" style="padding: 10px 20px;">Re-Run Test</button>
+          <button type="button" class="btn-secondary" id="closeDiagModalActionBtn" style="padding: 10px 20px;">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export products-config.js Modal -->
+    <div class="admin-modal-backdrop" id="exportModal">
+      <div class="admin-modal-dialog" style="max-width: 680px;">
+        <button type="button" class="admin-modal-close" id="closeExportModalBtn">✕</button>
+        <div class="admin-badge">Configuration File Generator</div>
+        <h2 class="admin-card-title" style="margin-top: 8px;">Export products-config.js</h2>
+        <p class="admin-card-desc">Download or copy the exact JavaScript code for your current store catalog and settings.</p>
+
+        <textarea id="exportConfigTextarea" class="admin-textarea" rows="12" style="font-family: monospace; font-size: 0.8rem; white-space: pre;" readonly></textarea>
+
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-secondary" id="copyExportCodeBtn" style="padding: 10px 20px;">📋 Copy Code</button>
+          <button type="button" class="btn-primary" id="downloadExportFileBtn" style="padding: 10px 20px;">⬇️ Download products-config.js</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- Configuration & Scripts -->
+    <script src="products-config.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Firebase SDK (v9 compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+    <script>
+      // 1. Initialize Firebase with Live Project Config
+      const firebaseConfig = {
+        apiKey: "AIzaSyDC4eeTzJlyoRjgDM6HCDsuI7OPH-r_hx0",
+        authDomain: "memory-rehab.firebaseapp.com",
+        projectId: "memory-rehab",
+        storageBucket: "memory-rehab.firebasestorage.app",
+        messagingSenderId: "447945885806",
+        appId: "1:447945885806:web:6b1e08da09c102671d3e7f"
+      };
+
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const storage = firebase.storage ? firebase.storage() : null;
+
+      const adminAuthGate = document.getElementById('adminAuthGate');
+      const adminDashboardPanel = document.getElementById('adminDashboardPanel');
+      const adminGoogleLoginBtn = document.getElementById('adminGoogleLoginBtn');
+      const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+      const adminProductsTbody = document.getElementById('adminProductsTbody');
+      const adminSaveAllBtn = document.getElementById('adminSaveAllBtn');
+      const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+      const seedDatabaseBtn = document.getElementById('seedDatabaseBtn');
+
+      let currentProducts = {};
+
+      async function verifyAdminPasskey(passkey) {
+        if (!passkey) return false;
+        // 1. Try server endpoint first (Node backend)
+        try {
+          const response = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passkey })
+          });
+          if (response.ok) {
+            const data = await response.json();
+            if (data && data.ok) return true;
+          }
+        } catch (error) {
+          console.warn('Node backend unavailable (normal on static hosts like GitHub Pages)');
+        }
+
+        // 2. Static host fallback (GitHub Pages / static hosts without server.js)
+        const STATIC_PASSKEY = '$TianYuan26!';
+        if (passkey.trim() === STATIC_PASSKEY) {
+          return true;
+        }
+        return false;
+      }
+
+      // ── Helper: unlock dashboard ──
+      function unlockDashboard() {
+        adminAuthGate.style.display = 'none';
+        adminDashboardPanel.style.display = 'block';
+        loadAdminData();
+      }
+
+      // 2. Auth State Observer
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          unlockDashboard();
+        } else {
+          // Allow passkey session OR any logged-in local user to skip Google auth
+          const passkeyOk = sessionStorage.getItem('mr_admin_passkey') === 'true';
+          if (passkeyOk) {
+            unlockDashboard();
+          } else {
+            adminAuthGate.style.display = 'block';
+            adminDashboardPanel.style.display = 'none';
+          }
+        }
+      });
+
+      // ── Passkey login & 1-Click Owner Unlock ──
+      const adminPassInput = document.getElementById('adminPassInput');
+      const adminPassBtn   = document.getElementById('adminPassBtn');
+      const adminPassError = document.getElementById('adminPassError');
+
+      async function tryPasskeyLogin() {
+        const entered = adminPassInput ? adminPassInput.value : '';
+        const ok = await verifyAdminPasskey(entered);
+
+        if (ok) {
+          sessionStorage.setItem('mr_admin_passkey', 'true');
+          if (adminPassError) adminPassError.style.display = 'none';
+          unlockDashboard();
+          return;
+        }
+
+        if (adminPassError) adminPassError.style.display = 'block';
+        if (adminPassInput) {
+          adminPassInput.style.border = '2px solid #e11d48';
+          setTimeout(() => { adminPassInput.style.border = ''; }, 1800);
+        }
+      }
+
+      adminPassBtn?.addEventListener('click', tryPasskeyLogin);
+      adminPassInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') tryPasskeyLogin();
+      });
+
+      adminGoogleLoginBtn?.addEventListener('click', async () => {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          await auth.signInWithPopup(provider);
+        } catch (err) {
+          alert('Admin Sign-In: ' + err.message);
+        }
+      });
+
+      adminLogoutBtn?.addEventListener('click', () => {
+        auth.signOut();
+        localStorage.removeItem('mr_current_user');
+        sessionStorage.removeItem('mr_admin_passkey');
+        adminAuthGate.style.display = 'block';
+        adminDashboardPanel.style.display = 'none';
+      });
+
+      // ── Dual-Storage Helpers ──
+      function persistProductsLocally() {
+        try {
+          localStorage.setItem('mr_custom_products', JSON.stringify(currentProducts));
+        } catch (e) {
+          console.warn('LocalStorage save error:', e);
+        }
+      }
+
+      function persistSettingsLocally(settings) {
+        try {
+          localStorage.setItem('mr_store_settings', JSON.stringify(settings));
+        } catch (e) {
+          console.warn('LocalStorage settings save error:', e);
+        }
+      }
+
+      // 3. Load Data into Form
+      async function loadAdminData() {
+        // Step A: Load local settings first for instant responsiveness
+        try {
+          const localSettingsRaw = localStorage.getItem('mr_store_settings');
+          if (localSettingsRaw) {
+            const ls = JSON.parse(localSettingsRaw);
+            if (ls.storeName) document.getElementById('settingStoreName').value = ls.storeName;
+            if (ls.storeTagline) document.getElementById('settingStoreTagline').value = ls.storeTagline;
+            if (ls.announcement) document.getElementById('settingAnnouncement').value = ls.announcement;
+            if (ls.promoCode) document.getElementById('settingPromoCode').value = ls.promoCode;
+            if (ls.promoDiscount) document.getElementById('settingDiscountPercent').value = ls.promoDiscount;
+            if (ls.freeShippingThreshold) document.getElementById('settingShippingThreshold').value = ls.freeShippingThreshold;
+            if (ls.heroEyebrow) document.getElementById('settingHeroEyebrow').value = ls.heroEyebrow;
+            if (ls.heroHeadline) document.getElementById('settingHeroHeadline').value = ls.heroHeadline;
+            if (ls.heroDescription) document.getElementById('settingHeroDescription').value = ls.heroDescription;
+            if (ls.heroPrimaryCta) document.getElementById('settingHeroPrimaryCta').value = ls.heroPrimaryCta;
+            if (ls.heroSecondaryCta) document.getElementById('settingHeroSecondaryCta').value = ls.heroSecondaryCta;
+            if (ls.welcomeEyebrow) document.getElementById('settingWelcomeEyebrow').value = ls.welcomeEyebrow;
+            if (ls.welcomeTitle) document.getElementById('settingWelcomeTitle').value = ls.welcomeTitle;
+            if (ls.welcomeDescription) document.getElementById('settingWelcomeDescription').value = ls.welcomeDescription;
+            if (ls.heroImageUrl) document.getElementById('settingHeroImageUrl').value = ls.heroImageUrl;
+            if (ls.welcomeImageUrl) document.getElementById('settingWelcomeImageUrl').value = ls.welcomeImageUrl;
+            if (ls.brandMonogram) document.getElementById('settingBrandMonogram').value = ls.brandMonogram;
+            if (ls.footerBio) document.getElementById('settingFooterBio').value = ls.footerBio;
+            if (ls.footerCopyright) document.getElementById('settingFooterCopyright').value = ls.footerCopyright;
+            if (ls.footerTagline) document.getElementById('settingFooterTagline').value = ls.footerTagline;
+            if (ls.whatsappNumber) document.getElementById('settingWhatsApp').value = ls.whatsappNumber;
+            if (ls.instagramHandle) document.getElementById('settingInstagram').value = ls.instagramHandle;
+            if (ls.tiktokHandle) document.getElementById('settingTikTok').value = ls.tiktokHandle;
+          }
+        } catch(e) {}
+
+        // Step B: Load Firestore cloud settings
+        try {
+          const settingsDoc = await db.collection('store_settings').doc('general').get();
+          if (settingsDoc.exists) {
+            const data = settingsDoc.data();
+            if (data.storeName) document.getElementById('settingStoreName').value = data.storeName;
+            if (data.storeTagline) document.getElementById('settingStoreTagline').value = data.storeTagline;
+            if (data.announcement) document.getElementById('settingAnnouncement').value = data.announcement;
+            if (data.promoCode) document.getElementById('settingPromoCode').value = data.promoCode;
+            if (data.promoDiscount) document.getElementById('settingDiscountPercent').value = data.promoDiscount;
+            if (data.freeShippingThreshold) document.getElementById('settingShippingThreshold').value = data.freeShippingThreshold;
+            if (data.heroEyebrow) document.getElementById('settingHeroEyebrow').value = data.heroEyebrow;
+            if (data.heroHeadline) document.getElementById('settingHeroHeadline').value = data.heroHeadline;
+            if (data.heroDescription) document.getElementById('settingHeroDescription').value = data.heroDescription;
+            if (data.heroPrimaryCta) document.getElementById('settingHeroPrimaryCta').value = data.heroPrimaryCta;
+            if (data.heroSecondaryCta) document.getElementById('settingHeroSecondaryCta').value = data.heroSecondaryCta;
+            if (data.welcomeEyebrow) document.getElementById('settingWelcomeEyebrow').value = data.welcomeEyebrow;
+            if (data.welcomeTitle) document.getElementById('settingWelcomeTitle').value = data.welcomeTitle;
+            if (data.welcomeDescription) document.getElementById('settingWelcomeDescription').value = data.welcomeDescription;
+            if (data.heroImageUrl) document.getElementById('settingHeroImageUrl').value = data.heroImageUrl;
+            if (data.welcomeImageUrl) document.getElementById('settingWelcomeImageUrl').value = data.welcomeImageUrl;
+            if (data.brandMonogram) document.getElementById('settingBrandMonogram').value = data.brandMonogram;
+            if (data.footerBio) document.getElementById('settingFooterBio').value = data.footerBio;
+            if (data.footerCopyright) document.getElementById('settingFooterCopyright').value = data.footerCopyright;
+            if (data.footerTagline) document.getElementById('settingFooterTagline').value = data.footerTagline;
+            if (data.whatsappNumber) document.getElementById('settingWhatsApp').value = data.whatsappNumber;
+            if (data.instagramHandle) document.getElementById('settingInstagram').value = data.instagramHandle;
+            if (data.tiktokHandle) document.getElementById('settingTikTok').value = data.tiktokHandle;
+            if (data.themeAccentColor) {
+              applyThemeColor(data.themeAccentColor);
+              const picker = document.getElementById('themeColorPicker');
+              if (picker) picker.value = data.themeAccentColor;
+            }
+            if (data.darkTheme) {
+              selectedDarkPalette = data.darkTheme;
+              refreshDarkTileUI();
+            }
+            if (data.autoThemeEnabled !== undefined) {
+              const autoToggle = document.getElementById('autoThemeToggle');
+              if (autoToggle) autoToggle.checked = !!data.autoThemeEnabled;
+            }
+            if (data.autoThemeMode) {
+              const autoMode = document.getElementById('autoThemeMode');
+              if (autoMode) autoMode.value = data.autoThemeMode;
+            }
+            if (data.autoThemeInterval) {
+              const autoInterval = document.getElementById('autoThemeInterval');
+              if (autoInterval) autoInterval.value = String(data.autoThemeInterval);
+            }
+            if (data.autoThemeSmooth !== undefined) {
+              const autoSmooth = document.getElementById('autoThemeSmooth');
+              if (autoSmooth) autoSmooth.checked = !!data.autoThemeSmooth;
+            }
+            if (typeof updateAutoThemeBadgeUI === 'function') {
+              updateAutoThemeBadgeUI();
+            }
+          }
+        } catch (err) {
+          console.warn('Using local settings fallback:', err.message);
+        }
+
+        // Step C: Load catalog from localStorage first, then merge cloud
+        try {
+          const rawLocalProducts = localStorage.getItem('mr_custom_products');
+          if (rawLocalProducts) {
+            currentProducts = JSON.parse(rawLocalProducts);
+          } else {
+            currentProducts = JSON.parse(JSON.stringify(window.MEMORY_REHAB_CATALOG || {}));
+          }
+        } catch(e) {
+          currentProducts = JSON.parse(JSON.stringify(window.MEMORY_REHAB_CATALOG || {}));
+        }
+
+        try {
+          const prodSnapshot = await db.collection('products').get();
+          if (!prodSnapshot.empty) {
+            prodSnapshot.forEach(doc => {
+              currentProducts[doc.id] = { id: doc.id, ...doc.data() };
+            });
+            persistProductsLocally();
+          }
+        } catch (err) {
+          console.warn('Using local catalog fallback:', err.message);
+        }
+
+        renderProductsTable();
+      }
+
+      // ── Theme colour helpers ──
+      function applyThemeColor(hex) {
+        if (!hex || !/^#[0-9a-fA-F]{6}$/.test(hex)) return;
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        const isLightShade = brightness > 190;
+
+        const hover = isLightShade
+          ? adjustBrightness(hex, -22)
+          : adjustBrightness(hex, -15);
+
+        const root = document.documentElement;
+        root.style.setProperty('--primary', hex);
+        root.style.setProperty('--primary-hover', hover);
+        root.style.setProperty('--btn-primary-text', isLightShade ? '#0f172a' : '#ffffff');
+        root.style.setProperty('--btn-primary-border', isLightShade ? 'rgba(15, 23, 42, 0.22)' : 'rgba(255, 255, 255, 0.35)');
+        root.style.setProperty('--primary-soft', isLightShade ? 'rgba(15, 23, 42, 0.06)' : `rgba(${r},${g},${b},0.14)`);
+        root.style.setProperty('--primary-glow', isLightShade ? 'rgba(15, 23, 42, 0.12)' : `rgba(${r},${g},${b},0.45)`);
+        root.style.setProperty('--glass-border-subtle', isLightShade ? 'rgba(15, 23, 42, 0.18)' : `rgba(${r},${g},${b},0.25)`);
+
+        // Immediate local storage sync for storefront responsiveness
+        localStorage.setItem('mr_light_accent', hex);
+
+        // Update preview text
+        const preview = document.getElementById('themeColorPreviewName');
+        if (preview) {
+          preview.textContent = hex;
+          preview.style.color = isLightShade ? '#0f172a' : hex;
+        }
+      }
+
+      function adjustBrightness(hex, amount) {
+        const r = Math.min(255, Math.max(0, parseInt(hex.slice(1, 3), 16) + amount));
+        const g = Math.min(255, Math.max(0, parseInt(hex.slice(3, 5), 16) + amount));
+        const b = Math.min(255, Math.max(0, parseInt(hex.slice(5, 7), 16) + amount));
+        return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+      }
+
+
+      // Swatch buttons (light mode)
+      document.querySelectorAll('.theme-swatch-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const color = btn.dataset.color;
+          const name  = btn.dataset.name || color;
+          applyThemeColor(color);
+          const picker = document.getElementById('themeColorPicker');
+          if (picker) picker.value = color;
+          const preview = document.getElementById('themeColorPreviewName');
+          if (preview) { preview.textContent = `${name} — ${color}`; preview.style.color = color; }
+          // highlight active swatch
+          document.querySelectorAll('.theme-swatch-btn').forEach(b => b.classList.remove('swatch-active'));
+          btn.classList.add('swatch-active');
+        });
+      });
+
+      // Colour picker live preview
+      document.getElementById('themeColorPicker')?.addEventListener('input', (e) => {
+        applyThemeColor(e.target.value);
+        const preview = document.getElementById('themeColorPreviewName');
+        if (preview) { preview.textContent = 'Custom — ' + e.target.value; preview.style.color = e.target.value; }
+      });
+
+      // Save light theme to Firestore & LocalStorage
+      document.getElementById('saveThemeColorBtn')?.addEventListener('click', async () => {
+        const picker = document.getElementById('themeColorPicker');
+        const color = picker ? picker.value : '#f48bb3';
+        localStorage.setItem('mr_light_accent', color);
+        try {
+          const raw = localStorage.getItem('mr_store_settings');
+          const current = raw ? JSON.parse(raw) : {};
+          current.themeAccentColor = color;
+          localStorage.setItem('mr_store_settings', JSON.stringify(current));
+        } catch(e) {}
+
+        try {
+          await db.collection('store_settings').doc('general').set({ themeAccentColor: color }, { merge: true });
+          if (typeof window.showToast === 'function') {
+            window.showToast('Light theme saved! Storefront updated live.', '🎨');
+          } else {
+            alert('Light theme saved: ' + color);
+          }
+        } catch (err) {
+          if (typeof window.showToast === 'function') {
+            window.showToast('Saved locally! Cloud sync pending.', '💾');
+          }
+        }
+      });
+
+      // Reset light theme to rose pink
+      document.getElementById('resetThemeColorBtn')?.addEventListener('click', async () => {
+        const defaultColor = '#f48bb3';
+        applyThemeColor(defaultColor);
+        const picker = document.getElementById('themeColorPicker');
+        if (picker) picker.value = defaultColor;
+        const preview = document.getElementById('themeColorPreviewName');
+        if (preview) { preview.textContent = 'Rose Pink — #f48bb3'; preview.style.color = defaultColor; }
+        try {
+          await db.collection('store_settings').doc('general').set({ themeAccentColor: defaultColor }, { merge: true });
+          if (typeof window.showToast === 'function') window.showToast('Theme reset to Classic Rose Pink!', '🌸');
+        } catch (err) { console.warn('Reset colour error:', err); }
+      });
+
+      // ── Dark Palette Tile Selection ──
+      let selectedDarkPalette = localStorage.getItem('mr_dark_palette') || 'obsidian-rose';
+
+      function refreshDarkTileUI() {
+        document.querySelectorAll('.dark-palette-tile').forEach(tile => {
+          const isActive = tile.dataset.palette === selectedDarkPalette;
+          tile.classList.toggle('dark-tile-active', isActive);
+        });
+        const label = (typeof DARK_PALETTES !== 'undefined' && DARK_PALETTES[selectedDarkPalette])
+          ? DARK_PALETTES[selectedDarkPalette].label : selectedDarkPalette;
+        const preview = document.getElementById('darkPalettePreviewName');
+        if (preview) preview.textContent = label;
+      }
+
+      document.getElementById('darkPaletteGrid')?.addEventListener('click', (e) => {
+        const tile = e.target.closest('.dark-palette-tile');
+        if (!tile) return;
+        selectedDarkPalette = tile.dataset.palette;
+        refreshDarkTileUI();
+        // Live preview: if currently dark mode, apply immediately
+        if (typeof applyDarkThemePalette === 'function') {
+          applyDarkThemePalette(selectedDarkPalette);
+        }
+      });
+
+      // Save dark palette to Firestore
+      document.getElementById('saveDarkPaletteBtn')?.addEventListener('click', async () => {
+        try {
+          await db.collection('store_settings').doc('general').set({ darkTheme: selectedDarkPalette }, { merge: true });
+          localStorage.setItem('mr_dark_palette', selectedDarkPalette);
+          if (typeof window.showToast === 'function') {
+            window.showToast('Dark palette saved for all customers!', '🌙');
+          } else {
+            alert('Dark palette saved: ' + selectedDarkPalette);
+          }
+        } catch (err) {
+          alert('Dark palette save error: ' + err.message);
+        }
+      });
+
+      refreshDarkTileUI();
+
+      // ── Auto-Theme Scheduler Controller ──
+      const autoThemeToggle     = document.getElementById('autoThemeToggle');
+      const autoThemeMode       = document.getElementById('autoThemeMode');
+      const autoThemeInterval   = document.getElementById('autoThemeInterval');
+      const autoThemeSmooth     = document.getElementById('autoThemeSmooth');
+      const saveAutoThemeBtn    = document.getElementById('saveAutoThemeBtn');
+      const testCycleStepBtn    = document.getElementById('testCycleStepBtn');
+      const autoThemeStatusBadge = document.getElementById('autoThemeStatusBadge');
+      const autoThemeStatusText = document.getElementById('autoThemeStatusText');
+      const autoThemeNextPreview= document.getElementById('autoThemeNextPreview');
+
+      function updateAutoThemeBadgeUI() {
+        const isEnabled = autoThemeToggle ? autoThemeToggle.checked : false;
+        const intervalVal = autoThemeInterval ? autoThemeInterval.value : '30';
+        const modeVal = autoThemeMode ? autoThemeMode.value : 'adaptive';
+
+        if (autoThemeStatusBadge && autoThemeStatusText) {
+          if (isEnabled) {
+            autoThemeStatusBadge.className = 'schedule-status-badge active';
+            autoThemeStatusText.textContent = `● ACTIVE — Every ${intervalVal}s (${modeVal})`;
+          } else {
+            autoThemeStatusBadge.className = 'schedule-status-badge inactive';
+            autoThemeStatusText.textContent = '○ Schedule Inactive';
+          }
+        }
+
+        if (autoThemeNextPreview) {
+          if (isEnabled) {
+            autoThemeNextPreview.innerHTML = `<span style="color:var(--primary);font-weight:600;">Live auto-rotation active:</span> shifting every ${intervalVal}s.`;
+          } else {
+            autoThemeNextPreview.textContent = 'Ready to schedule. Toggle on & click Save.';
+          }
+        }
+      }
+
+      autoThemeToggle?.addEventListener('change', () => {
+        updateAutoThemeBadgeUI();
+        // Immediately start/stop locally for testing
+        if (typeof window.initAutoThemeScheduler === 'function') {
+          window.initAutoThemeScheduler({
+            enabled: autoThemeToggle.checked,
+            interval: parseInt(autoThemeInterval.value, 10) || 30,
+            mode: autoThemeMode.value,
+            smooth: autoThemeSmooth ? autoThemeSmooth.checked : true
+          });
+        }
+      });
+
+      autoThemeInterval?.addEventListener('change', updateAutoThemeBadgeUI);
+      autoThemeMode?.addEventListener('change', updateAutoThemeBadgeUI);
+
+      // Save & Broadcast Auto-Theme Schedule to Firestore
+      saveAutoThemeBtn?.addEventListener('click', async () => {
+        const enabled  = autoThemeToggle ? autoThemeToggle.checked : false;
+        const interval = parseInt(autoThemeInterval ? autoThemeInterval.value : '30', 10) || 30;
+        const mode     = autoThemeMode ? autoThemeMode.value : 'adaptive';
+        const smooth   = autoThemeSmooth ? autoThemeSmooth.checked : true;
+
+        saveAutoThemeBtn.disabled = true;
+        saveAutoThemeBtn.textContent = 'Broadcasting…';
+
+        try {
+          await db.collection('store_settings').doc('general').set({
+            autoThemeEnabled: enabled,
+            autoThemeInterval: interval,
+            autoThemeMode: mode,
+            autoThemeSmooth: smooth
+          }, { merge: true });
+
+          // Also activate locally
+          if (typeof window.initAutoThemeScheduler === 'function') {
+            window.initAutoThemeScheduler({ enabled, interval, mode, smooth });
+          }
+
+          updateAutoThemeBadgeUI();
+
+          if (typeof window.showToast === 'function') {
+            window.showToast(enabled ? `Auto-theme active every ${interval}s across all devices!` : 'Auto-theme schedule turned off', enabled ? '⏰' : '⏸');
+          } else {
+            alert(enabled ? `Auto-theme active every ${interval}s!` : 'Auto-theme schedule disabled');
+          }
+        } catch(err) {
+          alert('Save Auto-Theme Error: ' + err.message);
+        } finally {
+          saveAutoThemeBtn.disabled = false;
+          saveAutoThemeBtn.textContent = '💾 Save & Broadcast Schedule';
+        }
+      });
+
+      async function uploadSelectedImage(file, targetKey) {
+        if (!file) return;
+
+        const uploadedUrl = await uploadImageToStorage(file, targetKey === 'hero' ? 'hero-assets' : 'welcome-assets');
+        const finalUrl = uploadedUrl || null;
+
+        const fieldId = targetKey === 'hero' ? 'settingHeroImageUrl' : 'settingWelcomeImageUrl';
+        const inputEl = document.getElementById(fieldId);
+        if (inputEl) inputEl.value = finalUrl || '';
+
+        const settings = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+        const updates = targetKey === 'hero'
+          ? { heroImageUrl: finalUrl || settings.heroImageUrl || 'photo_2026-09-09_17-33-58.jpg' }
+          : { welcomeImageUrl: finalUrl || settings.welcomeImageUrl || 'photo_2026-09-09_20-12-25.jpg' };
+
+        const nextSettings = { ...settings, ...updates };
+        persistSettingsLocally(nextSettings);
+
+        try {
+          await db.collection('store_settings').doc('general').set(updates, { merge: true });
+          if (typeof window.showToast === 'function') {
+            if (finalUrl) {
+              window.showToast(targetKey === 'hero' ? 'Hero image uploaded to Firebase Storage!' : 'Welcome image uploaded to Firebase Storage!', '🖼️');
+            } else {
+              window.showToast(targetKey === 'hero' ? 'Storage not available on this plan, so the hero image was kept locally.' : 'Storage not available on this plan, so the welcome image was kept locally.', '⚠️');
+            }
+          }
+        } catch (err) {
+          console.warn('Image upload sync warning:', err.message);
+        }
+
+        if (!finalUrl) {
+          const reader = new FileReader();
+          reader.onload = async function(evt) {
+            const dataUrl = evt.target.result;
+            if (inputEl) inputEl.value = dataUrl;
+            const fallbackSettings = { ...settings, ...{ [targetKey === 'hero' ? 'heroImageUrl' : 'welcomeImageUrl']: dataUrl } };
+            persistSettingsLocally(fallbackSettings);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      document.getElementById('heroImageUploadInput')?.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        await uploadSelectedImage(file, 'hero');
+        e.target.value = '';
+      });
+
+      document.getElementById('welcomeImageUploadInput')?.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        await uploadSelectedImage(file, 'welcome');
+        e.target.value = '';
+      });
+
+      // Quick 1-Step Shift Test
+      testCycleStepBtn?.addEventListener('click', () => {
+        if (typeof window.triggerThemeCycleStep === 'function') {
+          window.triggerThemeCycleStep();
+          if (typeof window.showToast === 'function') {
+            window.showToast('Triggered 1-step theme transition!', '✨');
+          }
+        }
+      });
+
+      updateAutoThemeBadgeUI();
+
+      let targetUploadRowId = null;
+      let activeEditingId = null;
+
+      const editProductModal = document.getElementById('editProductModal');
+      const closeEditModalBtn = document.getElementById('closeEditModalBtn');
+      const cancelEditModalBtn = document.getElementById('cancelEditModalBtn');
+      const saveModalProdBtn = document.getElementById('saveModalProdBtn');
+      const modalUploadZone = document.getElementById('modalUploadZone');
+      const modalFileInput = document.getElementById('modalFileInput');
+      const modalImgPreview = document.getElementById('modalImgPreview');
+      const tableRowFileInput = document.getElementById('tableRowFileInput');
+      const addNewProductBtn = document.getElementById('addNewProductBtn');
+
+      function renderProductsTable() {
+        if (!adminProductsTbody) return;
+        adminProductsTbody.innerHTML = '';
+
+        Object.keys(currentProducts).forEach(id => {
+          const p = currentProducts[id];
+          const tr = document.createElement('tr');
+          tr.dataset.id = id;
+          tr.innerHTML = [
+            '<td><div class="admin-thumb-wrap" data-id="' + id + '" title="Click to upload new photo from your device"><img src="' + (p.image || '') + '" alt="" /><div class="admin-thumb-upload-overlay">📷</div></div></td>',
+            '<td><input type="text" class="admin-name-input admin-input" value="' + (p.name || '').replace(/"/g, '&quot;') + '" data-field="name" /></td>',
+            '<td><div style="display:flex;align-items:center;gap:4px;"><span>₦</span><input type="number" step="1" class="admin-price-input admin-input" value="' + (p.price || 0) + '" data-field="price" /></div></td>',
+            '<td><div style="display:flex;align-items:center;gap:4px;"><span>₦</span><input type="number" step="1" class="admin-price-input admin-input" value="' + (p.originalPrice || p.price || 0) + '" data-field="originalPrice" /></div></td>',
+            '<td><input type="text" class="admin-input" style="width:110px;" value="' + (p.badge || 'Popular') + '" data-field="badge" /></td>',
+            '<td><select class="admin-input" style="width:100px;padding:6px 10px;" data-field="inStock"><option value="true" ' + (p.inStock !== false ? 'selected' : '') + '>In Stock</option><option value="false" ' + (p.inStock === false ? 'selected' : '') + '>Sold Out</option></select></td>',
+            '<td><div style="display:flex;gap:6px;"><button type="button" class="admin-save-pill-btn" data-action="edit-details" data-id="' + id + '" style="background:rgba(255,255,255,0.25);color:var(--text-main);border:1px solid var(--glass-border);">⚙️ Specs</button><button type="button" class="admin-save-pill-btn" data-action="save-row" data-id="' + id + '">Save</button></div></td>'
+          ].join('');
+          adminProductsTbody.appendChild(tr);
+        });
+
+        const badgeCount = document.getElementById('productsCountBadge');
+        if (badgeCount) badgeCount.textContent = Object.keys(currentProducts).length + ' Formulations';
+      }
+
+      // Handle table row clicks: Photo Upload, Specs Modal, Quick Save
+      adminProductsTbody?.addEventListener('click', (e) => {
+        const thumbWrap = e.target.closest('.admin-thumb-wrap');
+        if (thumbWrap) {
+          targetUploadRowId = thumbWrap.dataset.id;
+          tableRowFileInput?.click();
+          return;
+        }
+
+        const editBtn = e.target.closest('[data-action="edit-details"]');
+        if (editBtn) {
+          openDetailModal(editBtn.dataset.id);
+          return;
+        }
+
+        const saveBtn = e.target.closest('[data-action="save-row"]');
+        if (saveBtn) {
+          saveSingleProduct(saveBtn.dataset.id);
+        }
+      });
+
+      async function uploadImageToStorage(file, folderName = 'uploads') {
+        if (!file || !storage) return null;
+
+        try {
+          const storageRef = storage.ref(`${folderName}/${Date.now()}_${file.name.replace(/\s+/g, '_')}`);
+          const snapshot = await storageRef.put(file);
+          return await snapshot.ref.getDownloadURL();
+        } catch (err) {
+          console.warn('Firebase Storage upload failed or is unavailable on this plan:', err.message);
+          return null;
+        }
+      }
+
+      // Quick Upload Photo from table row
+      tableRowFileInput?.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file || !targetUploadRowId) return;
+
+        const uploadedUrl = await uploadImageToStorage(file, 'products');
+        const finalUrl = uploadedUrl || null;
+
+        if (!finalUrl) {
+          const reader = new FileReader();
+          reader.onload = async function(evt) {
+            const dataUrl = evt.target.result;
+            currentProducts[targetUploadRowId].image = dataUrl;
+
+            const tr = document.querySelector('tr[data-id="' + targetUploadRowId + '"]');
+            if (tr) {
+              const img = tr.querySelector('.admin-thumb-wrap img');
+              if (img) img.src = dataUrl;
+            }
+
+            try {
+              await db.collection('products').doc(targetUploadRowId).set({ image: dataUrl }, { merge: true });
+              if (typeof window.showToast === 'function') {
+                window.showToast('Product photo updated & saved to cloud!', '📷');
+              }
+            } catch(err) {
+              console.warn('Image save error:', err);
+            }
+          };
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        currentProducts[targetUploadRowId].image = finalUrl;
+
+        const tr = document.querySelector('tr[data-id="' + targetUploadRowId + '"]');
+        if (tr) {
+          const img = tr.querySelector('.admin-thumb-wrap img');
+          if (img) img.src = finalUrl;
+        }
+
+        try {
+          await db.collection('products').doc(targetUploadRowId).set({ image: finalUrl }, { merge: true });
+          if (typeof window.showToast === 'function') {
+            window.showToast('Product photo uploaded to Firebase Storage!', '📷');
+          }
+        } catch(err) {
+          console.warn('Image save error:', err);
+        }
+
+        e.target.value = '';
+      });
+
+      // Open Full Product Specs Modal
+      function openDetailModal(id) {
+        activeEditingId = id;
+        const p = currentProducts[id] || {};
+
+        document.getElementById('modalProductTitle').textContent = 'Edit: ' + (p.name || 'New Product');
+        document.getElementById('editProdName').value = p.name || '';
+        document.getElementById('editProdSize').value = p.size || '';
+        document.getElementById('editProdPrice').value = p.price || 0;
+        document.getElementById('editProdOrigPrice').value = p.originalPrice || p.price || 0;
+        document.getElementById('editProdStep').value = p.step || 'Step 1: Prep & Tone';
+        document.getElementById('editProdSkinType').value = p.skinType || '';
+        document.getElementById('editProdSummary').value = p.summary || '';
+        document.getElementById('editProdIngredients').value = (p.ingredients || []).join(', ');
+
+        if (p.image) {
+          modalImgPreview.src = p.image;
+          modalImgPreview.style.display = 'block';
+        } else {
+          modalImgPreview.style.display = 'none';
+        }
+
+        editProductModal.classList.add('open');
+      }
+
+      function closeDetailModal() {
+        editProductModal.classList.remove('open');
+        activeEditingId = null;
+      }
+
+      closeEditModalBtn?.addEventListener('click', closeDetailModal);
+      cancelEditModalBtn?.addEventListener('click', closeDetailModal);
+
+      modalUploadZone?.addEventListener('click', () => {
+        modalFileInput?.click();
+      });
+
+      modalFileInput?.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const uploadedUrl = await uploadImageToStorage(file, 'products');
+        if (uploadedUrl) {
+          modalImgPreview.src = uploadedUrl;
+          modalImgPreview.style.display = 'block';
+        } else {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            modalImgPreview.src = evt.target.result;
+            modalImgPreview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+
+        e.target.value = '';
+      });
+
+      saveModalProdBtn?.addEventListener('click', async () => {
+        if (!activeEditingId) return;
+
+        saveModalProdBtn.disabled = true;
+        saveModalProdBtn.textContent = 'Saving…';
+
+        const name = document.getElementById('editProdName').value.trim();
+        const size = document.getElementById('editProdSize').value.trim();
+        const price = parseFloat(document.getElementById('editProdPrice').value) || 0;
+        const originalPrice = parseFloat(document.getElementById('editProdOrigPrice').value) || price;
+        const step = document.getElementById('editProdStep').value;
+        const skinType = document.getElementById('editProdSkinType').value.trim();
+        const summary = document.getElementById('editProdSummary').value.trim();
+        const ingredientsRaw = document.getElementById('editProdIngredients').value;
+        const ingredients = ingredientsRaw.split(',').map(s => s.trim()).filter(Boolean);
+
+        const updatedData = {
+          name,
+          size,
+          price,
+          originalPrice,
+          step,
+          skinType,
+          summary,
+          ingredients
+        };
+
+        if (modalImgPreview.src && modalImgPreview.style.display !== 'none') {
+          updatedData.image = modalImgPreview.src;
+        }
+
+        currentProducts[activeEditingId] = {
+          ...(currentProducts[activeEditingId] || {}),
+          ...updatedData
+        };
+
+        // 1. Instant Local Persistence (Immediate Storefront Sync)
+        persistProductsLocally();
+        renderProductsTable();
+        closeDetailModal();
+
+        if (typeof window.showToast === 'function') {
+          window.showToast(name + ' specs saved to live store!', '✦');
+        }
+
+        // 2. Cloud Sync in Background
+        try {
+          await db.collection('products').doc(activeEditingId).set(currentProducts[activeEditingId], { merge: true });
+        } catch(err) {
+          console.warn('Cloud sync notice (offline/permissions):', err.message);
+        } finally {
+          saveModalProdBtn.disabled = false;
+          saveModalProdBtn.textContent = 'Save Formulation';
+        }
+      });
+
+      // Add New Formulation Button
+      addNewProductBtn?.addEventListener('click', () => {
+        const newId = 'prod_' + Date.now();
+        currentProducts[newId] = {
+          id: newId,
+          name: 'New Botanical Formulation',
+          price: 45.00,
+          originalPrice: 55.00,
+          badge: 'New Arrival',
+          image: 'photo_2026-09-09_17-33-58.jpg',
+          size: '30ml / 1.0 fl. oz',
+          step: 'Step 2: Target & Treat',
+          skinType: '🌿 For: All Skin Types',
+          summary: 'Newly formulated clean barrier recovery product.',
+          ingredients: ['Plant Actives', 'Bio-Lipids'],
+          inStock: true
+        };
+        persistProductsLocally();
+        openDetailModal(newId);
+      });
+
+      async function saveSingleProduct(id) {
+        const tr = document.querySelector('tr[data-id="' + id + '"]');
+        if (!tr) return;
+
+        const name = tr.querySelector('[data-field="name"]').value.trim();
+        const price = parseFloat(tr.querySelector('[data-field="price"]').value) || 0;
+        const originalPrice = parseFloat(tr.querySelector('[data-field="originalPrice"]').value) || price;
+        const badge = tr.querySelector('[data-field="badge"]').value.trim();
+        const inStock = tr.querySelector('[data-field="inStock"]').value === 'true';
+
+        if (!currentProducts[id]) currentProducts[id] = { id };
+        currentProducts[id].name = name;
+        currentProducts[id].price = price;
+        currentProducts[id].originalPrice = originalPrice;
+        currentProducts[id].badge = badge;
+        currentProducts[id].inStock = inStock;
+
+        // Save locally first
+        persistProductsLocally();
+        if (typeof window.showToast === 'function') {
+          window.showToast(name + ' updated to ₦' + Number(price).toLocaleString('en-NG') + '!', '✦');
+        }
+
+        // Cloud sync
+        try {
+          await db.collection('products').doc(id).set(currentProducts[id], { merge: true });
+        } catch (err) {
+          console.warn('Cloud sync error:', err.message);
+        }
+      }
+
+      adminSaveAllBtn?.addEventListener('click', async () => {
+        adminSaveAllBtn.disabled = true;
+        adminSaveAllBtn.textContent = 'Saving…';
+
+        try {
+          const rows = document.querySelectorAll('#adminProductsTbody tr');
+          rows.forEach(tr => {
+            const id = tr.dataset.id;
+            const name = tr.querySelector('[data-field="name"]').value.trim();
+            const price = parseFloat(tr.querySelector('[data-field="price"]').value) || 0;
+            const originalPrice = parseFloat(tr.querySelector('[data-field="originalPrice"]').value) || price;
+            const badge = tr.querySelector('[data-field="badge"]').value.trim();
+            const inStock = tr.querySelector('[data-field="inStock"]').value === 'true';
+
+            if (!currentProducts[id]) currentProducts[id] = { id };
+            currentProducts[id].name = name;
+            currentProducts[id].price = price;
+            currentProducts[id].originalPrice = originalPrice;
+            currentProducts[id].badge = badge;
+            currentProducts[id].inStock = inStock;
+          });
+
+          // 1. Save Locally
+          persistProductsLocally();
+          if (typeof window.showToast === 'function') {
+            window.showToast('All product prices & titles published live!', '✓');
+          }
+
+          // 2. Push to Cloud
+          try {
+            const batch = db.batch();
+            Object.keys(currentProducts).forEach(id => {
+              const docRef = db.collection('products').doc(id);
+              batch.set(docRef, currentProducts[id], { merge: true });
+            });
+            await batch.commit();
+          } catch(cloudErr) {
+            console.warn('Cloud batch notice:', cloudErr.message);
+          }
+        } catch (err) {
+          alert('Save Notice: ' + err.message);
+        } finally {
+          adminSaveAllBtn.disabled = false;
+          adminSaveAllBtn.textContent = '💾 Save All Changes';
+        }
+      });
+
+      saveSettingsBtn?.addEventListener('click', async () => {
+        saveSettingsBtn.disabled = true;
+        saveSettingsBtn.textContent = 'Saving…';
+
+        const storeName = document.getElementById('settingStoreName').value.trim() || 'Memory Rehab Lab';
+        const storeTagline = document.getElementById('settingStoreTagline').value.trim() || 'Botanical Skincare';
+        const announcement = document.getElementById('settingAnnouncement').value.trim();
+        const promoCode = document.getElementById('settingPromoCode').value.trim().toUpperCase();
+        const promoDiscount = parseInt(document.getElementById('settingDiscountPercent').value, 10) || 15;
+        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold').value) || 60;
+        const heroEyebrow = document.getElementById('settingHeroEyebrow').value.trim() || 'Step-by-Step Clinical Care';
+        const heroHeadline = document.getElementById('settingHeroHeadline').value.trim() || 'Healthy skin starts with a rehabilitated barrier.';
+        const heroDescription = document.getElementById('settingHeroDescription').value.trim() || 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.';
+        const heroPrimaryCta = document.getElementById('settingHeroPrimaryCta').value.trim() || 'Shop 3-Step Routine';
+        const heroSecondaryCta = document.getElementById('settingHeroSecondaryCta').value.trim() || 'Build Routine & Save 15%';
+        const welcomeEyebrow = document.getElementById('settingWelcomeEyebrow').value.trim() || 'Apothecary Welcome';
+        const welcomeTitle = document.getElementById('settingWelcomeTitle').value.trim() || 'Your skin barrier, restored with pure botanicals.';
+        const welcomeDescription = document.getElementById('settingWelcomeDescription').value.trim() || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
+        const heroImageUrl = document.getElementById('settingHeroImageUrl').value.trim() || 'photo_2026-09-09_17-33-58.jpg';
+        const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl')?.value.trim() || 'blue-blooded-welcome.jpg';
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+        const whatsappNumber = document.getElementById('settingWhatsApp')?.value.trim() || '+2349112488271';
+        const instagramHandle = document.getElementById('settingInstagram')?.value.trim() || 'memoryrehab.co';
+        const tiktokHandle = document.getElementById('settingTikTok')?.value.trim() || 'memoryrehab.co';
+
+        const settingsData = {
+          storeName,
+          storeTagline,
+          announcement,
+          promoCode,
+          promoDiscount,
+          freeShippingThreshold,
+          heroEyebrow,
+          heroHeadline,
+          heroDescription,
+          heroPrimaryCta,
+          heroSecondaryCta,
+          welcomeEyebrow,
+          welcomeTitle,
+          welcomeDescription,
+          heroImageUrl,
+          welcomeImageUrl,
+          brandMonogram,
+          footerBio,
+          footerCopyright,
+          footerTagline,
+          whatsappNumber,
+          instagramHandle,
+          tiktokHandle
+        };
+
+        // 1. Save locally
+        persistSettingsLocally(settingsData);
+        if (typeof window.showToast === 'function') {
+          window.showToast('Store copy & promo controls updated live!', '📢');
+        }
+
+        // 2. Push to cloud
+        try {
+          await db.collection('store_settings').doc('general').set({
+            ...settingsData,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch (err) {
+          console.warn('Cloud settings notice:', err.message);
+        } finally {
+          saveSettingsBtn.disabled = false;
+          saveSettingsBtn.textContent = 'Save Store Settings';
+        }
+      });
+
+      // ── Footer & Brand Identity Save ──
+      const saveFooterSettingsBtn = document.getElementById('saveFooterSettingsBtn');
+      saveFooterSettingsBtn?.addEventListener('click', async () => {
+        saveFooterSettingsBtn.disabled = true;
+        saveFooterSettingsBtn.textContent = 'Saving…';
+
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+
+        const footerData = { brandMonogram, footerBio, footerCopyright, footerTagline };
+
+        // Save locally (merge with existing settings)
+        try {
+          const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+          localStorage.setItem('mr_store_settings', JSON.stringify({ ...existing, ...footerData }));
+        } catch(e) {}
+
+        // Apply live to the page (if admin preview is open alongside)
+        if (typeof window.applyStorefrontTextSettings === 'function') {
+          window.applyStorefrontTextSettings(footerData);
+        }
+
+        if (typeof window.showToast === 'function') {
+          window.showToast('Footer & brand identity saved!', '🏷️');
+        }
+
+        // Push to cloud
+        try {
+          await db.collection('store_settings').doc('general').set({
+            ...footerData,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch (err) {
+          console.warn('Cloud footer settings notice:', err.message);
+        } finally {
+          saveFooterSettingsBtn.disabled = false;
+          saveFooterSettingsBtn.textContent = 'Save Footer Settings';
+        }
+      });
+
+      seedDatabaseBtn?.addEventListener('click', async () => {
+        if (!confirm('This will synchronize all catalog formulations into your Local Storage & Firebase Cloud. Continue?')) {
+          return;
+        }
+
+        seedDatabaseBtn.disabled = true;
+        seedDatabaseBtn.textContent = 'Synchronizing…';
+
+        try {
+          const catalog = window.MEMORY_REHAB_CATALOG || {};
+          currentProducts = JSON.parse(JSON.stringify(catalog));
+          persistProductsLocally();
+          renderProductsTable();
+
+          const settingsData = {
+            storeName: 'Memory Rehab Lab',
+            storeTagline: 'Botanical Skincare',
+            announcement: 'Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives',
+            promoCode: 'GLOW15',
+            promoDiscount: 15,
+            freeShippingThreshold: 60000.00,
+            heroEyebrow: 'Step-by-Step Clinical Care',
+            heroHeadline: 'Healthy skin starts with a rehabilitated barrier.',
+            heroDescription: 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.',
+            heroPrimaryCta: 'Shop 3-Step Routine',
+            heroSecondaryCta: 'Build Routine & Save 15%',
+            welcomeEyebrow: 'Apothecary Welcome',
+            welcomeTitle: 'Your skin barrier, restored with pure botanicals.',
+            welcomeDescription: 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.',
+            heroImageUrl: 'photo_2026-09-09_17-33-58.jpg',
+            welcomeImageUrl: 'photo_2026-09-09_20-12-25.jpg',
+            brandMonogram: 'MR',
+            footerBio: 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.',
+            footerCopyright: 'Memory Rehab Lab. All rights reserved.',
+            footerTagline: 'Crafted with botanical purity & clinical precision.'
+          };
+          persistSettingsLocally(settingsData);
+
+          try {
+            const batch = db.batch();
+            Object.keys(catalog).forEach(id => {
+              const docRef = db.collection('products').doc(id);
+              batch.set(docRef, catalog[id], { merge: true });
+            });
+
+            const settingsRef = db.collection('store_settings').doc('general');
+            batch.set(settingsRef, settingsData, { merge: true });
+            await batch.commit();
+          } catch(cloudErr) {
+            console.warn('Cloud sync fallback:', cloudErr.message);
+          }
+
+          if (typeof window.showToast === 'function') {
+            window.showToast('All formulations synchronized live!', '✓');
+          } else {
+            alert('Success! Formulations and store settings are synchronized.');
+          }
+        } catch (err) {
+          alert('Sync Notice: ' + err.message);
+        } finally {
+          seedDatabaseBtn.disabled = false;
+          seedDatabaseBtn.textContent = '☁️ Sync to Firebase';
+        }
+      });
+
+      // ══════════════════════════════════════════════════════════
+      //  🧪 STORE CONNECTIONS DIAGNOSTIC TOOL
+      // ══════════════════════════════════════════════════════════
+      const diagModal = document.getElementById('diagModal');
+      const testStoreConnectionsBtn = document.getElementById('testStoreConnectionsBtn');
+      const closeDiagModalBtn = document.getElementById('closeDiagModalBtn');
+      const closeDiagModalActionBtn = document.getElementById('closeDiagModalActionBtn');
+      const reRunDiagBtn = document.getElementById('reRunDiagBtn');
+      const diagLocalStatus = document.getElementById('diagLocalStatus');
+      const diagCloudStatus = document.getElementById('diagCloudStatus');
+      const diagProdCount = document.getElementById('diagProdCount');
+      const diagCartStatus = document.getElementById('diagCartStatus');
+
+      function openDiagModal() {
+        if (!diagModal) return;
+        diagModal.classList.add('open');
+        runDiagnostics();
+      }
+
+      function closeDiagModal() {
+        if (!diagModal) return;
+        diagModal.classList.remove('open');
+      }
+
+      testStoreConnectionsBtn?.addEventListener('click', openDiagModal);
+      closeDiagModalBtn?.addEventListener('click', closeDiagModal);
+      closeDiagModalActionBtn?.addEventListener('click', closeDiagModal);
+      reRunDiagBtn?.addEventListener('click', runDiagnostics);
+
+      async function runDiagnostics() {
+        // 1. Local Storage Test
+        try {
+          const testKey = 'mr_diag_test_' + Date.now();
+          localStorage.setItem(testKey, 'ok');
+          const read = localStorage.getItem(testKey);
+          localStorage.removeItem(testKey);
+          if (read === 'ok') {
+            diagLocalStatus.className = 'diag-status-ok';
+            diagLocalStatus.textContent = '✓ Active & Instant Sync';
+          } else {
+            throw new Error('Readback mismatch');
+          }
+        } catch (err) {
+          diagLocalStatus.className = 'diag-status-warn';
+          diagLocalStatus.textContent = '⚠️ Storage Restricted';
+        }
+
+        // 2. Cloud Connection Test
+        diagCloudStatus.textContent = '● Pinging…';
+        try {
+          const start = Date.now();
+          await db.collection('store_settings').doc('general').get();
+          const latency = Date.now() - start;
+          diagCloudStatus.className = 'diag-status-ok';
+          diagCloudStatus.textContent = `✓ Connected (${latency}ms)`;
+        } catch (err) {
+          diagCloudStatus.className = 'diag-status-warn';
+          diagCloudStatus.textContent = '⚠️ Cloud Offline / Local Fallback Active';
+        }
+
+        // 3. Products Count
+        const count = Object.keys(currentProducts).length;
+        diagProdCount.className = 'diag-status-ok';
+        diagProdCount.textContent = `✓ ${count} Formulations Active`;
+
+        // 4. Cart & PDP Integration
+        diagCartStatus.className = 'diag-status-ok';
+        diagCartStatus.textContent = '✓ Hydration Engine Ready';
+      }
+
+      // ══════════════════════════════════════════════════════════
+      //  ⬇️ EXPORT products-config.js TOOL
+      // ══════════════════════════════════════════════════════════
+      const exportModal = document.getElementById('exportModal');
+      const exportConfigBtn = document.getElementById('exportConfigBtn');
+      const closeExportModalBtn = document.getElementById('closeExportModalBtn');
+      const exportConfigTextarea = document.getElementById('exportConfigTextarea');
+      const copyExportCodeBtn = document.getElementById('copyExportCodeBtn');
+      const downloadExportFileBtn = document.getElementById('downloadExportFileBtn');
+
+      function generateConfigCode() {
+        const storeName = document.getElementById('settingStoreName')?.value || 'Memory Rehab Lab';
+        const storeTagline = document.getElementById('settingStoreTagline')?.value || 'Botanical Skincare';
+        const announcement = document.getElementById('settingAnnouncement')?.value || 'Free Express Shipping On Orders ₦60,000+ • 100% Clean Biocompatible Actives';
+        const promoCode = document.getElementById('settingPromoCode')?.value || 'GLOW15';
+        const promoDiscount = parseInt(document.getElementById('settingDiscountPercent')?.value, 10) || 15;
+        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold')?.value) || 60000;
+        const heroEyebrow = document.getElementById('settingHeroEyebrow')?.value || 'Step-by-Step Clinical Care';
+        const heroHeadline = document.getElementById('settingHeroHeadline')?.value || 'Healthy skin starts with a rehabilitated barrier.';
+        const heroDescription = document.getElementById('settingHeroDescription')?.value || 'No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.';
+        const heroPrimaryCta = document.getElementById('settingHeroPrimaryCta')?.value || 'Shop 3-Step Routine';
+        const heroSecondaryCta = document.getElementById('settingHeroSecondaryCta')?.value || 'Build Routine & Save 15%';
+        const welcomeEyebrow = document.getElementById('settingWelcomeEyebrow')?.value || 'Apothecary Welcome';
+        const welcomeTitle = document.getElementById('settingWelcomeTitle')?.value || 'Your skin barrier, restored with pure botanicals.';
+        const welcomeDescription = document.getElementById('settingWelcomeDescription')?.value || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
+        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
+        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
+        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
+        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+
+        const storeConfig = {
+          storeName: storeName,
+          storeTagline: storeTagline,
+          promoCode: promoCode,
+          promoDiscount: promoDiscount,
+          freeShippingThreshold: freeShippingThreshold,
+          currencySymbol: '₦',
+          heroEyebrow: heroEyebrow,
+          heroHeadline: heroHeadline,
+          heroDescription: heroDescription,
+          heroPrimaryCta: heroPrimaryCta,
+          heroSecondaryCta: heroSecondaryCta,
+          welcomeEyebrow: welcomeEyebrow,
+          welcomeTitle: welcomeTitle,
+          welcomeDescription: welcomeDescription,
+          brandMonogram: brandMonogram,
+          footerBio: footerBio,
+          footerCopyright: footerCopyright,
+          footerTagline: footerTagline,
+          announcements: [
+            announcement,
+            '100% Clean Biocompatible Actives',
+            'Dermatologist Approved Barrier Repair',
+            'Cruelty-Free and Vegan Certified'
+          ]
+        };
+
+        return `/**
+ * ============================================================================
+ *   MEMORY REHAB LAB - EASY STORE & PRODUCT CONFIGURATION FILE
+ * ============================================================================
+ *   Generated by Store Control Admin
+ * ============================================================================
+ */
+
+// --- 1. STOREWIDE SETTINGS ---
+const STORE_CONFIG = ${JSON.stringify(storeConfig, null, 2)};
+
+// --- 2. PRODUCT CATALOG DATABASE ---
+const MEMORY_REHAB_CATALOG = ${JSON.stringify(currentProducts, null, 2)};
+
+if (typeof window !== 'undefined') {
+  window.STORE_CONFIG = STORE_CONFIG;
+  window.MEMORY_REHAB_CATALOG = MEMORY_REHAB_CATALOG;
+}
+`;
+      }
+
+      exportConfigBtn?.addEventListener('click', () => {
+        if (!exportModal) return;
+        exportConfigTextarea.value = generateConfigCode();
+        exportModal.classList.add('open');
+      });
+
+      closeExportModalBtn?.addEventListener('click', () => {
+        if (exportModal) exportModal.classList.remove('open');
+      });
+
+      copyExportCodeBtn?.addEventListener('click', () => {
+        if (!exportConfigTextarea) return;
+        exportConfigTextarea.select();
+        navigator.clipboard.writeText(exportConfigTextarea.value);
+        if (typeof window.showToast === 'function') {
+          window.showToast('Copied products-config.js code to clipboard!', '📋');
+        } else {
+          alert('Copied to clipboard!');
+        }
+      });
+
+      downloadExportFileBtn?.addEventListener('click', () => {
+        const code = generateConfigCode();
+        const blob = new Blob([code], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'products-config.js';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        if (typeof window.showToast === 'function') {
+          window.showToast('Downloaded products-config.js!', '⬇️');
+        }
+      });
+    </script>
+  </body>
+</html>

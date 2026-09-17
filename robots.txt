@@ -1,0 +1,10 @@
+# ==========================================
+# Robots.txt for Memory Rehab Lab
+# Instructs Googlebot and all search engines to crawl and index the store
+# ==========================================
+
+User-agent: *
+Allow: /
+
+# Sitemap Index (Replace https://memoryrehab.co with your deployed domain, e.g. https://memory-rehab-lab.web.app)
+Sitemap: https://memoryrehab.co/sitemap.xml

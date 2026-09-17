@@ -1,0 +1,230 @@
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.site-footer {
+  margin-top: 80px;
+  border-top: 1px solid var(--glass-border-subtle);
+  padding: 60px 0 30px;
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.footer-top-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 992px) {
+  .footer-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 599px) {
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.footer-brand-info p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-top: 14px;
+  max-width: 320px;
+  line-height: 1.7;
+}
+
+.footer-nav-col h4 {
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-main);
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.footer-nav-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-nav-col a {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.footer-nav-col a:hover {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+.footer-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--glass-border);
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.replay-intro-btn {
+  font-size: 0.8rem;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOCIAL MEDIA & WHATSAPP INTEGRATION (+234 911 248 8271, @memoryrehab.co)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Footer Social Icons Row */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.footer-social-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.footer-social-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.footer-social-pill.wa-pill:hover {
+  color: #25d366;
+  border-color: #25d366;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+}
+
+.footer-social-pill.ig-pill:hover {
+  color: #e1306c;
+  border-color: #e1306c;
+  box-shadow: 0 4px 16px rgba(225, 48, 108, 0.35);
+}
+
+.footer-social-pill.tt-pill:hover {
+  color: #00f2fe;
+  border-color: #00f2fe;
+  box-shadow: 0 4px 16px rgba(0, 242, 254, 0.35);
+}
+
+/* WhatsApp Order Button in Cart Drawer */
+.whatsapp-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px 18px;
+  border-radius: var(--radius-full);
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+[data-theme="dark"] .whatsapp-cart-btn,
+.dark-mode .whatsapp-cart-btn {
+  background: rgba(37, 211, 102, 0.18);
+  border-color: rgba(37, 211, 102, 0.5);
+  color: #4ade80;
+}
+
+.whatsapp-cart-btn:hover {
+  background: rgba(37, 211, 102, 0.22);
+  border-color: #25d366;
+  transform: translateY(-1px);
+}
+
+/* Floating Glassmorphic WhatsApp Support Button */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 95;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #ffffff !important;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4), var(--glass-shine);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, filter 0.2s ease;
+  text-decoration: none !important;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(37, 211, 102, 0.55), 0 0 24px rgba(37, 211, 102, 0.45);
+  filter: brightness(1.05);
+  color: #ffffff !important;
+}
+
+.floating-whatsapp-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.whatsapp-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: inline-block;
+  animation: waPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes waPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.35; }
+}
+
+@media (max-width: 480px) {
+  .floating-whatsapp-btn {
+    bottom: 16px;
+    right: 14px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    gap: 7px;
+  }
+}

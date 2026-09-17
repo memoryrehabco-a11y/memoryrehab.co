@@ -1,0 +1,143 @@
+/* ==========================================================================
+   MEMORY REHAB LAB - LUXURY GLASSMORPHISM & HELLO BUBBLE DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  /* --- LIGHT MODE (Pastel Pink Sanctuary) --- */
+  --bg-base: #fff7fa;
+  --bg-gradient: radial-gradient(circle at 15% 15%, rgba(254, 215, 226, 0.65) 0%, transparent 45%),
+                 radial-gradient(circle at 85% 20%, rgba(252, 231, 243, 0.7) 0%, transparent 50%),
+                 radial-gradient(circle at 50% 80%, rgba(255, 228, 236, 0.6) 0%, transparent 60%),
+                 linear-gradient(145deg, #ffffff 0%, #fff5f8 40%, #fdf2f7 100%);
+  
+  --text-main: #24111d;
+  --text-secondary: #5f3f4f;
+  --text-muted: #886274;
+  --text-inverse: #ffffff;
+
+  /* Brand Pastel Pink Accents */
+  --primary: #f48bb3;
+  --primary-hover: #ed73a1;
+  --primary-soft: rgba(244, 139, 179, 0.14);
+  --primary-glow: rgba(244, 139, 179, 0.45);
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: rgba(255, 255, 255, 0.35);
+  
+  --secondary: #ffccd9;
+  --accent-blush: #fce7f0;
+  --accent-gold: #f59e0b;
+  --accent-cyan: #38bdf8;
+  --success: #10b981;
+  --badge-bg: rgba(255, 255, 255, 0.88);
+
+  /* Glassmorphic Surfaces (Light) */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-card: rgba(255, 255, 255, 0.82);
+  --glass-card-hover: rgba(255, 255, 255, 0.96);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-border-subtle: rgba(244, 139, 179, 0.25);
+  --glass-shine: inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  --glass-blur: blur(14px);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 14px rgba(136, 56, 92, 0.06);
+  --shadow-md: 0 12px 32px rgba(136, 56, 92, 0.09);
+  --shadow-lg: 0 24px 60px rgba(136, 56, 92, 0.13);
+  --shadow-xl: 0 32px 72px rgba(136, 56, 92, 0.17);
+  --shadow-glow: 0 8px 32px rgba(244, 139, 179, 0.35);
+
+  /* Tokens */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --radius-2xl: 44px;
+  --radius-full: 9999px;
+  --container-width: 1240px;
+  --transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
+}
+
+/* Android / Mobile improvements */
+/* Prevent font autosizing on Android and iOS */
+html, body, input, button, textarea {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Ensure media scale correctly */
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Target small touch devices (Android / phones) — apply only when Android detected */
+@media (min-width: 481px) and (max-width: 900px) and (pointer: coarse) {
+  body.platform-android {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  /* Hero and branding tweaks */
+  body.platform-android .hero-headline { font-size: clamp(1.8rem, 6.2vw, 2.8rem); }
+  body.platform-android .brand-title { font-size: 1rem; }
+  body.platform-android .brand-subtitle { font-size: 0.66rem; }
+
+  /* Navigation & actions */
+  body.platform-android .nav-links a { font-size: 0.86rem; }
+  body.platform-android .nav-actions { gap: 8px; }
+  body.platform-android .btn-primary, body.platform-android .btn-secondary { font-size: 0.88rem; padding: 0.7rem 1.2rem; }
+
+  /* Product grid — TWO columns on Android phones / touch devices */
+  body.platform-android .product-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  /* Compact some controls to fit touch interactions */
+  body.platform-android .cart-toggle-btn { padding: 6px 12px; font-size: 0.86rem; }
+  body.platform-android .cart-count-badge { min-width: 20px; height: 20px; font-size: 0.7rem; }
+}
+
+/* --- DARK MODE (Luxury Obsidian & Neon Rose) --- */
+[data-theme="dark"],
+.dark-mode {
+  --bg-base: #0a0c12;
+  --bg-gradient: radial-gradient(circle at 15% 15%, rgba(147, 51, 114, 0.28) 0%, transparent 45%),
+                 radial-gradient(circle at 85% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+                 radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.18) 0%, transparent 55%),
+                 linear-gradient(150deg, #07090e 0%, #0d1019 40%, #121422 100%);
+
+  --text-main: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #94a3b8;
+  --text-inverse: #0b0d13;
+
+  /* Brand Pastel Pink Accents (Gleaming in Dark) */
+  --primary: #f472b6;
+  --primary-hover: #ec4899;
+  --primary-soft: rgba(244, 114, 182, 0.18);
+  --primary-glow: rgba(244, 114, 182, 0.55);
+
+  --secondary: #3b2034;
+  --accent-blush: #1e1b2e;
+  --accent-gold: #fbbf24;
+  --accent-cyan: #38bdf8;
+  --success: #34d399;
+  --badge-bg: rgba(22, 27, 42, 0.9);
+
+  /* Glassmorphic Surfaces (Dark) */
+  --glass-bg: rgba(18, 22, 34, 0.74);
+  --glass-bg-hover: rgba(25, 31, 48, 0.88);
+  --glass-card: rgba(18, 23, 36, 0.78);
+  --glass-card-hover: rgba(25, 32, 51, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-subtle: rgba(244, 114, 182, 0.3);
+  --glass-shine: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+  --glass-blur: blur(16px);
+
+  /* Shadows (Dark Glow) */
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 14px 36px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.8);
+  --shadow-xl: 0 36px 84px rgba(0, 0, 0, 0.88);
+  --shadow-glow: 0 8px 35px rgba(244, 114, 182, 0.42);
+}
