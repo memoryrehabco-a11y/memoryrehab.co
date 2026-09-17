@@ -3,52 +3,123 @@
    ========================================================================== */
 
 /* Hero Section Container with Atmospheric Editorial Backdrop */
-/* Hero Section Container with Atmospheric Editorial Backdrop */
 .hero-section {
   position: relative;
   border-radius: var(--radius-2xl, 28px);
   overflow: hidden;
-  padding: 24px 24px 32px;
-  background: linear-gradient(135deg, rgba(254, 242, 244, 0.9) 0%, rgba(253, 235, 239, 0.75) 50%, rgba(245, 235, 255, 0.85) 100%);
+  padding: 36px 36px 44px;
+  background: linear-gradient(135deg, rgba(254, 242, 244, 0.92) 0%, rgba(253, 235, 239, 0.82) 48%, rgba(246, 236, 255, 0.88) 100%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-lg), var(--glass-shine);
   z-index: 1;
-  margin-bottom: 32px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  margin-bottom: 36px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 [data-theme="dark"] .hero-section,
 .dark-mode .hero-section {
-  background: linear-gradient(135deg, rgba(22, 16, 28, 0.92) 0%, rgba(28, 18, 34, 0.85) 50%, rgba(15, 20, 32, 0.92) 100%);
+  background: linear-gradient(135deg, rgba(22, 16, 28, 0.94) 0%, rgba(28, 18, 34, 0.88) 50%, rgba(15, 20, 32, 0.94) 100%);
 }
 
-.hero-billboard-wrapper {
+.hero-campaign-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-campaign-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  width: 100%;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  z-index: 3;
 }
 
-.billboard-top-row {
+.campaign-eyebrow-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 640px;
+  gap: 14px;
   flex-wrap: wrap;
-  gap: 12px;
+}
+
+/* Authentic Bold Bubbly Headline (Fredoka / Artwork Style) */
+.hero-barrier-title {
+  font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(2.4rem, 4.4vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--text-main, #0f172a);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+[data-theme="dark"] .hero-barrier-title {
+  color: #ffffff;
+  text-shadow: 0 4px 25px rgba(244, 114, 182, 0.3);
+}
+
+.hero-barrier-title .protocol-highlight {
+  color: var(--primary, #10b981);
+  background: linear-gradient(135deg, var(--primary, #10b981) 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.hero-barrier-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--text-secondary, #334155);
+  line-height: 1.45;
+  max-width: 520px;
+  margin: 0;
+}
+
+[data-theme="dark"] .hero-barrier-subtitle {
+  color: #e2e8f0;
+}
+
+.hero-barrier-desc {
+  font-size: 1.02rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0;
+}
+
+/* Campaign CTA Button */
+.hero-shop-now-cta {
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 13px 28px;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Right Column Visual: Campaign Billboard Card */
+.hero-campaign-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 3;
 }
 
 .hero-billboard-card {
   position: relative;
   width: 100%;
-  max-width: 620px;
+  max-width: 480px;
   aspect-ratio: 3 / 4;
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.4), 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.45), 0 8px 24px rgba(0, 0, 0, 0.08);
   border: 1.5px solid rgba(255, 255, 255, 0.85);
   background: #ecd5dc;
   animation: heroBillboardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -98,7 +169,6 @@
   touch-action: manipulation;
 }
 
-/* Generous tap boundary for comfortable touch precision */
 .hero-billboard-cta-hotspot::before {
   content: "";
   position: absolute;
@@ -107,7 +177,7 @@
 }
 
 .hero-billboard-cta-hotspot:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .hero-billboard-cta-hotspot:active {
@@ -120,7 +190,7 @@
   border-radius: inherit;
   overflow: hidden;
   pointer-events: none;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.65), 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7), 0 4px 16px rgba(0, 0, 0, 0.25);
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -152,35 +222,50 @@
   100% { left: 200%; }
 }
 
-.billboard-stats-bar {
-  max-width: 640px;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding-top: 20px;
-  border-top: 1px solid var(--glass-border-subtle);
-}
-
-.stat-item-action {
-  align-self: center;
-}
-
-@media (max-width: 600px) {
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
   .hero-section {
-    padding: 16px 12px 24px;
-    border-radius: 20px;
+    padding: 20px 16px 28px;
+    border-radius: 22px;
   }
-  .billboard-top-row {
+  .hero-campaign-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+  .hero-campaign-content {
+    align-items: center;
+    text-align: center;
+  }
+  .campaign-eyebrow-row {
     justify-content: center;
-    gap: 8px;
+  }
+  .hero-barrier-title,
+  .hero-barrier-subtitle {
+    display: none; /* In mobile viewport, barrier-reset-hero.jpg already renders these in high-def */
+  }
+  .hero-barrier-desc {
+    text-align: center;
+    font-size: 0.9rem;
+    max-width: 440px;
+  }
+  .hero-cta-group {
+    justify-content: center;
+    width: 100%;
+  }
+  .hero-stats-row {
+    justify-content: center;
+    gap: 20px;
+  }
+  .hero-campaign-visual {
+    width: 100%;
   }
   .hero-billboard-card {
-    max-width: 100%;
-    border-radius: 20px;
+    max-width: 440px;
+    margin: 0 auto;
   }
-  .billboard-stats-bar {
-    justify-content: center;
-    gap: 18px;
+  .floating-glass-badge {
+    display: none; /* Hide product card on phone to show the clean artwork */
   }
 }
 
