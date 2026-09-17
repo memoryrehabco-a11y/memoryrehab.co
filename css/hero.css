@@ -1,132 +1,41 @@
 /* ==========================================================================
-   HERO SECTION
+   HERO SECTION — HELLO BUBBLE FULL-CARD TAKEOVER
    ========================================================================== */
 
-/* Hero Section Container with Atmospheric Editorial Backdrop */
+/* Outer Hero Container */
 .hero-section {
   position: relative;
-  border-radius: var(--radius-2xl, 28px);
-  overflow: hidden;
-  padding: 36px 36px 44px;
-  background: linear-gradient(135deg, rgba(254, 242, 244, 0.92) 0%, rgba(253, 235, 239, 0.82) 48%, rgba(246, 236, 255, 0.88) 100%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg), var(--glass-shine);
-  z-index: 1;
-  margin-bottom: 36px;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-[data-theme="dark"] .hero-section,
-.dark-mode .hero-section {
-  background: linear-gradient(135deg, rgba(22, 16, 28, 0.94) 0%, rgba(28, 18, 34, 0.88) 50%, rgba(15, 20, 32, 0.94) 100%);
-}
-
-.hero-campaign-grid {
-  display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
-  align-items: center;
-  gap: 48px;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-campaign-content {
+  padding: 0 0 16px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 28px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  z-index: 3;
-}
-
-.campaign-eyebrow-row {
-  display: flex;
   align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Authentic Bold Bubbly Headline (Fredoka / Artwork Style) */
-.hero-barrier-title {
-  font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: clamp(2.4rem, 4.4vw, 4.2rem);
-  font-weight: 900;
-  line-height: 1.04;
-  letter-spacing: -0.01em;
-  color: var(--text-main, #0f172a);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-[data-theme="dark"] .hero-barrier-title {
-  color: #ffffff;
-  text-shadow: 0 4px 25px rgba(244, 114, 182, 0.3);
-}
-
-.hero-barrier-title .protocol-highlight {
-  color: var(--primary, #10b981);
-  background: linear-gradient(135deg, var(--primary, #10b981) 0%, #d946ef 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.hero-barrier-subtitle {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  font-weight: 700;
-  color: var(--text-secondary, #334155);
-  line-height: 1.45;
-  max-width: 520px;
-  margin: 0;
-}
-
-[data-theme="dark"] .hero-barrier-subtitle {
-  color: #e2e8f0;
-}
-
-.hero-barrier-desc {
-  font-size: 1.02rem;
-  color: var(--text-muted, #64748b);
-  line-height: 1.7;
-  max-width: 520px;
-  margin: 0;
-}
-
-/* Campaign CTA Button */
-.hero-shop-now-cta {
-  font-size: 0.92rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  padding: 13px 28px;
-  border-radius: 9999px;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-}
-
-/* Right Column Visual: Campaign Billboard Card */
-.hero-campaign-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 3;
-}
-
-.hero-billboard-card {
+/* The Div Card: Campaign Picture Takes Over 100% of the Card Surface */
+.hero-takeover-card {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: 620px;
   aspect-ratio: 3 / 4;
-  border-radius: 28px;
+  margin: 0 auto;
+  border-radius: var(--radius-2xl, 28px);
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.45), 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 0 !important;
+  background: #bf96a9;
   border: 1.5px solid rgba(255, 255, 255, 0.85);
-  background: #ecd5dc;
+  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.45), 0 8px 24px rgba(0, 0, 0, 0.08);
   animation: heroBillboardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  touch-action: manipulation;
 }
 
-[data-theme="dark"] .hero-billboard-card,
-.dark-mode .hero-billboard-card {
+[data-theme="dark"] .hero-takeover-card,
+.dark-mode .hero-takeover-card {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(244, 114, 182, 0.2);
   border-color: rgba(255, 255, 255, 0.18);
   background: #1e1524;
@@ -143,11 +52,78 @@
   }
 }
 
-.hero-billboard-img {
+/* The Picture Takes Over the Entire Div Card with Zero Insets */
+.hero-takeover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Hello Bubble-Style Floating Step Badge in Top-Left */
+.hero-floating-step-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.82);
+  color: #1e293b;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+[data-theme="dark"] .hero-floating-step-badge {
+  background: rgba(22, 16, 28, 0.85);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Hello Bubble-Style Floating Diagnostic Pill in Top-Right */
+.hero-floating-quiz-pill {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-dark, #065f46);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-floating-quiz-pill:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.28);
+  background: #ffffff;
+}
+
+[data-theme="dark"] .hero-floating-quiz-pill {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-color: rgba(52, 211, 153, 0.4);
 }
 
 /* Precision Interactive Hotspot over 'SHOP NOW' button (X: 6.2%..34.1%, Y: 87.9%..93.8%) */
@@ -222,52 +198,84 @@
   100% { left: 200%; }
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 900px) {
+/* Hello Bubble-Style Under-Banner Trust & Routine Strip */
+.hero-takeover-stats-bar {
+  max-width: 620px;
+  width: 100%;
+  margin: 16px auto 0;
+  padding: 14px 24px;
+  border-radius: 9999px;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.75));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .hero-takeover-stats-bar,
+.dark-mode .hero-takeover-stats-bar {
+  background: rgba(22, 16, 28, 0.85);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.hero-takeover-routine-pill {
+  padding: 9px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+/* Responsive Mobile Viewport */
+@media (max-width: 640px) {
   .hero-section {
-    padding: 20px 16px 28px;
+    padding: 0 0 12px;
+    margin-bottom: 20px;
+  }
+  .hero-takeover-card {
+    max-width: 100%;
     border-radius: 22px;
   }
-  .hero-campaign-grid {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 24px;
+  .hero-floating-step-badge {
+    top: 12px;
+    left: 12px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
   }
-  .hero-campaign-content {
-    align-items: center;
-    text-align: center;
+  .hero-floating-quiz-pill {
+    top: 12px;
+    right: 12px;
+    padding: 5px 12px;
+    font-size: 0.74rem;
   }
-  .campaign-eyebrow-row {
-    justify-content: center;
+  .hero-floating-quiz-pill .quiz-pill-sub {
+    display: none;
   }
-  .hero-barrier-title,
-  .hero-barrier-subtitle {
-    display: none; /* In mobile viewport, barrier-reset-hero.jpg already renders these in high-def */
+  .hero-takeover-stats-bar {
+    border-radius: 20px;
+    padding: 12px 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
-  .hero-barrier-desc {
-    text-align: center;
-    font-size: 0.9rem;
-    max-width: 440px;
-  }
-  .hero-cta-group {
-    justify-content: center;
+  .hero-takeover-stats-bar .stat-item-action {
     width: 100%;
+    text-align: center;
+    margin-top: 4px;
   }
-  .hero-stats-row {
-    justify-content: center;
-    gap: 20px;
-  }
-  .hero-campaign-visual {
+  .hero-takeover-routine-pill {
     width: 100%;
-  }
-  .hero-billboard-card {
-    max-width: 440px;
-    margin: 0 auto;
-  }
-  .floating-glass-badge {
-    display: none; /* Hide product card on phone to show the clean artwork */
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
   }
 }
+
 
 /* Editorial Hero Cover Banner (Picture First with Text Overlay) */
 .hero-banner-cover {

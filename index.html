@@ -322,101 +322,69 @@
     </header>
 
     <main>
-      <!-- Hero Section: Editorial Campaign Billboard (Hello Bubble & Artwork Hybrid) -->
+      <!-- Hero Section: Campaign Billboard Card (Hello Bubble Full-Card Takeover) -->
       <section class="hero-section container" id="hero">
-        <div class="hero-campaign-grid">
-          <!-- Left Column: Editorial Campaign Typography & Interactive CTAs -->
-          <div class="hero-campaign-content">
-            <div class="campaign-eyebrow-row">
-              <span class="eyebrow-badge holo-foil">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-                </svg>
-                Step-by-Step Clinical Care
-              </span>
-              <button type="button" class="hero-quiz-trigger-pill open-quiz-btn" id="heroQuizBtn" aria-label="Start Apothecary Skin Quiz">
-                <span>⚡ 60s Skin Diagnostic</span>
-                <span style="font-weight: 400; opacity: 0.85;">→ Match Routine</span>
-              </button>
-            </div>
+        <!-- The Div Card: Image Takes Over 100% of the Card Surface -->
+        <div class="hero-takeover-card holo-card-border" id="heroBillboard">
+          <img
+            src="barrier-reset-hero.jpg"
+            alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
+            class="hero-takeover-img"
+            width="768"
+            height="1024"
+            fetchpriority="high"
+          />
 
-            <!-- Authentic Bold Bubbly Headline (Fredoka Font matching the artwork) -->
-            <h1 class="hero-barrier-title">
-              BARRIER RESET<br />
-              <span class="protocol-highlight">PROTOCOL</span>
-            </h1>
+          <!-- Hello Bubble-Style Floating Step Indicator in Top-Left -->
+          <span class="hero-floating-step-badge holo-foil">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+            </svg>
+            Step-by-Step Clinical Care
+          </span>
 
-            <p class="hero-barrier-subtitle">
-              Because healthy skin starts with a rehabilitated barrier.
-            </p>
+          <!-- Hello Bubble-Style Floating Diagnostic Badge in Top-Right -->
+          <button
+            type="button"
+            class="hero-floating-quiz-pill open-quiz-btn"
+            id="heroQuizBtn"
+            aria-label="Start Apothecary Skin Quiz"
+          >
+            <span>⚡ 60s Diagnostic</span>
+            <span class="quiz-pill-sub">→ Match Routine</span>
+          </button>
 
-            <p class="hero-barrier-desc">
-              No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.
-            </p>
+          <!-- Precision Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
+          <a
+            href="#catalog"
+            class="hero-billboard-cta-hotspot"
+            id="heroShopNowBtn"
+            aria-label="Shop Barrier Reset Protocol"
+            title="Shop Barrier Reset Protocol"
+          >
+            <span class="hotspot-shimmer"></span>
+            <span class="sr-only">SHOP NOW</span>
+          </a>
+        </div>
 
-            <!-- Campaign Primary & Secondary CTAs -->
-            <div class="hero-cta-group">
-              <a href="#catalog" class="btn-primary hero-shop-now-cta" id="heroShopNowBtn">
-                SHOP NOW
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>
-              <a href="#bundle" class="btn-secondary">Build Routine &amp; Save 15%</a>
-            </div>
-
-            <!-- Live Clinical Trust Stats Strip -->
-            <div class="hero-stats-row">
-              <div class="stat-item">
-                <span class="stat-value">98%</span>
-                <span class="stat-label">Natural Actives</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-value">4.9 ★</span>
-                <span class="stat-label">Verified Ratings</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-value">25K+</span>
-                <span class="stat-label">Barriers Restored</span>
-              </div>
-            </div>
+        <!-- Clinical Trust & Routine Stats Bar (Hello Bubble Style Under-Banner Strip) -->
+        <div class="hero-stats-row hero-takeover-stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">98%</span>
+            <span class="stat-label">Natural Actives</span>
           </div>
-
-          <!-- Right Column: The Exact Campaign Billboard Image with Doodles & Interactive Hotspot -->
-          <div class="hero-campaign-visual">
-            <div class="hero-billboard-card holo-card-border" id="heroBillboard">
-              <img
-                src="barrier-reset-hero.jpg"
-                alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
-                class="hero-billboard-img"
-                width="768"
-                height="1024"
-                fetchpriority="high"
-              />
-              <!-- Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
-              <a
-                href="#catalog"
-                class="hero-billboard-cta-hotspot"
-                id="heroMobileShopHotspot"
-                aria-label="Shop Barrier Reset Protocol"
-                title="Shop Barrier Reset Protocol"
-              >
-                <span class="hotspot-shimmer"></span>
-                <span class="sr-only">SHOP NOW</span>
-              </a>
-
-              <!-- Floating Step 3 Hero Badge -->
-              <div class="floating-glass-badge">
-                <div class="badge-details">
-                  <h4>Faerie Dew™ Barrier Cream</h4>
-                  <span>Step 3 • Ceramides &amp; Raspberry Seed</span>
-                </div>
-                <a href="product.html?id=1" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;">
-                  View • ₦42,000
-                </a>
-              </div>
-            </div>
+          <div class="stat-item">
+            <span class="stat-value">4.9 ★</span>
+            <span class="stat-label">Verified Ratings</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">25K+</span>
+            <span class="stat-label">Barriers Restored</span>
+          </div>
+          <div class="stat-item stat-item-action">
+            <a href="#bundle" class="btn-secondary hero-takeover-routine-pill">
+              Build Routine &amp; Save 15% →
+            </a>
           </div>
         </div>
       </section>
