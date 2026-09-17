@@ -91,6 +91,12 @@ html {
     gap: 6px !important;
     text-decoration: none !important;
   }
+  .brand-logo-img {
+    height: 30px !important;
+    width: auto !important;
+    max-width: 80px !important;
+    transform-origin: center center !important;
+  }
   .brand-logo-icon {
     width: 32px !important;
     height: 32px !important;
@@ -537,8 +543,8 @@ html {
   .hero-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
   .hero-visual { order: -1; }
   .hero-glass-card { border-radius: 20px !important; overflow: hidden; }
-  .hero-image-wrap { height: 220px !important; overflow: hidden; border-radius: 0 !important; }
-  .hero-image-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; border-radius: 0 !important; }
+  .hero-image-wrap { height: 320px !important; overflow: hidden; border-radius: 14px !important; }
+  .hero-image-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center 25% !important; border-radius: 14px !important; }
   .hero-card-header { padding: 10px 12px 0 !important; flex-wrap: wrap; gap: 6px; }
   .floating-glass-badge { margin: 8px 12px 12px !important; padding: 8px 10px !important; flex-wrap: wrap; gap: 6px; }
   .badge-details h4 { font-size: 0.72rem !important; }

@@ -32,6 +32,52 @@
   flex-shrink: 0;
   white-space: nowrap;
   min-width: 0;
+  text-decoration: none;
+}
+
+/* Official Memory Rehab Brand Graphic Logo */
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  display: block;
+  transform-origin: left center;
+  transition: transform var(--transition-fast, 0.2s ease), opacity var(--transition-fast, 0.2s ease);
+}
+
+.brand-link:hover .brand-logo-img {
+  transform: scale(1.03);
+}
+
+/* Default Light Mode */
+.logo-light {
+  display: block;
+}
+.logo-dark {
+  display: none !important;
+}
+
+/* Dark Mode Switch */
+[data-theme="dark"] .logo-light,
+.dark-mode .logo-light {
+  display: none !important;
+}
+
+[data-theme="dark"] .logo-dark,
+.dark-mode .logo-dark {
+  display: block !important;
+}
+
+/* Footer & Drawer Sizing */
+.footer-brand-info .brand-logo-img {
+  height: 42px;
+  max-width: 140px;
+}
+
+.mobile-nav-brand .brand-logo-img {
+  height: 36px;
+  max-width: 120px;
 }
 
 .brand-logo-icon {

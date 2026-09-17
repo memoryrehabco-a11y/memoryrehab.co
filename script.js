@@ -676,7 +676,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Show on first visit
-  const welcomeDismissed = sessionStorage.getItem('mr_welcome_dismissed');
+  const urlParams = new URLSearchParams(window.location.search);
+  const welcomeDismissed = sessionStorage.getItem('mr_welcome_dismissed') || urlParams.has('nowelcome');
   if (!welcomeDismissed && faceWelcomeModal) {
     setTimeout(openFaceWelcome, 900);
   }

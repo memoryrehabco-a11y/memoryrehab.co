@@ -17,6 +17,12 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://memoryrehab.co/" />
 
+    <!-- Favicon & App Icons (Official Memory Rehab Botanical Leaves) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="favicon-192x192.png" />
+    <link rel="shortcut icon" href="favicon.png" />
+
     <!-- Google Search Console Verification Tag (Uncomment and paste your code after registering in GSC) -->
     <!-- <meta name="google-site-verification" content="PASTE_YOUR_GOOGLE_VERIFICATION_CODE_HERE" /> -->
 
@@ -54,7 +60,7 @@
           "url": "https://memoryrehab.co/",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://memoryrehab.co/photo_2026-09-09_20-12-25.jpg"
+            "url": "https://memoryrehab.co/brand-logo-light.png"
           },
           "description": "Clinical-grade botanical skincare formulations dedicated to skin barrier recovery and pH 5.5 biocompatibility."
         },
@@ -207,11 +213,9 @@
         </button>
 
         <a href="#hero" class="brand-link" aria-label="Memory Rehab Home">
-          <div class="brand-logo-icon">MR</div>
-          <div class="brand-info">
-            <span class="brand-title">Memory Rehab</span>
-            <span class="brand-subtitle">Botanical Skincare</span>
-          </div>
+          <img src="brand-logo-light.png" class="brand-logo-img logo-light" alt="Memory Rehab" width="934" height="441" />
+          <img src="brand-logo-dark.png" class="brand-logo-img logo-dark" alt="Memory Rehab" width="934" height="441" />
+          <span class="brand-title sr-only">Memory Rehab</span>
         </a>
 
         <nav aria-label="Primary Navigation">
@@ -309,6 +313,10 @@
     <main>
       <!-- Hero Section -->
       <section class="hero-section container" id="hero">
+        <div class="hero-section-bg" aria-hidden="true">
+          <img src="faerie-dew-hero.jpg" alt="" class="hero-bg-media" />
+          <div class="hero-bg-overlay"></div>
+        </div>
         <div class="hero-grid">
           <div class="hero-content">
             <span class="eyebrow-badge">
@@ -370,8 +378,10 @@
 
               <div class="hero-image-wrap">
                 <img
-                  src="photo_2026-09-09_17-33-58.jpg"
+                  src="faerie-dew-hero.jpg"
                   alt="Faerie Dew Barrier Repair Face Cream"
+                  width="682"
+                  height="1024"
                 />
                 <div class="floating-glass-badge">
                   <div class="badge-details">
@@ -1441,11 +1451,9 @@
         <div class="footer-top-grid">
           <div class="footer-brand-info">
             <div class="brand-link">
-              <div class="brand-logo-icon">MR</div>
-              <div class="brand-info">
-                <span class="brand-title">Memory Rehab</span>
-                <span class="brand-subtitle">Botanical Skincare</span>
-              </div>
+              <img src="brand-logo-light.png" class="brand-logo-img logo-light" alt="Memory Rehab" width="934" height="441" />
+              <img src="brand-logo-dark.png" class="brand-logo-img logo-dark" alt="Memory Rehab" width="934" height="441" />
+              <span class="brand-title sr-only">Memory Rehab</span>
             </div>
             <p>
               High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.
@@ -1600,11 +1608,9 @@
     <nav class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
       <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close menu">✕</button>
       <div class="mobile-nav-brand">
-        <div class="brand-logo-icon">MR</div>
-        <div>
-          <span class="brand-title" style="font-size: 0.95rem;">Memory Rehab</span>
-          <span class="brand-subtitle" style="display: block;">Botanical Skincare</span>
-        </div>
+        <img src="brand-logo-light.png" class="brand-logo-img logo-light" alt="Memory Rehab" width="934" height="441" />
+        <img src="brand-logo-dark.png" class="brand-logo-img logo-dark" alt="Memory Rehab" width="934" height="441" />
+        <span class="brand-title sr-only">Memory Rehab</span>
       </div>
       <ul class="mobile-nav-links">
         <li><a href="about.html">About & Services</a></li>

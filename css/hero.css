@@ -2,10 +2,67 @@
    HERO SECTION
    ========================================================================== */
 
+/* Hero Section Container with Atmospheric Editorial Backdrop */
 .hero-section {
-  padding: 16px 0 40px;
   position: relative;
+  border-radius: var(--radius-2xl, 28px);
+  overflow: hidden;
+  padding: 40px 36px 48px;
+  background: var(--glass-card);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg), var(--glass-shine);
   z-index: 1;
+  margin-bottom: 32px;
+}
+
+.hero-section-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-bg-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 85% 25%;
+  opacity: 0.22;
+  filter: blur(2px) saturate(120%);
+  transform: scale(1.05);
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="dark"] .hero-bg-media,
+.dark-mode .hero-bg-media {
+  opacity: 0.14;
+  filter: blur(2px) saturate(130%) brightness(0.85);
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 45%,
+    rgba(255, 255, 255, 0.4) 75%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+
+[data-theme="dark"] .hero-bg-overlay,
+.dark-mode .hero-bg-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(10, 12, 18, 0.95) 0%,
+    rgba(10, 12, 18, 0.85) 45%,
+    rgba(10, 12, 18, 0.45) 75%,
+    rgba(10, 12, 18, 0.15) 100%
+  );
 }
 
 /* Editorial Hero Cover Banner (Picture First with Text Overlay) */
@@ -212,6 +269,8 @@
   grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
   gap: 48px;
+  position: relative;
+  z-index: 5;
 }
 
 .hero-content {
@@ -219,6 +278,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+  position: relative;
+  z-index: 6;
 }
 
 .eyebrow-badge {
@@ -370,8 +431,9 @@
 
 .hero-image-wrap img {
   width: 100%;
-  height: 380px;
+  height: 420px;
   object-fit: cover;
+  object-position: center 25%;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
