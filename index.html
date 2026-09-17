@@ -322,53 +322,51 @@
     </header>
 
     <main>
-      <!-- Hero Section: 100vw Full-Bleed Expansive Banner (Zero Side Spaces) + Editorial Block Underneath -->
+      <!-- Hero Section: 100vw Full-Bleed Studio Stage (Zero Side Spaces, Unshrunk Centered Billboard) -->
       <section class="hero-section hero-fullbleed-wrapper" id="hero">
-        <!-- 1. The Full-Bleed Campaign Billboard Banner (Fills 100% of Screen Edge-to-Edge) -->
+        <!-- 1. The Full-Bleed Studio Stage Banner (Fills 100% of Screen Edge-to-Edge with Blush Pink) -->
         <div class="hero-banner-expanded" id="heroBillboard">
-          <picture class="hero-picture-fullbleed">
-            <source media="(min-width: 900px)" srcset="barrier-reset-hero-wide.jpg" />
-            <source media="(max-width: 899px)" srcset="barrier-reset-hero.jpg" />
+          <div class="hero-billboard-card-inner holo-card-border">
             <img
-              src="barrier-reset-hero-wide.jpg"
+              src="barrier-reset-hero.jpg"
               alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
               class="hero-banner-expanded-img"
-              width="1920"
-              height="800"
+              width="768"
+              height="1024"
               fetchpriority="high"
             />
-          </picture>
 
-          <!-- Hello Bubble-Style Floating Step Indicator in Top-Left -->
-          <span class="hero-floating-step-badge holo-foil">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-            </svg>
-            Step-by-Step Clinical Care
-          </span>
+            <!-- Hello Bubble-Style Floating Step Indicator in Top-Left -->
+            <span class="hero-floating-step-badge holo-foil">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+              </svg>
+              Step-by-Step Clinical Care
+            </span>
 
-          <!-- Hello Bubble-Style Floating Diagnostic Badge in Top-Right -->
-          <button
-            type="button"
-            class="hero-floating-quiz-pill open-quiz-btn"
-            id="heroQuizBtn"
-            aria-label="Start Apothecary Skin Quiz"
-          >
-            <span>⚡ 60s Diagnostic</span>
-            <span class="quiz-pill-sub">→ Match Routine</span>
-          </button>
+            <!-- Hello Bubble-Style Floating Diagnostic Badge in Top-Right -->
+            <button
+              type="button"
+              class="hero-floating-quiz-pill open-quiz-btn"
+              id="heroQuizBtn"
+              aria-label="Start Apothecary Skin Quiz"
+            >
+              <span>⚡ 60s Diagnostic</span>
+              <span class="quiz-pill-sub">→ Match Routine</span>
+            </button>
 
-          <!-- Precision Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
-          <a
-            href="#catalog"
-            class="hero-billboard-cta-hotspot"
-            id="heroShopNowBtn"
-            aria-label="Shop Barrier Reset Protocol"
-            title="Shop Barrier Reset Protocol"
-          >
-            <span class="hotspot-shimmer"></span>
-            <span class="sr-only">SHOP NOW</span>
-          </a>
+            <!-- Precision Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
+            <a
+              href="#catalog"
+              class="hero-billboard-cta-hotspot"
+              id="heroShopNowBtn"
+              aria-label="Shop Barrier Reset Protocol"
+              title="Shop Barrier Reset Protocol"
+            >
+              <span class="hotspot-shimmer"></span>
+              <span class="sr-only">SHOP NOW</span>
+            </a>
+          </div>
         </div>
 
         <!-- 2. Editorial Clinical Story & Action Block (Positioned Under the Banner) -->
