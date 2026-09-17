@@ -234,7 +234,7 @@ function parseJsonBody(req) {
   });
 }
 
-const server = http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   // CORS Preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
@@ -522,8 +522,15 @@ const server = http.createServer(async (req, res) => {
   });
 
   fs.createReadStream(filePath).pipe(res);
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`Memory Rehab standalone server running at http://localhost:${PORT}`);
-});
+const server = http.createServer(handleRequest);
+
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`Memory Rehab standalone server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = handleRequest;
+
