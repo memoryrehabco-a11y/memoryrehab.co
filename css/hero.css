@@ -20,7 +20,7 @@
   align-items: center;
 }
 
-/* 1. The Full-Bleed Studio Stage Banner (Fills 100% from Edge to Edge) */
+/* 1. The Full-Bleed Campaign Billboard Banner (Fills 100% from Edge to Edge) */
 .hero-banner-expanded {
   position: relative;
   width: 100% !important;
@@ -29,20 +29,17 @@
   border-radius: 0 0 40px 40px;
   overflow: hidden;
   padding: 0 !important;
-  background: linear-gradient(135deg, #cbb0bc 0%, #bf96a9 45%, #b48a9c 100%);
+  background: #bf96a9;
   border: none !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
   animation: heroBillboardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
   touch-action: manipulation;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 [data-theme="dark"] .hero-banner-expanded,
 .dark-mode .hero-banner-expanded {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(244, 114, 182, 0.2);
-  background: radial-gradient(ellipse at 50% 50%, rgba(191, 150, 169, 0.35) 0%, rgba(30, 21, 36, 0.9) 60%, #150e1c 100%);
+  background: #bf96a9;
 }
 
 @keyframes heroBillboardEntrance {
@@ -56,21 +53,17 @@
   }
 }
 
-/* Inner Billboard Card (Centered, Unshrunk Native 3:4 Presentation) */
-.hero-billboard-card-inner {
-  position: relative;
+/* The Picture Fills the Entire Banner Edge-to-Edge */
+.hero-picture-fullbleed {
+  display: block;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  height: 100%;
 }
 
 .hero-banner-expanded-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
   display: block;
 }
 
@@ -336,57 +329,25 @@
 /* Viewport Specific Rules for Banner Ratio & Hotspot */
 @media (min-width: 900px) {
   .hero-banner-expanded {
-    padding: 36px 24px !important;
-    min-height: 640px;
-    border-radius: 0 0 48px 48px;
+    aspect-ratio: 1920 / 960;
+    max-height: 85vh;
   }
-  .hero-billboard-card-inner {
-    height: clamp(580px, 80vh, 820px);
-    aspect-ratio: 3 / 4;
-    max-width: min(630px, 90vw);
-    margin: 0 auto;
-    border-radius: 32px;
-    border: 1.5px solid rgba(255, 255, 255, 0.88);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.5), 0 0 50px rgba(191, 150, 169, 0.35);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  .hero-banner-expanded-img {
+    object-position: center center;
   }
-  .hero-billboard-card-inner:hover {
-    transform: translateY(-3px) scale(1.008);
-    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.32), 0 0 0 1.5px rgba(255, 255, 255, 0.95), 0 0 65px rgba(191, 150, 169, 0.5);
-  }
-  .hero-floating-step-badge {
-    top: 20px;
-    left: 20px;
-  }
-  .hero-floating-quiz-pill {
-    top: 20px;
-    right: 20px;
-  }
-  /* Desktop Hotspot mapped over SHOP NOW in centered portrait card */
+  /* Desktop Hotspot mapped over SHOP NOW button on the left of wide banner */
   .hero-billboard-cta-hotspot {
-    left: 6.2%;
-    top: 87.9%;
-    width: 28%;
-    height: 6%;
+    left: 8.33%;
+    top: 63.54%;
+    width: 12.5%;
+    height: 6.88%;
   }
 }
 
 @media (max-width: 899px) {
   .hero-banner-expanded {
-    margin: 0 0 32px 0 !important;
-    padding: 0 !important;
-    border-radius: 0 0 32px 32px;
-    background: #bf96a9;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-  }
-  .hero-billboard-card-inner {
-    width: 100% !important;
-    max-width: 100% !important;
     aspect-ratio: 3 / 4;
     border-radius: 0 0 32px 32px;
-    border: none !important;
-    box-shadow: none !important;
-    margin: 0 !important;
   }
   .hero-floating-step-badge {
     top: 14px;
