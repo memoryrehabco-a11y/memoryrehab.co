@@ -26,9 +26,12 @@
     <link rel="stylesheet" href="css/modals.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/mobile-upgrade.css" />
+    <link rel="stylesheet" href="css/effects.css" />
 
   </head>
   <body>
+    <!-- Top Viewport Reading Progress Bar -->
+    <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
     <!-- Ambient glowing chromatic orbs -->
     <div class="ambient-container" aria-hidden="true">
       <div class="ambient-orb ambient-orb-1"></div>
@@ -51,6 +54,18 @@
           <a href="index.html" class="btn-secondary" style="padding: 6px 16px; font-size: 0.85rem;">
             ← Return to Store
           </a>
+          <!-- ASMR Web Audio Sound FX Toggle -->
+          <button
+            class="sound-toggle-btn"
+            id="soundToggleBtn"
+            type="button"
+            aria-label="Toggle sound effects"
+            title="Toggle sound effects"
+          >
+            <span class="sound-icon-on">🔊</span>
+            <span class="sound-icon-off" style="display: none;">🔇</span>
+          </button>
+
           <!-- Dark / Light Mode Glass Toggle -->
           <button
             class="theme-toggle-btn"
@@ -466,5 +481,14 @@
         }
       });
     </script>
+
+    <!-- Free Shipping Milestone Confetti Canvas -->
+    <canvas id="celebrationCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- Live Social Proof Activity Toast -->
+    <div id="socialProofToast" class="social-proof-toast" aria-live="polite"></div>
+
+    <!-- Award-Winning Super Effects Engine -->
+    <script src="super-effects.js"></script>
   </body>
 </html>

@@ -44,9 +44,12 @@
     <link rel="stylesheet" href="css/pdp.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/mobile-upgrade.css" />
+    <link rel="stylesheet" href="css/effects.css" />
 
   </head>
   <body>
+    <!-- Top Viewport Reading Progress Bar -->
+    <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
     <!-- Ambient glowing chromatic orbs -->
     <div class="ambient-container" aria-hidden="true">
       <div class="ambient-orb ambient-orb-1"></div>
@@ -122,6 +125,18 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
+          </button>
+
+          <!-- ASMR Web Audio Sound FX Toggle -->
+          <button
+            class="sound-toggle-btn"
+            id="soundToggleBtn"
+            type="button"
+            aria-label="Toggle sound effects"
+            title="Toggle sound effects"
+          >
+            <span class="sound-icon-on">🔊</span>
+            <span class="sound-icon-off" style="display: none;">🔇</span>
           </button>
 
           <!-- Dark / Light Mode Glass Toggle -->
@@ -851,6 +866,13 @@
         <li><a href="index.html#reviews" class="mobile-nav-link">Reviews</a></li>
         <li><a href="auth.html">My Account</a></li>
       </ul>
+      <div style="padding: 12px 20px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">ASMR Sound FX</span>
+        <button class="sound-toggle-btn" type="button" aria-label="Toggle sound effects">
+          <span class="sound-icon-on">🔊</span>
+          <span class="sound-icon-off" style="display: none;">🔇</span>
+        </button>
+      </div>
       <div class="mobile-nav-social">
         <a href="https://wa.me/2349112488271" target="_blank" rel="noopener noreferrer" style="color: #25d366;">☎ WhatsApp</a>
         <a href="https://instagram.com/memoryrehab.co" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
@@ -910,5 +932,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Free Shipping Milestone Confetti Canvas -->
+    <canvas id="celebrationCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- Live Social Proof Activity Toast -->
+    <div id="socialProofToast" class="social-proof-toast" aria-live="polite"></div>
+
+    <!-- Award-Winning Super Effects Engine -->
+    <script src="super-effects.js"></script>
   </body>
 </html>

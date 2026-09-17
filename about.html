@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/modals.css" />
     <link rel="stylesheet" href="css/mobile.css" />
     <link rel="stylesheet" href="css/mobile-upgrade.css" />
+    <link rel="stylesheet" href="css/effects.css" />
 
     <style>
       .about-page-hero{padding:40px 0 28px;text-align:center}
@@ -66,6 +67,8 @@
     </style>
   </head>
   <body>
+    <!-- Top Viewport Reading Progress Bar -->
+    <div class="scroll-progress-bar" id="scrollProgressBar" aria-hidden="true"></div>
     <div class="ambient-container" aria-hidden="true">
       <div class="ambient-orb ambient-orb-1"></div>
       <div class="ambient-orb ambient-orb-2"></div>
@@ -135,6 +138,17 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
+          </button>
+          <!-- ASMR Web Audio Sound FX Toggle -->
+          <button
+            class="sound-toggle-btn"
+            id="soundToggleBtn"
+            type="button"
+            aria-label="Toggle sound effects"
+            title="Toggle sound effects"
+          >
+            <span class="sound-icon-on">🔊</span>
+            <span class="sound-icon-off" style="display: none;">🔇</span>
           </button>
           <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle color theme">
             <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -321,6 +335,13 @@
         <li><a href="index.html#reviews" class="mobile-nav-link">Reviews</a></li>
         <li><a href="auth.html">My Account</a></li>
       </ul>
+      <div style="padding: 12px 20px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">ASMR Sound FX</span>
+        <button class="sound-toggle-btn" type="button" aria-label="Toggle sound effects">
+          <span class="sound-icon-on">🔊</span>
+          <span class="sound-icon-off" style="display: none;">🔇</span>
+        </button>
+      </div>
       <div class="mobile-nav-social">
         <a href="https://wa.me/2349112488271" target="_blank" rel="noopener noreferrer" style="color: #25d366;">☎ WhatsApp</a>
         <a href="https://instagram.com/memoryrehab.co" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
@@ -380,5 +401,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Free Shipping Milestone Confetti Canvas -->
+    <canvas id="celebrationCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- Live Social Proof Activity Toast -->
+    <div id="socialProofToast" class="social-proof-toast" aria-live="polite"></div>
+
+    <!-- Award-Winning Super Effects Engine -->
+    <script src="super-effects.js"></script>
   </body>
 </html>

@@ -146,6 +146,28 @@ html {
     transform: scale(1.05) !important;
     background: var(--primary-soft) !important;
   }
+  /* Sound toggle on mobile */
+  .sound-toggle-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    border-radius: 50% !important;
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-main) !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    font-size: 0.95rem !important;
+  }
+  @media (max-width: 460px) {
+    .header-inner .sound-toggle-btn {
+      display: none !important;
+    }
+  }
   /* Theme toggle restored on mobile / Android */
   .theme-toggle-btn {
     display: flex !important;

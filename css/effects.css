@@ -1,0 +1,652 @@
+/* ==========================================================================
+   MEMORY REHAB — AWWWARDS-GRADE VISUAL & INTERACTIVE EFFECTS
+   ========================================================================== */
+
+/* 1. TOP READING PROGRESS BAR */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary, #10b981), #06b6d4, #f59e0b);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6), 0 0 4px rgba(6, 182, 212, 0.4);
+}
+
+/* 2. SOUND TOGGLE BUTTON */
+.sound-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.7));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.5));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,0.06));
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  padding: 0;
+  margin: 0;
+}
+.sound-toggle-btn:hover {
+  transform: scale(1.08);
+  background: var(--primary-soft, rgba(16, 185, 129, 0.12));
+}
+.sound-toggle-btn:active {
+  transform: scale(0.94);
+}
+
+/* 3. 3D CARD PERSPECTIVE TILT & DYNAMIC RADIAL SPOTLIGHT */
+.product-card,
+.hero-glass-card,
+.bundle-step-card,
+.ritual-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease !important;
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card::before,
+  .hero-glass-card::before,
+  .bundle-step-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(16, 185, 129, 0.14),
+      rgba(6, 182, 212, 0.04) 40%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .product-card:hover::before,
+  .hero-glass-card:hover::before,
+  .bundle-step-card:hover::before {
+    opacity: 1;
+  }
+}
+
+/* 4. CLINICAL BEFORE & AFTER RECOVERY SLIDER */
+.before-after-section {
+  padding: 80px 0 60px;
+  position: relative;
+}
+
+.ba-wrapper {
+  background: var(--glass-card, rgba(255, 255, 255, 0.75));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.6));
+  border-radius: 28px;
+  padding: 44px 36px;
+  box-shadow: var(--shadow-lg, 0 16px 40px rgba(0,0,0,0.06));
+}
+
+.ba-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+
+.ba-header h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 8px 0 12px;
+  color: var(--text-main, #0f172a);
+}
+
+.ba-header p {
+  font-size: 0.95rem;
+  color: var(--text-secondary, #475569);
+  line-height: 1.6;
+}
+
+.ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 36px;
+  align-items: center;
+}
+
+.ba-slider-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 480px;
+  border-radius: 20px;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y;
+  cursor: ew-resize;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-subtle, rgba(0,0,0,0.08));
+  background: #000;
+}
+
+.ba-slider-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.ba-curtain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: clip-path;
+}
+
+.ba-badge-label {
+  position: absolute;
+  top: 18px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+
+.ba-badge-before {
+  left: 18px;
+  background: rgba(239, 68, 68, 0.85);
+  color: #fff;
+}
+
+.ba-badge-after {
+  right: 18px;
+  background: rgba(16, 185, 129, 0.9);
+  color: #fff;
+}
+
+.ba-handle-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.5), 0 0 8px rgba(16, 185, 129, 0.8);
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ba-handle-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--primary, #10b981);
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  border: 2px solid var(--primary, #10b981);
+  cursor: grab;
+  z-index: 6;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.ba-slider-container:active .ba-handle-button {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.ba-metrics-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ba-metric-card {
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-subtle, rgba(0,0,0,0.06));
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,0.04));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.ba-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md, 0 6px 16px rgba(0,0,0,0.08));
+}
+
+.ba-metric-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.ba-metric-val {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--primary, #10b981);
+}
+
+.ba-metric-days {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 0.06em;
+}
+
+.ba-metric-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #475569);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* 5. APOTHECARY SKIN QUIZ MODAL */
+.quiz-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+
+.quiz-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.quiz-modal-dialog {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.6));
+  border-radius: 28px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 32px 28px;
+  position: relative;
+}
+
+.quiz-modal-backdrop.open .quiz-modal-dialog {
+  transform: scale(1) translateY(0);
+}
+
+.quiz-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface-alt, #f1f5f9);
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: var(--text-main, #0f172a);
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 10;
+}
+.quiz-modal-close:hover {
+  transform: rotate(90deg);
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.quiz-progress-track {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.quiz-progress-step {
+  flex: 1;
+  height: 4px;
+  background: var(--border-subtle, #e2e8f0);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+.quiz-progress-step.active {
+  background: var(--primary, #10b981);
+}
+
+.quiz-step-container {
+  display: none;
+}
+.quiz-step-container.active {
+  display: block;
+  animation: quizStepFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes quizStepFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.quiz-header {
+  margin-bottom: 20px;
+}
+.quiz-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary, #10b981);
+  display: block;
+  margin-bottom: 4px;
+}
+.quiz-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+.quiz-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary, #475569);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.quiz-options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.quiz-card-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--surface-alt, #f8fafc);
+  border: 1.5px solid var(--border-subtle, #e2e8f0);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  width: 100%;
+}
+.quiz-card-btn:hover {
+  border-color: var(--primary, #10b981);
+  background: var(--primary-soft, rgba(16, 185, 129, 0.08));
+  transform: translateX(4px);
+}
+.quiz-card-btn.selected {
+  border-color: var(--primary, #10b981);
+  background: var(--primary-soft, rgba(16, 185, 129, 0.12));
+  box-shadow: 0 0 0 2px var(--primary, #10b981);
+}
+
+.quiz-card-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--surface, #ffffff);
+  box-shadow: var(--shadow-sm, 0 2px 6px rgba(0,0,0,0.05));
+}
+.quiz-card-text strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text-main, #0f172a);
+}
+.quiz-card-text small {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #64748b);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Quiz Recommendation Box */
+.quiz-result-box {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08));
+  border: 1.5px solid rgba(16, 185, 129, 0.25);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.quiz-result-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 8px;
+}
+.quiz-routine-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0;
+}
+.quiz-routine-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--surface, #ffffff);
+  box-shadow: var(--shadow-sm, 0 2px 6px rgba(0,0,0,0.04));
+}
+.quiz-routine-item img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.quiz-routine-meta {
+  flex: 1;
+  min-width: 0;
+}
+.quiz-routine-step {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary, #10b981);
+}
+.quiz-routine-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.quiz-routine-price {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-main, #0f172a);
+}
+
+/* 6. LIVE SOCIAL PROOF ACTIVITY TOAST */
+.social-proof-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 850;
+  background: var(--surface, rgba(255, 255, 255, 0.92));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.6));
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 360px;
+  width: calc(100vw - 48px);
+  transform: translateY(120px) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.4s;
+  overflow: hidden;
+}
+
+.social-proof-toast.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.sp-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--primary, #10b981);
+}
+
+.sp-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-text {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-main, #0f172a);
+  margin: 0;
+}
+.sp-text strong {
+  color: var(--primary, #10b981);
+}
+
+.sp-time {
+  font-size: 0.68rem;
+  color: var(--text-muted, #94a3b8);
+  display: block;
+  margin-top: 2px;
+}
+
+.sp-close {
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.sp-close:hover {
+  color: var(--text-main, #0f172a);
+}
+
+.sp-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.5px;
+  width: 100%;
+  background: var(--primary, #10b981);
+  transform-origin: left;
+}
+
+/* 7. CELEBRATION CONFETTI CANVAS */
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 10005;
+}
+
+/* 8. HERO APOTHECARY QUIZ CTA PILL */
+.hero-quiz-trigger-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 8px 16px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary, #10b981);
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+.hero-quiz-trigger-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+/* 9. RESPONSIVE MEDIA QUERIES */
+@media (max-width: 900px) {
+  .ba-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ba-wrapper {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+  .ba-slider-container {
+    aspect-ratio: 4 / 3;
+    max-height: 380px;
+  }
+  .social-proof-toast {
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+  }
+}
