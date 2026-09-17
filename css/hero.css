@@ -3,66 +3,185 @@
    ========================================================================== */
 
 /* Hero Section Container with Atmospheric Editorial Backdrop */
+/* Hero Section Container with Atmospheric Editorial Backdrop */
 .hero-section {
   position: relative;
   border-radius: var(--radius-2xl, 28px);
   overflow: hidden;
-  padding: 40px 36px 48px;
-  background: var(--glass-card);
+  padding: 24px 24px 32px;
+  background: linear-gradient(135deg, rgba(254, 242, 244, 0.9) 0%, rgba(253, 235, 239, 0.75) 50%, rgba(245, 235, 255, 0.85) 100%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-lg), var(--glass-shine);
   z-index: 1;
   margin-bottom: 32px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-.hero-section-bg {
-  position: absolute;
-  inset: 0;
+[data-theme="dark"] .hero-section,
+.dark-mode .hero-section {
+  background: linear-gradient(135deg, rgba(22, 16, 28, 0.92) 0%, rgba(28, 18, 34, 0.85) 50%, rgba(15, 20, 32, 0.92) 100%);
+}
+
+.hero-billboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
   width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
 }
 
-.hero-bg-media {
+.billboard-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-billboard-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  aspect-ratio: 3 / 4;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.4), 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background: #ecd5dc;
+  animation: heroBillboardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+[data-theme="dark"] .hero-billboard-card,
+.dark-mode .hero-billboard-card {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(244, 114, 182, 0.2);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: #1e1524;
+}
+
+@keyframes heroBillboardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero-billboard-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 85% 25%;
-  opacity: 0.85;
-  filter: blur(0px) saturate(135%) brightness(1.22);
-  transform: scale(1.02);
-  transition: opacity 0.5s ease, filter 0.5s ease;
+  display: block;
 }
 
-[data-theme="dark"] .hero-bg-media,
-.dark-mode .hero-bg-media {
-  opacity: 0.72;
-  filter: blur(0px) saturate(145%) brightness(1.16);
+/* Precision Interactive Hotspot over 'SHOP NOW' button (X: 6.2%..34.1%, Y: 87.9%..93.8%) */
+.hero-billboard-cta-hotspot {
+  position: absolute;
+  left: 6.2%;
+  top: 87.9%;
+  width: 28.5%;
+  height: 6.2%;
+  border-radius: 9999px;
+  cursor: pointer;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: transparent;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  touch-action: manipulation;
 }
 
-.hero-bg-overlay {
+/* Generous tap boundary for comfortable touch precision */
+.hero-billboard-cta-hotspot::before {
+  content: "";
+  position: absolute;
+  inset: -8px -12px;
+  border-radius: 9999px;
+}
+
+.hero-billboard-cta-hotspot:hover {
+  transform: scale(1.04);
+}
+
+.hero-billboard-cta-hotspot:active {
+  transform: scale(0.97);
+}
+
+.hotspot-shimmer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 247, 250, 0.90) 0%,
-    rgba(255, 247, 250, 0.65) 45%,
-    rgba(255, 247, 250, 0.12) 75%,
-    transparent 100%
-  );
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.65), 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
-[data-theme="dark"] .hero-bg-overlay,
-.dark-mode .hero-bg-overlay {
+.hero-billboard-cta-hotspot:hover .hotspot-shimmer,
+.hero-billboard-cta-hotspot:focus-visible .hotspot-shimmer {
+  opacity: 1;
+}
+
+.hotspot-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 60%;
+  height: 200%;
   background: linear-gradient(
     90deg,
-    rgba(10, 12, 18, 0.90) 0%,
-    rgba(10, 12, 18, 0.65) 45%,
-    rgba(10, 12, 18, 0.15) 75%,
-    transparent 100%
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
   );
+  transform: rotate(25deg);
+  animation: hotspotGleam 3s infinite;
+}
+
+@keyframes hotspotGleam {
+  0%, 70% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.billboard-stats-bar {
+  max-width: 640px;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border-subtle);
+}
+
+.stat-item-action {
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    padding: 16px 12px 24px;
+    border-radius: 20px;
+  }
+  .billboard-top-row {
+    justify-content: center;
+    gap: 8px;
+  }
+  .hero-billboard-card {
+    max-width: 100%;
+    border-radius: 20px;
+  }
+  .billboard-stats-bar {
+    justify-content: center;
+    gap: 18px;
+  }
 }
 
 /* Editorial Hero Cover Banner (Picture First with Text Overlay) */

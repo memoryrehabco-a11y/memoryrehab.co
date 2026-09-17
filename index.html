@@ -322,88 +322,64 @@
     </header>
 
     <main>
-      <!-- Hero Section -->
+      <!-- Hero Section: Editorial Billboard Landing -->
       <section class="hero-section container" id="hero">
-        <div class="hero-section-bg" aria-hidden="true">
-          <img src="faerie-dew-hero.jpg" alt="" class="hero-bg-media" />
-          <div class="hero-bg-overlay"></div>
-        </div>
-        <div class="hero-grid">
-          <div class="hero-content">
+        <div class="hero-billboard-wrapper">
+          <!-- Top Campaign Indicator Row -->
+          <div class="billboard-top-row">
             <span class="eyebrow-badge holo-foil">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
               </svg>
               Step-by-Step Clinical Care
             </span>
-            <h1 class="hero-headline">
-              Healthy skin starts with a <span class="highlight">rehabilitated barrier</span>.
-            </h1>
-            <p class="hero-description">
-              No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.
-            </p>
-
-            <div>
-              <button type="button" class="hero-quiz-trigger-pill open-quiz-btn" id="heroQuizBtn" aria-label="Start Apothecary Skin Quiz">
-                <span>⚡ 60s Apothecary Skin Matcher</span>
-                <span style="font-weight: 400; opacity: 0.85;">→ Match My Routine</span>
-              </button>
-            </div>
-
-            <div class="hero-cta-group">
-              <a href="#catalog" class="btn-primary">
-                Shop 3-Step Routine
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>
-              <a href="#bundle" class="btn-secondary">Build Routine & Save 15%</a>
-            </div>
-
-            <div class="hero-stats-row">
-              <div class="stat-item">
-                <span class="stat-value">98%</span>
-                <span class="stat-label">Natural Actives</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-value">4.9 ★</span>
-                <span class="stat-label">Verified Ratings</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-value">25K+</span>
-                <span class="stat-label">Barriers Restored</span>
-              </div>
-            </div>
+            <button type="button" class="hero-quiz-trigger-pill open-quiz-btn" id="heroQuizBtn" aria-label="Start Apothecary Skin Quiz">
+              <span>⚡ 60s Skin Diagnostic</span>
+              <span style="font-weight: 400; opacity: 0.85;">→ Match Routine</span>
+            </button>
           </div>
 
-          <div class="hero-visual">
-            <div class="hero-glass-card holo-card-border">
-              <div class="hero-card-header">
-                <span class="live-pill holo-foil">
-                  <span class="pulse-dot"></span>
-                  Step 3 Hero Formulation
-                </span>
-                <span class="badge-rating">★★★★★ 4.9</span>
-              </div>
+          <!-- Editorial Campaign Billboard Image with Precision Interactive Hotspot -->
+          <div class="hero-billboard-card holo-card-border" id="heroBillboard">
+            <img
+              src="barrier-reset-hero.jpg"
+              alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
+              class="hero-billboard-img"
+              width="768"
+              height="1024"
+              fetchpriority="high"
+            />
+            <!-- Interactive Hotspot Overlaid on the 'SHOP NOW' Pill Button -->
+            <a
+              href="#catalog"
+              class="hero-billboard-cta-hotspot"
+              id="heroShopNowBtn"
+              aria-label="Shop Barrier Reset Protocol"
+              title="Shop Barrier Reset Protocol"
+            >
+              <span class="hotspot-shimmer"></span>
+              <span class="sr-only">SHOP NOW</span>
+            </a>
+          </div>
 
-              <div class="hero-image-wrap loupe-target" data-loupe="true" data-zoom-src="faerie-dew-hero.jpg" data-loupe-title="FAERIE DEW™ • CERAMIDES & RASPBERRY SEED • 2.5X">
-                <img
-                  src="faerie-dew-hero.jpg"
-                  alt="Faerie Dew Barrier Repair Face Cream"
-                  width="682"
-                  height="1024"
-                />
-                <div class="floating-glass-badge">
-                  <div class="badge-details">
-                    <h4>Faerie Dew™ Barrier Cream</h4>
-                    <span>Step 3 • Ceramides & Raspberry Seed</span>
-                  </div>
-                  <a href="product.html?id=1" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;">
-                    View • ₦42,000
-                  </a>
-                </div>
-              </div>
+          <!-- Luxury Trust & Stats Row -->
+          <div class="hero-stats-row billboard-stats-bar">
+            <div class="stat-item">
+              <span class="stat-value">98%</span>
+              <span class="stat-label">Natural Actives</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">4.9 ★</span>
+              <span class="stat-label">Verified Ratings</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">25K+</span>
+              <span class="stat-label">Barriers Restored</span>
+            </div>
+            <div class="stat-item stat-item-action">
+              <a href="#bundle" class="btn-secondary" style="padding: 10px 20px; font-size: 0.82rem; border-radius: 9999px;">
+                Build Routine &amp; Save 15% →
+              </a>
             </div>
           </div>
         </div>

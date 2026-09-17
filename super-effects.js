@@ -286,7 +286,7 @@
             toggle();
             return;
           }
-          if (e.target.closest('.card-add-cart-btn, #checkoutBtn, #modalAddCartBtn, .bundle-add-all-btn, #quizAddRoutineBtn')) {
+          if (e.target.closest('.card-add-cart-btn, #checkoutBtn, #modalAddCartBtn, .bundle-add-all-btn, #quizAddRoutineBtn, #heroShopNowBtn, .hero-billboard-cta-hotspot')) {
             playDewdrop();
             return;
           }
