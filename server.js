@@ -125,7 +125,7 @@ const defaultStore = {
       rating: 4.9,
       reviews: 168,
       size: '30ml / 1.0 fl. oz',
-      skinType: '💧 For: Dry / Compromised Barrier',
+      skinType: 'For: Dry / Compromised Barrier',
       summary: 'Deeply restorative lipid cream formulated with botanical ceramides, cold-pressed raspberry seed, and soothing plant sterols to rebuild compromised skin barriers.',
       ingredients: ['Ceramides NP & AP', 'Raspberry Seed Oil', 'Soothe Complex', 'Bio-Squalane'],
       inStock: true
@@ -141,7 +141,7 @@ const defaultStore = {
       rating: 4.9,
       reviews: 214,
       size: '30ml / 1.0 fl. oz',
-      skinType: '☀️ For: Dull / Uneven Skin Tone',
+      skinType: 'For: Dull / Uneven Skin Tone',
       summary: 'High-potency antioxidant serum blending stabilized Vitamin C, Japanese green tea extract, and low-molecular hyaluronic acid to brighten dullness and even tone.',
       ingredients: ['Vitamin C 15%', 'Green Tea Extract', 'Triple Hyaluronic', 'Ferulic Acid'],
       inStock: true
@@ -157,7 +157,7 @@ const defaultStore = {
       rating: 4.8,
       reviews: 142,
       size: '30ml / 1.0 fl. oz',
-      skinType: '🌿 For: Acne-Prone & Sensitive',
+      skinType: 'For: Acne-Prone & Sensitive',
       summary: 'Targeted blemish-clearing restorative cream with Azelaic Acid, Resveratrol, and purifying botanical extracts to target stubborn breakouts without peeling.',
       ingredients: ['Azelaic Acid 10%', 'Resveratrol', 'Niacinamide 4%', 'Centella Asiatica'],
       inStock: true
@@ -308,7 +308,7 @@ const server = http.createServer(async (req, res) => {
         rating: Number(body.rating || 5),
         reviews: Number(body.reviews || 0),
         size: body.size || '30ml / 1.0 fl. oz',
-        skinType: body.skinType || '🌿 For: All Skin Types',
+        skinType: body.skinType || 'For: All Skin Types',
         summary: body.summary || '',
         ingredients: Array.isArray(body.ingredients) ? body.ingredients : [],
         inStock: body.inStock !== false,

@@ -1080,7 +1080,7 @@
     if (mistBtn) {
       mistBtn.addEventListener('click', function () {
         const active = SoundFX.toggleAmbience();
-        mistBtn.textContent = active ? 'Stop Mist 🌿' : 'Botanical Mist ASMR';
+        mistBtn.innerHTML = active ? 'Stop Mist <img src="favicon-32x32.png" style="width:14px;height:14px;vertical-align:-1px;" alt="" />' : 'Botanical Mist ASMR';
       });
     }
 

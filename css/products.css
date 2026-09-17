@@ -516,6 +516,15 @@
   width: fit-content;
 }
 
+.skin-type-tag img.tag-favicon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .card-summary {
   font-size: 0.86rem;
   color: var(--text-secondary);

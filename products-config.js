@@ -55,7 +55,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.9,
     reviews: 168,
     size: '30ml / 1.0 fl. oz',
-    skinType: '💧 For: Dry / Compromised Barrier',
+    skinType: 'For: Dry / Compromised Barrier',
     summary: 'Deeply restorative lipid cream formulated with botanical ceramides, cold-pressed raspberry seed, and soothing plant sterols to rebuild compromised skin barriers.',
     ingredients: ['Ceramides NP & AP', 'Raspberry Seed Oil', 'Soothe Complex', 'Bio-Squalane'],
     clinical: [
@@ -85,7 +85,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.9,
     reviews: 214,
     size: '30ml / 1.0 fl. oz',
-    skinType: '☀️ For: Dull / Uneven Skin Tone',
+    skinType: 'For: Dull / Uneven Skin Tone',
     summary: 'High-potency antioxidant serum blending stabilized Vitamin C, Japanese green tea extract, and low-molecular hyaluronic acid to brighten dullness and even tone.',
     ingredients: ['Vitamin C 15%', 'Green Tea Extract', 'Triple Hyaluronic', 'Ferulic Acid'],
     clinical: [
@@ -115,7 +115,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.8,
     reviews: 142,
     size: '30ml / 1.0 fl. oz',
-    skinType: '🌿 For: Acne-Prone & Sensitive',
+    skinType: 'For: Acne-Prone & Sensitive',
     summary: 'Targeted blemish-clearing restorative cream with Azelaic Acid, Resveratrol, and purifying botanical extracts to target stubborn breakouts without peeling.',
     ingredients: ['Azelaic Acid 10%', 'Resveratrol', 'Niacinamide 4%', 'Centella Asiatica'],
     clinical: [
@@ -145,7 +145,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.8,
     reviews: 97,
     size: '60ml / 2.0 fl. oz',
-    skinType: '🍊 For: Textured & Congested Skin',
+    skinType: 'For: Textured & Congested Skin',
     summary: 'Gentle exfoliating fruit toner with Ethyl Ascorbic, Tartaric Acid, and Kurarinone Extract to smooth uneven texture and refine pores.',
     ingredients: ['Tartaric Acid', 'Ethyl Ascorbic', 'Kurarinone', 'Citrus Fruit Blend'],
     clinical: [
@@ -174,7 +174,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 5.0,
     reviews: 89,
     size: '30ml / 1.0 fl. oz',
-    skinType: '🥒 For: Dehydrated / Mature Skin',
+    skinType: 'For: Dehydrated / Mature Skin',
     summary: 'Supercharged botanical depigmenting serum infused with cucumber peptides, grape seed, and youth elixir botanicals to restore bounce.',
     ingredients: ['Cucumber Peptides', 'Grape Stem Cells', 'Youth Elixir', 'Hyaluronic Acid'],
     clinical: [
@@ -203,7 +203,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.7,
     reviews: 112,
     size: '100ml / 3.4 fl. oz',
-    skinType: '🫐 For: Oily & Irritated Skin',
+    skinType: 'For: Oily & Irritated Skin',
     summary: 'Balancing botanical toner powered by blueberry polyphenols, salicylic acid, and calming allantoin to detoxify pores and rebalance pH.',
     ingredients: ['Blueberry Polyphenols', 'Salicylic Acid 1%', 'Allantoin', 'Sea Minerals'],
     clinical: [
@@ -232,7 +232,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.9,
     reviews: 185,
     size: '250g / 8.8 fl. oz',
-    skinType: '🧴 For: Rough / KP & Dry Body Skin',
+    skinType: 'For: Rough / KP & Dry Body Skin',
     summary: 'Velvety body rehabilitation lotion formulated with Lactic Acid, medical-grade Urea, and organic vanilla to gently exfoliate rough patches.',
     ingredients: ['Lactic Acid 8%', 'Urea 5%', 'Cocoa Seed Butter', 'Vanilla Extract'],
     clinical: [
@@ -261,7 +261,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.9,
     reviews: 246,
     size: '15ml / 0.5 fl. oz',
-    skinType: '🍓 For: Chapped & Sensitive Lips',
+    skinType: 'For: Chapped & Sensitive Lips',
     summary: 'Luscious strawberry lip rehabilitation butter loaded with hyaluronic acid, cold-pressed berry waxes, and Vitamin E to plump and nourish.',
     ingredients: ['Strawberry Seed Oil', 'Vitamin E', 'Hyaluronic Acid', 'Shea Butter'],
     clinical: [
@@ -290,7 +290,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.8,
     reviews: 134,
     size: '250g / 8.8 oz',
-    skinType: '☕ For: Clogged Pores & Impurities',
+    skinType: 'For: Clogged Pores & Impurities',
     summary: 'Traditional whipped herbal black soap blend infused with antioxidant ground coffee, wild neem leaves, and purifying tamarind.',
     ingredients: ['Herbal Black Soap', 'Wild Neem Leaf', 'Arabica Coffee', 'Tamarind'],
     clinical: [
@@ -319,7 +319,7 @@ const MEMORY_REHAB_CATALOG = {
     rating: 4.9,
     reviews: 178,
     size: '250g / 8.8 oz',
-    skinType: '🍓 For: Dull & Flaky Body Skin',
+    skinType: 'For: Dull & Flaky Body Skin',
     summary: 'Whipped exfoliating body polish packed with raw organic shea butter, enzymatic papain, and mulberry extract for touchable softness.',
     ingredients: ['Raw Shea Butter', 'Papain Enzyme', 'Mulberry Extract', 'Strawberry Sugar'],
     clinical: [

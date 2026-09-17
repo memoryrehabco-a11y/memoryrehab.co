@@ -38,6 +38,7 @@
   user-select: none;
   padding: 0;
   margin: 0;
+  color: var(--text-main, #1e293b);
 }
 .sound-toggle-btn:hover {
   transform: scale(1.08);
@@ -45,6 +46,17 @@
 }
 .sound-toggle-btn:active {
   transform: scale(0.94);
+}
+.sound-toggle-btn .sound-svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  display: block;
+}
+.sound-icon-on, .sound-icon-off {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 3. 3D CARD PERSPECTIVE TILT & DYNAMIC RADIAL SPOTLIGHT */
@@ -933,6 +945,13 @@ body.wireframe-mode::after {
   font-size: 1.05rem;
   transition: all 0.25s ease;
 }
+.mist-toggle-btn img.mist-favicon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+}
 .mist-toggle-btn.active {
   background: var(--primary-soft, rgba(16, 185, 129, 0.18)) !important;
   border-color: var(--primary, #10b981) !important;
@@ -942,4 +961,12 @@ body.wireframe-mode::after {
 @keyframes pulseMist {
   0%, 100% { box-shadow: 0 0 8px rgba(16, 185, 129, 0.3); transform: scale(1); }
   50% { box-shadow: 0 0 18px rgba(16, 185, 129, 0.7); transform: scale(1.05); }
+}
+
+.social-btn-svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: -2px;
+  margin-right: 6px;
+  display: inline-block;
 }

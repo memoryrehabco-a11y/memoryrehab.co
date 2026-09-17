@@ -1395,7 +1395,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdpStepBadge = document.getElementById('pdpStepBadge');
     if (pdpStepBadge) pdpStepBadge.textContent = prod.step;
     const pdpSkinType = document.getElementById('pdpSkinType');
-    if (pdpSkinType) pdpSkinType.textContent = prod.skinType;
+    if (pdpSkinType) {
+      const cleanSkinText = (prod.skinType || 'For: All Skin Types').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+/u, '');
+      pdpSkinType.innerHTML = `<img src="favicon-32x32.png" class="tag-favicon" alt="" width="14" height="14" /> ${cleanSkinText}`;
+    }
     const pdpTitle = document.getElementById('pdpTitle');
     if (pdpTitle) pdpTitle.textContent = prod.name;
     const pdpRatingNum = document.getElementById('pdpRatingNum');
@@ -1408,21 +1411,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pdpOrigPrice) pdpOrigPrice.textContent = formatCurrency(prod.originalPrice || prod.price);
     const pdpDiscountPill = document.getElementById('pdpDiscountPill');
     if (pdpDiscountPill) {
-      if (prod.originalPrice && prod.originalPrice > prod.price) {
-        const discountPercent = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
-        pdpDiscountPill.textContent = `SAVE ${discountPercent}%`;
+      const orig = prod.originalPrice || prod.price;
+      if (orig > prod.price) {
+        const pct = Math.round(((orig - prod.price) / orig) * 100);
+        pdpDiscountPill.textContent = `SAVE ${pct}%`;
         pdpDiscountPill.style.display = 'inline-block';
       } else {
         pdpDiscountPill.style.display = 'none';
       }
     }
-    const pdpDescription = document.getElementById('pdpDescription');
-    if (pdpDescription) pdpDescription.textContent = prod.summary;
+    const pdpSize = document.getElementById('pdpSize');
+    if (pdpSize) pdpSize.textContent = prod.size;
+    const pdpSummary = document.getElementById('pdpSummary');
+    if (pdpSummary) pdpSummary.textContent = prod.summary;
 
+    // Ingredients chips
     const pdpIngredientChips = document.getElementById('pdpIngredientChips');
     if (pdpIngredientChips && prod.ingredients) {
       pdpIngredientChips.innerHTML = prod.ingredients
-        .map(ing => `<span class="ingredient-chip">${ing}</span>`)
+        .map(i => `<span class="ingredient-chip">${i}</span>`)
+        .join('');
+    }
+
+    // Clinical stats
+    const pdpClinicalGrid = document.getElementById('pdpClinicalGrid');
+    if (pdpClinicalGrid && prod.clinical) {
+      pdpClinicalGrid.innerHTML = prod.clinical
+        .map(
+          c => `
+        <div class="pdp-clinical-card">
+          <div class="pdp-clinical-stat">${c.val}</div>
+          <div class="pdp-clinical-desc">${c.desc}</div>
+        </div>
+      `
+        )
         .join('');
     }
 
@@ -1451,7 +1473,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .map(
           a => `
         <div class="pdp-active-glass-card">
-          <div class="pdp-active-icon">${a.icon}</div>
+          <div class="pdp-active-icon"><img src="favicon-32x32.png" class="pdp-active-favicon-img" alt="" width="22" height="22" /></div>
           <h4>${a.name}</h4>
           <p>${a.desc}</p>
         </div>
@@ -1950,7 +1972,10 @@ function hydrateStorefrontCatalog() {
         }
 
         const skinEl = card.querySelector('.skin-type-tag');
-        if (skinEl && p.skinType) skinEl.textContent = p.skinType;
+        if (skinEl && p.skinType) {
+          const cleanSkin = p.skinType.replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+/u, '');
+          skinEl.innerHTML = `<img src="favicon-32x32.png" class="tag-favicon" alt="" width="14" height="14" /> ${cleanSkin}`;
+        }
 
         const summaryEl = card.querySelector('.card-summary');
         if (summaryEl && p.summary) summaryEl.textContent = p.summary;
@@ -2014,7 +2039,7 @@ function hydrateStorefrontCatalog() {
               <span class="card-rating"><span class="stars">★</span> ${p.rating || '5.0'} <span class="card-review-count">(${p.reviews || '12'})</span></span>
             </div>
             <h3 class="card-title">${p.name || ''}</h3>
-            <span class="skin-type-tag">${p.skinType || '🌿 For: All Skin Types'}</span>
+            <span class="skin-type-tag"><img src="favicon-32x32.png" class="tag-favicon" alt="" width="14" height="14" /> ${(p.skinType || 'For: All Skin Types').replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+/u, '')}</span>
             <p class="card-summary">${p.summary || ''}</p>
             <div class="card-ingredient-chips">
               ${ingChips}

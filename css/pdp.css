@@ -285,6 +285,19 @@
   font-size: 1.3rem;
 }
 
+.pdp-active-icon img.pdp-active-favicon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.empty-icon-favicon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
 .pdp-active-glass-card h4 {
   font-size: 1.15rem;
   font-weight: 800;
