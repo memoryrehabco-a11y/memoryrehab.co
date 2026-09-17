@@ -1,29 +1,29 @@
 /* ==========================================================================
-   HERO SECTION — HELLO BUBBLE FULL-CARD TAKEOVER
+   HERO SECTION — HELLO BUBBLE EXPANDED TAKEOVER + UNDER-BANNER EDITORIAL
    ========================================================================== */
 
 /* Outer Hero Container */
 .hero-section {
   position: relative;
-  padding: 0 0 16px;
+  width: 100%;
+  padding: 0 0 48px;
+  margin-top: 0;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  margin-bottom: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   box-sizing: border-box;
 }
 
-/* The Div Card: Campaign Picture Takes Over 100% of the Card Surface */
-.hero-takeover-card {
+/* 1. The Expanded Campaign Billboard Banner (Fills sides and top) */
+.hero-banner-expanded {
   position: relative;
   width: 100%;
-  max-width: 620px;
+  max-width: 860px;
   aspect-ratio: 3 / 4;
-  margin: 0 auto;
+  margin: 0 auto 36px;
   border-radius: var(--radius-2xl, 28px);
   overflow: hidden;
   padding: 0 !important;
@@ -34,8 +34,8 @@
   touch-action: manipulation;
 }
 
-[data-theme="dark"] .hero-takeover-card,
-.dark-mode .hero-takeover-card {
+[data-theme="dark"] .hero-banner-expanded,
+.dark-mode .hero-banner-expanded {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(244, 114, 182, 0.2);
   border-color: rgba(255, 255, 255, 0.18);
   background: #1e1524;
@@ -53,7 +53,7 @@
 }
 
 /* The Picture Takes Over the Entire Div Card with Zero Insets */
-.hero-takeover-img {
+.hero-banner-expanded-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -126,7 +126,7 @@
   border-color: rgba(52, 211, 153, 0.4);
 }
 
-/* Precision Interactive Hotspot over 'SHOP NOW' button (X: 6.2%..34.1%, Y: 87.9%..93.8%) */
+/* Precision Interactive Hotspot over 'SHOP NOW' button */
 .hero-billboard-cta-hotspot {
   position: absolute;
   left: 6.2%;
@@ -198,11 +198,110 @@
   100% { left: 200%; }
 }
 
-/* Hello Bubble-Style Under-Banner Trust & Routine Strip */
-.hero-takeover-stats-bar {
-  max-width: 620px;
+/* 2. Editorial Clinical Story & Action Block (Positioned Under the Banner) */
+.hero-editorial-under-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
   width: 100%;
-  margin: 16px auto 0;
+  max-width: 720px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both 0.15s;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-editorial-under-block .campaign-eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-editorial-under-block .hero-barrier-title {
+  font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text-main, #0f172a);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+[data-theme="dark"] .hero-editorial-under-block .hero-barrier-title {
+  color: #ffffff;
+  text-shadow: 0 4px 25px rgba(244, 114, 182, 0.3);
+}
+
+.hero-editorial-under-block .protocol-highlight {
+  color: var(--primary, #10b981);
+  background: linear-gradient(135deg, var(--primary, #10b981) 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.hero-editorial-under-block .hero-barrier-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--text-secondary, #334155);
+  line-height: 1.45;
+  max-width: 560px;
+  margin: 0;
+}
+
+[data-theme="dark"] .hero-editorial-under-block .hero-barrier-subtitle {
+  color: #e2e8f0;
+}
+
+.hero-editorial-under-block .hero-barrier-desc {
+  font-size: 1.02rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0;
+}
+
+.hero-editorial-under-block .hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.hero-editorial-under-block .hero-shop-now-cta {
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hello Bubble-Style Under-Banner Trust Stats Strip */
+.hero-takeover-stats-bar {
+  max-width: 640px;
+  width: 100%;
+  margin: 12px auto 0;
   padding: 14px 24px;
   border-radius: 9999px;
   background: var(--glass-bg, rgba(255, 255, 255, 0.75));
@@ -211,7 +310,7 @@
   border: 1px solid var(--glass-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   gap: 16px;
   box-sizing: border-box;
@@ -223,56 +322,61 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-.hero-takeover-routine-pill {
-  padding: 9px 18px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  border-radius: 9999px;
-  white-space: nowrap;
-}
-
-/* Responsive Mobile Viewport */
-@media (max-width: 640px) {
+/* Responsive Mobile Viewport: Fills the sides and top completely */
+@media (max-width: 768px) {
   .hero-section {
-    padding: 0 0 12px;
-    margin-bottom: 20px;
+    padding-bottom: 32px;
+    margin-top: 0;
   }
-  .hero-takeover-card {
-    max-width: 100%;
-    border-radius: 22px;
+  
+  /* Break out of container to fill sides and top completely */
+  .hero-banner-expanded {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    margin-top: -16px !important;
+    margin-bottom: 28px !important;
+    border-radius: 0 0 32px 32px !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
   }
+  
   .hero-floating-step-badge {
-    top: 12px;
-    left: 12px;
+    top: 14px;
+    left: 14px;
     padding: 5px 10px;
     font-size: 0.72rem;
   }
+  
   .hero-floating-quiz-pill {
-    top: 12px;
-    right: 12px;
+    top: 14px;
+    right: 14px;
     padding: 5px 12px;
     font-size: 0.74rem;
   }
+  
   .hero-floating-quiz-pill .quiz-pill-sub {
     display: none;
   }
+  
+  .hero-editorial-under-block {
+    padding: 0 16px;
+    gap: 16px;
+  }
+  
+  .hero-editorial-under-block .hero-barrier-desc {
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+  
   .hero-takeover-stats-bar {
     border-radius: 20px;
     padding: 12px 14px;
     gap: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
-  }
-  .hero-takeover-stats-bar .stat-item-action {
-    width: 100%;
-    text-align: center;
-    margin-top: 4px;
-  }
-  .hero-takeover-routine-pill {
-    width: 100%;
-    display: block;
-    text-align: center;
-    box-sizing: border-box;
   }
 }
 

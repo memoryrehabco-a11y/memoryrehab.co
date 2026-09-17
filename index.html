@@ -322,14 +322,14 @@
     </header>
 
     <main>
-      <!-- Hero Section: Campaign Billboard Card (Hello Bubble Full-Card Takeover) -->
+      <!-- Hero Section: Expansive Billboard Banner (Fills Sides & Top) + Editorial Block Underneath -->
       <section class="hero-section container" id="hero">
-        <!-- The Div Card: Image Takes Over 100% of the Card Surface -->
-        <div class="hero-takeover-card holo-card-border" id="heroBillboard">
+        <!-- 1. The Expanded Campaign Billboard Banner (Fills sides and top) -->
+        <div class="hero-banner-expanded holo-card-border" id="heroBillboard">
           <img
             src="barrier-reset-hero.jpg"
             alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
-            class="hero-takeover-img"
+            class="hero-banner-expanded-img"
             width="768"
             height="1024"
             fetchpriority="high"
@@ -367,24 +367,61 @@
           </a>
         </div>
 
-        <!-- Clinical Trust & Routine Stats Bar (Hello Bubble Style Under-Banner Strip) -->
-        <div class="hero-stats-row hero-takeover-stats-bar">
-          <div class="stat-item">
-            <span class="stat-value">98%</span>
-            <span class="stat-label">Natural Actives</span>
+        <!-- 2. Editorial Clinical Story & Action Block (Positioned Under the Banner) -->
+        <div class="hero-editorial-under-block">
+          <div class="campaign-eyebrow-row">
+            <span class="eyebrow-badge holo-foil">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+              </svg>
+              Step-by-Step Clinical Care
+            </span>
+            <button type="button" class="hero-quiz-trigger-pill open-quiz-btn" aria-label="Start Apothecary Skin Quiz">
+              <span>⚡ 60s Skin Diagnostic</span>
+              <span style="font-weight: 400; opacity: 0.85;">→ Match Routine</span>
+            </button>
           </div>
-          <div class="stat-item">
-            <span class="stat-value">4.9 ★</span>
-            <span class="stat-label">Verified Ratings</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-value">25K+</span>
-            <span class="stat-label">Barriers Restored</span>
-          </div>
-          <div class="stat-item stat-item-action">
-            <a href="#bundle" class="btn-secondary hero-takeover-routine-pill">
-              Build Routine &amp; Save 15% →
+
+          <!-- Authentic Bold Bubbly Headline (Fredoka Font matching Hello Bubble style) -->
+          <h1 class="hero-barrier-title">
+            BARRIER RESET<br />
+            <span class="protocol-highlight">PROTOCOL</span>
+          </h1>
+
+          <p class="hero-barrier-subtitle">
+            Healthy skin starts with a rehabilitated barrier.
+          </p>
+
+          <p class="hero-barrier-desc">
+            No complicated 12-step routines. Memory Rehab simplifies skincare into 3 clinically proven botanical steps designed to heal inflammation, lock in hydration, and boost everyday glow.
+          </p>
+
+          <!-- Campaign Primary & Secondary CTAs -->
+          <div class="hero-cta-group">
+            <a href="#catalog" class="btn-primary hero-shop-now-cta" id="heroUnderShopBtn">
+              Shop 3-Step Routine
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
+            <a href="#bundle" class="btn-secondary">Build Routine &amp; Save 15%</a>
+          </div>
+
+          <!-- Live Clinical Trust Stats Strip -->
+          <div class="hero-stats-row hero-takeover-stats-bar">
+            <div class="stat-item">
+              <span class="stat-value">98%</span>
+              <span class="stat-label">Natural Actives</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">4.9 ★</span>
+              <span class="stat-label">Verified Ratings</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">25K+</span>
+              <span class="stat-label">Barriers Restored</span>
+            </div>
           </div>
         </div>
       </section>
