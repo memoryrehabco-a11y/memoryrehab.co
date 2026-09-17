@@ -699,8 +699,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const storedTheme = localStorage.getItem('mr_theme');
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const urlTheme = urlParams.get('theme');
 
-  const initialTheme = storedTheme ? storedTheme : systemPrefersDark ? 'dark' : 'light';
+  const initialTheme = urlTheme || (storedTheme ? storedTheme : systemPrefersDark ? 'dark' : 'light');
   applyTheme(initialTheme);
 
   function applyTheme(theme) {
