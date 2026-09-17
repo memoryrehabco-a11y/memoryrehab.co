@@ -73,6 +73,15 @@
     <!-- Sticky Glass Navigation Header -->
     <header class="site-header container">
       <div class="header-inner">
+        <!-- Mobile Hamburger Menu (LEFT) -->
+        <button class="hamburger-btn" id="hamburgerBtn" type="button" aria-label="Open navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
         <a href="index.html" class="brand-link" aria-label="Memory Rehab Home">
           <div class="brand-logo-icon">MR</div>
           <div class="brand-info">
@@ -100,6 +109,20 @@
               <button type="button" id="logoutBtn" style="display: none; color: #e11d48;">Sign Out</button>
             </div>
           </div>
+
+          <!-- Instant Live Search Trigger -->
+          <button
+            class="search-toggle-btn"
+            id="searchToggleBtn"
+            type="button"
+            aria-label="Search botanical formulas"
+            title="Search formulas"
+          >
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
 
           <!-- Dark / Light Mode Glass Toggle -->
           <button
@@ -808,5 +831,84 @@
         syncCartCount();
       })();
     </script>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <nav class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
+      <button class="mobile-nav-close" id="mobileNavClose" type="button" aria-label="Close menu">✕</button>
+      <div class="mobile-nav-brand">
+        <div class="brand-logo-icon">MR</div>
+        <div>
+          <span class="brand-title" style="font-size: 0.95rem;">Memory Rehab</span>
+          <span class="brand-subtitle" style="display: block;">Botanical Skincare</span>
+        </div>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="about.html">About & Services</a></li>
+        <li><a href="index.html#catalog" class="mobile-nav-link">Shop Routine</a></li>
+        <li><a href="index.html#bundle" class="mobile-nav-link">Build Bundle</a></li>
+        <li><a href="index.html#skin-school" class="mobile-nav-link">Skin School</a></li>
+        <li><a href="index.html#reviews" class="mobile-nav-link">Reviews</a></li>
+        <li><a href="auth.html">My Account</a></li>
+      </ul>
+      <div class="mobile-nav-social">
+        <a href="https://wa.me/2349112488271" target="_blank" rel="noopener noreferrer" style="color: #25d366;">☎ WhatsApp</a>
+        <a href="https://instagram.com/memoryrehab.co" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+      </div>
+    </nav>
+
+    <script>
+      // Hamburger menu toggle
+      (function() {
+        const btn = document.getElementById('hamburgerBtn');
+        const backdrop = document.getElementById('mobileNavBackdrop');
+        const drawer = document.getElementById('mobileNavDrawer');
+        const closeBtn = document.getElementById('mobileNavClose');
+        if (!btn || !drawer) return;
+
+        function openNav() {
+          if (backdrop) backdrop.classList.add('open');
+          drawer.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeNav() {
+          if (backdrop) backdrop.classList.remove('open');
+          drawer.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+
+        btn.addEventListener('click', openNav);
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
+        if (backdrop) backdrop.addEventListener('click', closeNav);
+      })();
+    </script>
+
+    <!-- Instant Live Product Search Modal -->
+    <div class="search-modal-backdrop" id="searchModal" aria-hidden="true">
+      <div class="search-modal-dialog" role="dialog" aria-modal="true" aria-label="Search Memory Rehab Formulations">
+        <div class="search-modal-header">
+          <div class="search-icon-indicator">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <input type="search" id="searchInputField" class="search-input-field" placeholder="Search formulations, ingredients, routine steps..." autocomplete="off" />
+          <button type="button" class="search-modal-close" id="closeSearchModal" aria-label="Close search">✕</button>
+        </div>
+        <div class="search-trending-section">
+          <span class="search-trending-label">Trending:</span>
+          <button type="button" class="search-tag-chip" data-query="Faerie Dew">Faerie Dew</button>
+          <button type="button" class="search-tag-chip" data-query="Vitamin C">Vitamin C</button>
+          <button type="button" class="search-tag-chip" data-query="Acne">Acne Fix</button>
+          <button type="button" class="search-tag-chip" data-query="Ceramides">Ceramides</button>
+          <button type="button" class="search-tag-chip" data-query="Toner">Toners</button>
+        </div>
+        <div class="search-results-container" id="searchResultsContainer">
+          <!-- Populated dynamically by script.js -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>

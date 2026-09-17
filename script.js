@@ -1782,6 +1782,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Barrier Glow Ritual Video Showcase
   initRitualVideoPlayer();
+
+  // Initialize Instant Live Product Search
+  initLiveProductSearch();
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -2006,7 +2009,7 @@ function hydrateStorefrontCatalog() {
           <div class="card-content-wrap">
             <div class="card-category-row">
               <span class="card-category-tag">${p.size || '30ml'}</span>
-              <span class="card-rating"><span class="stars">★★★★★</span> ${p.rating || '5.0'} (${p.reviews || '12'})</span>
+              <span class="card-rating"><span class="stars">★</span> ${p.rating || '5.0'} <span class="card-review-count">(${p.reviews || '12'})</span></span>
             </div>
             <h3 class="card-title">${p.name || ''}</h3>
             <span class="skin-type-tag">${p.skinType || '🌿 For: All Skin Types'}</span>
@@ -2060,5 +2063,99 @@ window.addEventListener('storage', (e) => {
     hydrateStorefrontCatalog();
   }
 });
+
+// ═══════════════════════════════════════════════════════════════
+//  INSTANT LIVE PRODUCT SEARCH (Mobile & Desktop)
+// ═══════════════════════════════════════════════════════════════
+function initLiveProductSearch() {
+  const searchBtn = document.getElementById('searchToggleBtn');
+  const searchModal = document.getElementById('searchModal');
+  const searchClose = document.getElementById('closeSearchModal');
+  const searchInput = document.getElementById('searchInputField');
+  const resultsContainer = document.getElementById('searchResultsContainer');
+  const trendingChips = document.querySelectorAll('.search-tag-chip');
+
+  if (!searchModal || !searchInput || !resultsContainer) return;
+
+  function openSearch() {
+    searchModal.classList.add('open');
+    searchModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 150);
+    renderResults(searchInput.value.trim());
+  }
+
+  function closeSearch() {
+    searchModal.classList.remove('open');
+    searchModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  searchBtn?.addEventListener('click', openSearch);
+  searchClose?.addEventListener('click', closeSearch);
+  searchModal.addEventListener('click', (e) => {
+    if (e.target === searchModal) closeSearch();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchModal.classList.contains('open')) {
+      closeSearch();
+    }
+  });
+
+  trendingChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.dataset.query || chip.textContent.trim();
+      searchInput.value = q;
+      renderResults(q);
+      searchInput.focus();
+    });
+  });
+
+  searchInput.addEventListener('input', () => {
+    renderResults(searchInput.value.trim());
+  });
+
+  function renderResults(query) {
+    const catalog = window.MEMORY_REHAB_CATALOG || {};
+    const items = Object.entries(catalog).map(([id, p]) => ({ id, ...p }));
+
+    let filtered = items;
+    if (query) {
+      const q = query.toLowerCase();
+      filtered = items.filter(p => {
+        const name = (p.name || '').toLowerCase();
+        const step = (p.step || '').toLowerCase();
+        const skin = (p.skinType || '').toLowerCase();
+        const summary = (p.summary || '').toLowerCase();
+        const ings = Array.isArray(p.ingredients) ? p.ingredients.join(' ').toLowerCase() : '';
+        return name.includes(q) || step.includes(q) || skin.includes(q) || summary.includes(q) || ings.includes(q);
+      });
+    }
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="search-empty-note">
+          <p>No formulations found matching "<strong>${query.replace(/</g, '&lt;')}</strong>"</p>
+          <span style="font-size:0.8rem; color:var(--text-muted); margin-top:4px; display:block;">Try searching for Ceramides, Vitamin C, or Toners.</span>
+        </div>
+      `;
+      return;
+    }
+
+    resultsContainer.innerHTML = filtered.map(p => `
+      <a href="product.html?id=${p.id}" class="search-result-row">
+        <img src="${p.image || 'photo_2026-09-09_17-33-58.jpg'}" alt="${p.name}" class="search-result-thumb" />
+        <div class="search-result-details">
+          <span class="search-result-step">${p.step || 'Apothecary Formulation'}</span>
+          <strong class="search-result-title">${p.name}</strong>
+          <span class="search-result-price">${formatCurrency(p.price || 0)}</span>
+        </div>
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--primary); white-space: nowrap;">View →</span>
+      </a>
+    `).join('');
+  }
+}
+
 
 
