@@ -1,35 +1,37 @@
 /* ==========================================================================
-   HERO SECTION — HELLO BUBBLE EXPANDED TAKEOVER + UNDER-BANNER EDITORIAL
+   HERO SECTION — 100vw FULL-BLEED TAKEOVER (ZERO SIDE SPACES)
    ========================================================================== */
 
-/* Outer Hero Container */
-.hero-section {
-  position: relative;
-  width: 100%;
-  padding: 0 0 48px;
-  margin-top: 0;
+/* Outer Hero Container: Breaks out of any container to 100vw */
+.hero-fullbleed-wrapper {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  padding: 0 0 54px !important;
+  margin-top: 0 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  overflow-x: hidden;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
 }
 
-/* 1. The Expanded Campaign Billboard Banner (Fills sides and top) */
+/* 1. The Full-Bleed Campaign Billboard Banner (Fills 100% from Edge to Edge) */
 .hero-banner-expanded {
   position: relative;
-  width: 100%;
-  max-width: 860px;
-  aspect-ratio: 3 / 4;
-  margin: 0 auto 36px;
-  border-radius: var(--radius-2xl, 28px);
+  width: 100% !important;
+  max-width: 100% !important; /* Zero side spaces! */
+  margin: 0 0 40px 0 !important;
+  border-radius: 0 0 40px 40px;
   overflow: hidden;
   padding: 0 !important;
   background: #bf96a9;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 24px 60px rgba(227, 170, 184, 0.45), 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: none !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
   animation: heroBillboardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
   touch-action: manipulation;
 }
@@ -37,14 +39,13 @@
 [data-theme="dark"] .hero-banner-expanded,
 .dark-mode .hero-banner-expanded {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(244, 114, 182, 0.2);
-  border-color: rgba(255, 255, 255, 0.18);
-  background: #1e1524;
+  background: #bf96a9;
 }
 
 @keyframes heroBillboardEntrance {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.98);
+    transform: translateY(18px) scale(0.99);
   }
   to {
     opacity: 1;
@@ -52,7 +53,13 @@
   }
 }
 
-/* The Picture Takes Over the Entire Div Card with Zero Insets */
+/* The Picture Fills the Entire Banner Edge-to-Edge */
+.hero-picture-fullbleed {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .hero-banner-expanded-img {
   width: 100%;
   height: 100%;
@@ -63,18 +70,18 @@
 /* Hello Bubble-Style Floating Step Badge in Top-Left */
 .hero-floating-step-badge {
   position: absolute;
-  top: 18px;
-  left: 18px;
+  top: 24px;
+  left: 28px;
   z-index: 10;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 9999px;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.88);
   color: #1e293b;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -93,18 +100,18 @@
 /* Hello Bubble-Style Floating Diagnostic Pill in Top-Right */
 .hero-floating-quiz-pill {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 24px;
+  right: 28px;
   z-index: 10;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: 9999px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--primary-dark, #065f46);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -129,10 +136,6 @@
 /* Precision Interactive Hotspot over 'SHOP NOW' button */
 .hero-billboard-cta-hotspot {
   position: absolute;
-  left: 6.2%;
-  top: 87.9%;
-  width: 28.5%;
-  height: 6.2%;
   border-radius: 9999px;
   cursor: pointer;
   z-index: 15;
@@ -204,10 +207,11 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 18px;
+  gap: 20px;
   width: 100%;
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
+  padding: 0 24px;
   box-sizing: border-box;
   animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both 0.15s;
 }
@@ -233,7 +237,7 @@
 
 .hero-editorial-under-block .hero-barrier-title {
   font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  font-size: clamp(2.4rem, 4.4vw, 4rem);
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -256,11 +260,11 @@
 }
 
 .hero-editorial-under-block .hero-barrier-subtitle {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
   font-weight: 700;
   color: var(--text-secondary, #334155);
   line-height: 1.45;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0;
 }
 
@@ -269,10 +273,10 @@
 }
 
 .hero-editorial-under-block .hero-barrier-desc {
-  font-size: 1.02rem;
+  font-size: 1.04rem;
   color: var(--text-muted, #64748b);
   line-height: 1.7;
-  max-width: 580px;
+  max-width: 620px;
   margin: 0;
 }
 
@@ -282,14 +286,14 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .hero-editorial-under-block .hero-shop-now-cta {
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  padding: 14px 32px;
+  padding: 14px 34px;
   border-radius: 9999px;
   box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
   display: inline-flex;
@@ -301,7 +305,7 @@
 .hero-takeover-stats-bar {
   max-width: 640px;
   width: 100%;
-  margin: 12px auto 0;
+  margin: 14px auto 0;
   padding: 14px 24px;
   border-radius: 9999px;
   background: var(--glass-bg, rgba(255, 255, 255, 0.75));
@@ -322,55 +326,59 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive Mobile Viewport: Fills the sides and top completely */
-@media (max-width: 768px) {
-  .hero-section {
-    padding-bottom: 32px;
-    margin-top: 0;
-  }
-  
-  /* Break out of container to fill sides and top completely */
+/* Viewport Specific Rules for Banner Ratio & Hotspot */
+@media (min-width: 900px) {
   .hero-banner-expanded {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    margin-top: -16px !important;
-    margin-bottom: 28px !important;
-    border-radius: 0 0 32px 32px !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
+    aspect-ratio: 1920 / 800;
+    max-height: 82vh;
   }
-  
+  .hero-banner-expanded-img {
+    object-position: center right;
+  }
+  /* Desktop Hotspot mapped over SHOP NOW in wide banner */
+  .hero-billboard-cta-hotspot {
+    left: 70.7%;
+    top: 87.9%;
+    width: 8.9%;
+    height: 6.2%;
+  }
+}
+
+@media (max-width: 899px) {
+  .hero-banner-expanded {
+    aspect-ratio: 3 / 4;
+    border-radius: 0 0 32px 32px;
+  }
   .hero-floating-step-badge {
     top: 14px;
     left: 14px;
     padding: 5px 10px;
     font-size: 0.72rem;
   }
-  
   .hero-floating-quiz-pill {
     top: 14px;
     right: 14px;
     padding: 5px 12px;
     font-size: 0.74rem;
   }
-  
   .hero-floating-quiz-pill .quiz-pill-sub {
     display: none;
   }
-  
+  /* Mobile Hotspot mapped over SHOP NOW in portrait banner */
+  .hero-billboard-cta-hotspot {
+    left: 6.2%;
+    top: 87.9%;
+    width: 28.5%;
+    height: 6.2%;
+  }
   .hero-editorial-under-block {
     padding: 0 16px;
     gap: 16px;
   }
-  
   .hero-editorial-under-block .hero-barrier-desc {
     font-size: 0.94rem;
     line-height: 1.6;
   }
-  
   .hero-takeover-stats-bar {
     border-radius: 20px;
     padding: 12px 14px;

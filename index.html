@@ -322,18 +322,22 @@
     </header>
 
     <main>
-      <!-- Hero Section: Expansive Billboard Banner (Fills Sides & Top) + Editorial Block Underneath -->
-      <section class="hero-section container" id="hero">
-        <!-- 1. The Expanded Campaign Billboard Banner (Fills sides and top) -->
-        <div class="hero-banner-expanded holo-card-border" id="heroBillboard">
-          <img
-            src="barrier-reset-hero.jpg"
-            alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
-            class="hero-banner-expanded-img"
-            width="768"
-            height="1024"
-            fetchpriority="high"
-          />
+      <!-- Hero Section: 100vw Full-Bleed Expansive Banner (Zero Side Spaces) + Editorial Block Underneath -->
+      <section class="hero-section hero-fullbleed-wrapper" id="hero">
+        <!-- 1. The Full-Bleed Campaign Billboard Banner (Fills 100% of Screen Edge-to-Edge) -->
+        <div class="hero-banner-expanded" id="heroBillboard">
+          <picture class="hero-picture-fullbleed">
+            <source media="(min-width: 900px)" srcset="barrier-reset-hero-wide.jpg" />
+            <source media="(max-width: 899px)" srcset="barrier-reset-hero.jpg" />
+            <img
+              src="barrier-reset-hero-wide.jpg"
+              alt="Memory Rehab — Barrier Reset Protocol. Because healthy skin starts with a rehabilitated barrier. Shop Now"
+              class="hero-banner-expanded-img"
+              width="1920"
+              height="800"
+              fetchpriority="high"
+            />
+          </picture>
 
           <!-- Hello Bubble-Style Floating Step Indicator in Top-Left -->
           <span class="hero-floating-step-badge holo-foil">
@@ -368,7 +372,7 @@
         </div>
 
         <!-- 2. Editorial Clinical Story & Action Block (Positioned Under the Banner) -->
-        <div class="hero-editorial-under-block">
+        <div class="hero-editorial-under-block container">
           <div class="campaign-eyebrow-row">
             <span class="eyebrow-badge holo-foil">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
