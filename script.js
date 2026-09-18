@@ -2631,7 +2631,7 @@ function initMaintenanceMode(settings) {
           <span><strong>Staff Preview:</strong> Maintenance Mode is currently ACTIVE on the storefront.</span>
         </div>
         <div class="maintenance-staff-banner-actions">
-          <a href="/admin.html" class="maintenance-staff-banner-btn">Manage in Admin</a>
+          <a href="admin.html" class="maintenance-staff-banner-btn">Manage in Admin</a>
           <button type="button" class="maintenance-staff-banner-btn" id="exitStaffBypassBtn">Lock Customer View</button>
         </div>
       `;
