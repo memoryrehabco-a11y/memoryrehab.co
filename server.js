@@ -111,7 +111,13 @@ const defaultStore = {
     welcomeTitle: process.env.WELCOME_TITLE || 'Your skin barrier, restored with pure botanicals.',
     welcomeDescription: process.env.WELCOME_DESCRIPTION || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.',
     themeAccentColor: process.env.THEME_ACCENT_COLOR || '#f48bb3',
-    darkTheme: process.env.DARK_THEME || 'obsidian-rose'
+    darkTheme: process.env.DARK_THEME || 'obsidian-rose',
+    maintenanceMode: false,
+    maintenanceTitle: process.env.MAINTENANCE_TITLE || 'Laboratory Restock & Routine Formulation Update',
+    maintenanceMessage: process.env.MAINTENANCE_MESSAGE || 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.',
+    maintenanceEstimatedReturn: process.env.MAINTENANCE_RETURN || '',
+    maintenanceAllowWhatsAppOrders: true,
+    maintenanceBypassKey: process.env.MAINTENANCE_BYPASS_KEY || 'lab2026'
   },
   products: [
     {

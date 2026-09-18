@@ -39,7 +39,13 @@ const STORE_CONFIG = {
     '100% Clean Biocompatible Actives',
     'Dermatologist Approved Barrier Repair',
     'Cruelty-Free and Vegan Certified'
-  ]
+  ],
+  maintenanceMode: false,
+  maintenanceTitle: 'Laboratory Restock & Routine Formulation Update',
+  maintenanceMessage: 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.',
+  maintenanceEstimatedReturn: '',
+  maintenanceAllowWhatsAppOrders: true,
+  maintenanceBypassKey: 'lab2026'
 };
 
 // --- 2. PRODUCT CATALOG DATABASE ---

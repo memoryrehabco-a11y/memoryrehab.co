@@ -1598,6 +1598,10 @@ document.addEventListener('DOMContentLoaded', () => {
               smooth: settings.autoThemeSmooth !== false
             });
           }
+          // ── Sync Maintenance Mode ──
+          if (typeof initMaintenanceMode === 'function') {
+            initMaintenanceMode(settings);
+          }
         }
       }, (err) => console.warn('Store settings sync:', err.message));
 
@@ -2078,6 +2082,9 @@ function hydrateStorefrontCatalog() {
           }
         });
       }
+      initMaintenanceMode(settings);
+    } else {
+      initMaintenanceMode();
     }
   } catch (err) {
     console.warn('[Memory Rehab] Hydration notice:', err.message);
@@ -2088,8 +2095,291 @@ function hydrateStorefrontCatalog() {
 window.addEventListener('storage', (e) => {
   if (e.key === 'mr_custom_products' || e.key === 'mr_store_settings') {
     hydrateStorefrontCatalog();
+    initMaintenanceMode();
   }
 });
+
+// ═══════════════════════════════════════════════════════════════
+//  LUXURY MAINTENANCE MODE CONTROLLER
+// ═══════════════════════════════════════════════════════════════
+
+let maintenanceCountdownInterval = null;
+
+function initMaintenanceMode(settings) {
+  // Never block the admin dashboard
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes('admin') || path.endsWith('admin.html')) return;
+
+  // Fallback to localStorage or STORE_CONFIG if settings not passed
+  if (!settings) {
+    try {
+      const raw = localStorage.getItem('mr_store_settings');
+      settings = raw ? JSON.parse(raw) : (window.STORE_CONFIG || {});
+    } catch(e) {
+      settings = window.STORE_CONFIG || {};
+    }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPreview = urlParams.get('preview') === 'maintenance';
+  const bypassParam = urlParams.get('bypass');
+  const bypassKey = (settings.maintenanceBypassKey || 'lab2026').trim();
+
+  // Check if query param grants bypass
+  if (bypassParam && bypassParam.trim() === bypassKey) {
+    sessionStorage.setItem('mr_maintenance_bypass', 'true');
+    const cleanUrl = window.location.pathname + window.location.hash;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+
+  const isStaffBypassed = sessionStorage.getItem('mr_maintenance_bypass') === 'true' ||
+                          sessionStorage.getItem('mr_admin_auth') === 'true';
+
+  const isMaintenanceActive = (settings.maintenanceMode === true || isPreview);
+
+  const existingOverlay = document.getElementById('luxuryMaintenanceOverlay');
+  const existingBanner = document.getElementById('maintenanceStaffBanner');
+
+  // Case 1: Maintenance is NOT active
+  if (!isMaintenanceActive) {
+    if (existingOverlay) existingOverlay.remove();
+    if (existingBanner) existingBanner.remove();
+    document.body.style.overflow = '';
+    if (maintenanceCountdownInterval) clearInterval(maintenanceCountdownInterval);
+    return;
+  }
+
+  // Case 2: Maintenance IS active, but user is staff bypassed (and not previewing)
+  if (isStaffBypassed && !isPreview) {
+    if (existingOverlay) existingOverlay.remove();
+    document.body.style.overflow = '';
+
+    // Show floating top staff preview banner if not already present
+    if (!existingBanner) {
+      const banner = document.createElement('div');
+      banner.id = 'maintenanceStaffBanner';
+      banner.className = 'maintenance-staff-banner';
+      banner.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>⚠️</span>
+          <span><strong>Staff Preview:</strong> Maintenance Mode is currently ACTIVE on the storefront.</span>
+        </div>
+        <div class="maintenance-staff-banner-actions">
+          <a href="/admin.html" class="maintenance-staff-banner-btn">Manage in Admin</a>
+          <button type="button" class="maintenance-staff-banner-btn" id="exitStaffBypassBtn">Lock Customer View</button>
+        </div>
+      `;
+      document.body.prepend(banner);
+      document.body.style.paddingTop = (banner.offsetHeight || 38) + 'px';
+
+      document.getElementById('exitStaffBypassBtn')?.addEventListener('click', () => {
+        sessionStorage.removeItem('mr_maintenance_bypass');
+        window.location.reload();
+      });
+    }
+    return;
+  }
+
+  // Case 3: Maintenance IS active and customer is NOT bypassed
+  if (existingBanner) existingBanner.remove();
+  document.body.style.overflow = 'hidden';
+
+  const title = settings.maintenanceTitle || 'Laboratory Restock & Routine Formulation Update';
+  const message = settings.maintenanceMessage || 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.';
+  const returnTime = settings.maintenanceEstimatedReturn || '';
+  const allowWhatsApp = settings.maintenanceAllowWhatsAppOrders !== false;
+  const whatsappNum = settings.whatsappNumber || '+2349112488271';
+  const cleanPhone = whatsappNum.replace(/[^0-9]/g, '');
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent("Hello Memory Rehab team! I saw the store is in maintenance mode and I would like to place an order / make an inquiry.")}`;
+
+  let overlay = existingOverlay;
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'luxuryMaintenanceOverlay';
+    overlay.className = 'luxury-maintenance-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div class="maintenance-glass-card">
+      <div class="maintenance-emblem-wrap">
+        <div class="maintenance-emblem-ring"></div>
+        <div class="maintenance-emblem-core">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="maintenance-status-badge">
+        <span class="status-pulse-dot"></span>
+        <span>Apothecary Lab Restock &amp; Calibration</span>
+      </div>
+
+      <h1 class="maintenance-title" id="maintDisplayTitle">${title}</h1>
+      <p class="maintenance-desc" id="maintDisplayMsg">${message}</p>
+
+      <div id="maintenanceCountdownContainer"></div>
+
+      <div class="maintenance-actions">
+        ${allowWhatsApp ? `
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="maintenance-wa-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            Order / Inquire via WhatsApp
+          </a>
+        ` : ''}
+
+        <div style="width: 100%; max-width: 420px; margin-top: 8px;">
+          <p style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">
+            Get notified immediately when fresh batches unlock:
+          </p>
+          <form class="maintenance-subscribe-form" id="maintenanceSubscribeForm">
+            <input type="email" class="maintenance-email-input" id="maintenanceEmailInput" placeholder="Enter your email address…" required />
+            <button type="submit" class="maintenance-notify-btn">Notify Me</button>
+          </form>
+          <div id="maintenanceSubscribeFeedback" style="font-size: 0.82rem; font-weight: 700; color: #10b981; margin-top: 8px; display: none;"></div>
+        </div>
+      </div>
+
+      <div class="maintenance-staff-row">
+        <button type="button" class="maintenance-staff-btn" id="openStaffBypassModalBtn">
+          🔑 Staff &amp; Pharmacist Access
+        </button>
+      </div>
+    </div>
+  `;
+
+  setupMaintenanceCountdown(returnTime);
+
+  // Subscriber Form
+  const subForm = document.getElementById('maintenanceSubscribeForm');
+  subForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = document.getElementById('maintenanceEmailInput');
+    const feedback = document.getElementById('maintenanceSubscribeFeedback');
+    const email = emailInput?.value.trim();
+    if (!email) return;
+
+    try {
+      const subs = JSON.parse(localStorage.getItem('mr_maintenance_subscribers') || '[]');
+      if (!subs.includes(email)) {
+        subs.push(email);
+        localStorage.setItem('mr_maintenance_subscribers', JSON.stringify(subs));
+      }
+
+      if (typeof firebase !== 'undefined' && firebase.firestore) {
+        try {
+          await firebase.firestore().collection('maintenance_subscribers').add({
+            email,
+            subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch(cErr) {}
+      }
+
+      if (feedback) {
+        feedback.textContent = '✓ You are on the VIP restock priority list!';
+        feedback.style.display = 'block';
+      }
+      emailInput.value = '';
+    } catch(err) {
+      if (feedback) {
+        feedback.textContent = '✓ Thank you! We will notify you when live.';
+        feedback.style.display = 'block';
+      }
+    }
+  });
+
+  // Staff Bypass modal prompt
+  document.getElementById('openStaffBypassModalBtn')?.addEventListener('click', () => {
+    const key = prompt('Memory Rehab Staff Access:\nPlease enter your secret staff bypass passkey:');
+    if (!key) return;
+    if (key.trim() === bypassKey) {
+      sessionStorage.setItem('mr_maintenance_bypass', 'true');
+      alert('✓ Staff passkey verified! Entering preview mode.');
+      window.location.reload();
+    } else {
+      alert('❌ Invalid passkey. Access denied.');
+    }
+  });
+}
+
+function setupMaintenanceCountdown(targetTimeString) {
+  const container = document.getElementById('maintenanceCountdownContainer');
+  if (!container) return;
+  if (maintenanceCountdownInterval) clearInterval(maintenanceCountdownInterval);
+
+  if (!targetTimeString || !targetTimeString.trim()) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const targetDate = new Date(targetTimeString);
+  if (isNaN(targetDate.getTime())) {
+    container.innerHTML = `
+      <div style="margin-bottom: 24px; font-size: 0.9rem; font-weight: 700; color: var(--primary);">
+        ⏳ Estimated Reopen: <span>${targetTimeString}</span>
+      </div>
+    `;
+    return;
+  }
+
+  function updateTicker() {
+    const now = new Date().getTime();
+    const diff = targetDate.getTime() - now;
+
+    if (diff <= 0) {
+      container.innerHTML = `
+        <div style="margin-bottom: 24px; font-size: 0.9rem; font-weight: 700; color: #10b981;">
+          ✨ Laboratory calibration complete! Unlocking shortly.
+        </div>
+      `;
+      if (maintenanceCountdownInterval) clearInterval(maintenanceCountdownInterval);
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    container.innerHTML = `
+      <div class="maintenance-countdown-wrap">
+        ${days > 0 ? `
+          <div class="maintenance-countdown-box">
+            <div class="maintenance-countdown-val">${String(days).padStart(2, '0')}</div>
+            <div class="maintenance-countdown-lbl">Days</div>
+          </div>
+        ` : ''}
+        <div class="maintenance-countdown-box">
+          <div class="maintenance-countdown-val">${String(hours).padStart(2, '0')}</div>
+          <div class="maintenance-countdown-lbl">Hours</div>
+        </div>
+        <div class="maintenance-countdown-box">
+          <div class="maintenance-countdown-val">${String(minutes).padStart(2, '0')}</div>
+          <div class="maintenance-countdown-lbl">Mins</div>
+        </div>
+        <div class="maintenance-countdown-box">
+          <div class="maintenance-countdown-val">${String(seconds).padStart(2, '0')}</div>
+          <div class="maintenance-countdown-lbl">Secs</div>
+        </div>
+      </div>
+    `;
+  }
+
+  updateTicker();
+  maintenanceCountdownInterval = setInterval(updateTicker, 1000);
+}
+
+// Auto-run maintenance checker on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => initMaintenanceMode());
+} else {
+  initMaintenanceMode();
+}
 
 // ═══════════════════════════════════════════════════════════════
 //  INSTANT LIVE PRODUCT SEARCH (Mobile & Desktop)

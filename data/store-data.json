@@ -16,6 +16,12 @@
     "welcomeDescription": "Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.",
     "themeAccentColor": "#f48bb3",
     "darkTheme": "obsidian-rose",
+    "maintenanceMode": false,
+    "maintenanceTitle": "Laboratory Restock & Routine Formulation Update",
+    "maintenanceMessage": "Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.",
+    "maintenanceEstimatedReturn": "",
+    "maintenanceAllowWhatsAppOrders": true,
+    "maintenanceBypassKey": "lab2026",
     "updatedAt": "2026-09-17T08:45:09.206Z"
   },
   "products": [

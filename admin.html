@@ -152,6 +152,75 @@
           </div>
         </div>
 
+        <!-- Storefront Status & Maintenance Mode Card -->
+        <div class="admin-card maintenance-control-card" id="maintenanceControlCard">
+          <div class="maintenance-header-row">
+            <div>
+              <div class="maintenance-live-pill" id="maintenanceLivePill">
+                <span class="status-pulse-dot"></span>
+                <span id="maintenanceLiveText">Storefront is Live &amp; Accepting Orders</span>
+              </div>
+              <h2 class="admin-card-title" style="margin-top: 8px;">🛡️ Storefront Status &amp; Maintenance Mode</h2>
+              <p class="admin-card-desc">Lock the customer-facing storefront during catalog updates, restocks, or maintenance. Staff can preview anytime using the bypass passkey.</p>
+            </div>
+            <div class="maintenance-toggle-wrap">
+              <label class="switch-control" for="maintenanceModeToggle" title="Turn Maintenance Mode On/Off">
+                <input type="checkbox" id="maintenanceModeToggle" />
+                <span class="slider round"></span>
+              </label>
+              <span class="toggle-state-label" id="maintenanceToggleStateLabel">Maintenance: OFF</span>
+            </div>
+          </div>
+
+          <div class="admin-grid-form" id="maintenanceFormFields" style="margin-top: 24px;">
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingMaintenanceTitle">Maintenance Notice Headline</label>
+              <input type="text" id="settingMaintenanceTitle" class="admin-input" value="Laboratory Restock &amp; Routine Formulation Update" placeholder="e.g. Apothecary Lab Restock in Progress" />
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingMaintenanceEstimatedReturn">Estimated Reopen / Return Time (Optional)</label>
+              <input type="text" id="settingMaintenanceEstimatedReturn" class="admin-input" value="" placeholder="e.g. Today at 6:00 PM GMT or 2026-09-18T18:00" />
+              <span class="admin-hint" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 4px; display: block;">If an ISO date/time or specific hour is entered, a live countdown timer displays on the maintenance screen.</span>
+            </div>
+
+            <div class="admin-field-group full-width">
+              <label class="admin-label" for="settingMaintenanceMessage">Customer Message Notice</label>
+              <textarea id="settingMaintenanceMessage" class="admin-input" rows="3" style="resize: vertical;" placeholder="Explain why the lab is resting and when customers can order again...">Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.</textarea>
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label" for="settingMaintenanceBypassKey">Secret Staff Bypass Passkey</label>
+              <div style="position: relative;">
+                <input type="text" id="settingMaintenanceBypassKey" class="admin-input" value="lab2026" style="font-family: monospace; letter-spacing: 0.08em; font-weight: 700;" />
+              </div>
+              <span class="admin-hint" style="font-size: 0.76rem; color: var(--text-muted); margin-top: 4px; display: block;">Visiting <code>/?bypass=YOUR_KEY</code> or clicking "Staff Access" on the maintenance screen unlocks the live store for testing.</span>
+            </div>
+
+            <div class="admin-field-group">
+              <label class="admin-label">WhatsApp Direct Inquiries</label>
+              <label class="admin-checkbox-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 8px;">
+                <input type="checkbox" id="settingMaintenanceWhatsApp" checked style="width: 18px; height: 18px; accent-color: var(--primary);" />
+                <span style="font-size: 0.88rem; color: var(--text-main); font-weight: 600;">Show direct WhatsApp Order &amp; Inquiry button on maintenance screen</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="maintenance-action-footer">
+            <div class="maintenance-preview-links">
+              <a href="/?preview=maintenance" target="_blank" class="btn-secondary" style="font-size: 0.82rem; padding: 8px 16px;">
+                👁️ Preview Customer View
+              </a>
+              <a href="/?bypass=lab2026" id="maintenanceBypassLink" target="_blank" class="btn-secondary" style="font-size: 0.82rem; padding: 8px 16px;">
+                🔓 Open Store with Bypass
+              </a>
+            </div>
+            <button type="button" class="btn-primary" id="saveMaintenanceBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Maintenance Settings
+            </button>
+          </div>
+        </div>
+
         <!-- Banner Settings Card -->
         <div class="admin-card">
           <h2 class="admin-card-title">📢 Announcements &amp; Storewide Promotions</h2>
@@ -992,6 +1061,24 @@
         }
       }
 
+      function updateMaintenanceUIState(isActive) {
+        const card = document.getElementById('maintenanceControlCard');
+        const pill = document.getElementById('maintenanceLivePill');
+        const text = document.getElementById('maintenanceLiveText');
+        const label = document.getElementById('maintenanceToggleStateLabel');
+        if (card) card.classList.toggle('active-maintenance', !!isActive);
+        if (pill) pill.classList.toggle('active', !!isActive);
+        if (label) {
+          label.classList.toggle('active', !!isActive);
+          label.textContent = isActive ? 'Maintenance: ACTIVE' : 'Maintenance: OFF';
+        }
+        if (text) {
+          text.textContent = isActive
+            ? 'Maintenance Mode is ACTIVE (Storefront Locked)'
+            : 'Storefront is Live & Accepting Orders';
+        }
+      }
+
       // 3. Load Data into Form
       async function loadAdminData() {
         // Step A: Load local settings first for instant responsiveness
@@ -999,6 +1086,23 @@
           const localSettingsRaw = localStorage.getItem('mr_store_settings');
           if (localSettingsRaw) {
             const ls = JSON.parse(localSettingsRaw);
+            if (ls.maintenanceMode !== undefined) {
+              const toggle = document.getElementById('maintenanceModeToggle');
+              if (toggle) toggle.checked = !!ls.maintenanceMode;
+              updateMaintenanceUIState(!!ls.maintenanceMode);
+            }
+            if (ls.maintenanceTitle) document.getElementById('settingMaintenanceTitle').value = ls.maintenanceTitle;
+            if (ls.maintenanceMessage) document.getElementById('settingMaintenanceMessage').value = ls.maintenanceMessage;
+            if (ls.maintenanceEstimatedReturn !== undefined) document.getElementById('settingMaintenanceEstimatedReturn').value = ls.maintenanceEstimatedReturn;
+            if (ls.maintenanceBypassKey) {
+              document.getElementById('settingMaintenanceBypassKey').value = ls.maintenanceBypassKey;
+              const link = document.getElementById('maintenanceBypassLink');
+              if (link) link.href = `/?bypass=${encodeURIComponent(ls.maintenanceBypassKey)}`;
+            }
+            if (ls.maintenanceAllowWhatsAppOrders !== undefined) {
+              const wa = document.getElementById('settingMaintenanceWhatsApp');
+              if (wa) wa.checked = !!ls.maintenanceAllowWhatsAppOrders;
+            }
             if (ls.storeName) document.getElementById('settingStoreName').value = ls.storeName;
             if (ls.storeTagline) document.getElementById('settingStoreTagline').value = ls.storeTagline;
             if (ls.announcement) document.getElementById('settingAnnouncement').value = ls.announcement;
@@ -1030,6 +1134,23 @@
           const settingsDoc = await db.collection('store_settings').doc('general').get();
           if (settingsDoc.exists) {
             const data = settingsDoc.data();
+            if (data.maintenanceMode !== undefined) {
+              const toggle = document.getElementById('maintenanceModeToggle');
+              if (toggle) toggle.checked = !!data.maintenanceMode;
+              updateMaintenanceUIState(!!data.maintenanceMode);
+            }
+            if (data.maintenanceTitle) document.getElementById('settingMaintenanceTitle').value = data.maintenanceTitle;
+            if (data.maintenanceMessage) document.getElementById('settingMaintenanceMessage').value = data.maintenanceMessage;
+            if (data.maintenanceEstimatedReturn !== undefined) document.getElementById('settingMaintenanceEstimatedReturn').value = data.maintenanceEstimatedReturn;
+            if (data.maintenanceBypassKey) {
+              document.getElementById('settingMaintenanceBypassKey').value = data.maintenanceBypassKey;
+              const link = document.getElementById('maintenanceBypassLink');
+              if (link) link.href = `/?bypass=${encodeURIComponent(data.maintenanceBypassKey)}`;
+            }
+            if (data.maintenanceAllowWhatsAppOrders !== undefined) {
+              const wa = document.getElementById('settingMaintenanceWhatsApp');
+              if (wa) wa.checked = !!data.maintenanceAllowWhatsAppOrders;
+            }
             if (data.storeName) document.getElementById('settingStoreName').value = data.storeName;
             if (data.storeTagline) document.getElementById('settingStoreTagline').value = data.storeTagline;
             if (data.announcement) document.getElementById('settingAnnouncement').value = data.announcement;
@@ -1751,6 +1872,63 @@
         }
       });
 
+      // ── Maintenance Mode Handlers ──
+      const maintenanceModeToggle = document.getElementById('maintenanceModeToggle');
+      maintenanceModeToggle?.addEventListener('change', (e) => {
+        updateMaintenanceUIState(e.target.checked);
+      });
+
+      const bypassKeyInput = document.getElementById('settingMaintenanceBypassKey');
+      bypassKeyInput?.addEventListener('input', () => {
+        const key = bypassKeyInput.value.trim() || 'lab2026';
+        const link = document.getElementById('maintenanceBypassLink');
+        if (link) link.href = `/?bypass=${encodeURIComponent(key)}`;
+      });
+
+      const saveMaintenanceBtn = document.getElementById('saveMaintenanceBtn');
+      saveMaintenanceBtn?.addEventListener('click', async () => {
+        saveMaintenanceBtn.disabled = true;
+        saveMaintenanceBtn.textContent = 'Saving…';
+
+        const maintenanceMode = !!document.getElementById('maintenanceModeToggle')?.checked;
+        const maintenanceTitle = document.getElementById('settingMaintenanceTitle')?.value.trim() || 'Laboratory Restock & Routine Formulation Update';
+        const maintenanceMessage = document.getElementById('settingMaintenanceMessage')?.value.trim() || 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.';
+        const maintenanceEstimatedReturn = document.getElementById('settingMaintenanceEstimatedReturn')?.value.trim() || '';
+        const maintenanceBypassKey = document.getElementById('settingMaintenanceBypassKey')?.value.trim() || 'lab2026';
+        const maintenanceAllowWhatsAppOrders = !!document.getElementById('settingMaintenanceWhatsApp')?.checked;
+
+        const maintenanceData = {
+          maintenanceMode,
+          maintenanceTitle,
+          maintenanceMessage,
+          maintenanceEstimatedReturn,
+          maintenanceBypassKey,
+          maintenanceAllowWhatsAppOrders
+        };
+
+        // 1. Save locally
+        const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+        const merged = { ...existing, ...maintenanceData };
+        persistSettingsLocally(merged);
+
+        if (typeof window.showToast === 'function') {
+          window.showToast(maintenanceMode ? '⚠️ Maintenance Mode activated live!' : '🟢 Storefront published live!', '🛡️');
+        }
+
+        // 2. Push to Firestore
+        try {
+          await db.collection('store_settings').doc('general').set({
+            ...maintenanceData,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch (err) {
+          console.warn('Maintenance cloud save notice:', err.message);
+        } finally {
+          saveMaintenanceBtn.disabled = false;
+          saveMaintenanceBtn.textContent = 'Save Maintenance Settings';
+        }
+      });
+
       saveSettingsBtn?.addEventListener('click', async () => {
         saveSettingsBtn.disabled = true;
         saveSettingsBtn.textContent = 'Saving…';
@@ -1802,7 +1980,13 @@
           footerTagline,
           whatsappNumber,
           instagramHandle,
-          tiktokHandle
+          tiktokHandle,
+          maintenanceMode: !!document.getElementById('maintenanceModeToggle')?.checked,
+          maintenanceTitle: document.getElementById('settingMaintenanceTitle')?.value.trim() || 'Laboratory Restock & Routine Formulation Update',
+          maintenanceMessage: document.getElementById('settingMaintenanceMessage')?.value.trim() || 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.',
+          maintenanceEstimatedReturn: document.getElementById('settingMaintenanceEstimatedReturn')?.value.trim() || '',
+          maintenanceBypassKey: document.getElementById('settingMaintenanceBypassKey')?.value.trim() || 'lab2026',
+          maintenanceAllowWhatsAppOrders: !!document.getElementById('settingMaintenanceWhatsApp')?.checked
         };
 
         // 1. Save locally
