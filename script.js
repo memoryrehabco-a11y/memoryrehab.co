@@ -1145,8 +1145,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Expose for external and scheduler usage
   window.applyThemeGlobal = applyTheme;
 
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
+  const allThemeToggles = document.querySelectorAll('.theme-toggle-btn, #themeToggle');
+  allThemeToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
       const currentTheme = htmlRoot.getAttribute('data-theme') || 'light';
       const newTheme = currentTheme === 'light' ? 'dark' : 'light';
       applyTheme(newTheme);
@@ -1158,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newTheme === 'dark' ? '🌙' : '☀️'
       );
     });
-  }
+  });
 
   // --- 5. TOAST NOTIFICATION SYSTEM ---
   const toastContainer = document.getElementById('toastContainer');

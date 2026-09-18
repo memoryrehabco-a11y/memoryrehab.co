@@ -55,14 +55,14 @@ html {
     top: 6px !important;
     margin-top: 6px !important;
     margin-bottom: 12px !important;
-    padding: 0 10px !important;
+    padding: 0 8px !important;
   }
   .header-inner {
     display: grid !important;
-    grid-template-columns: 44px 1fr auto !important;
+    grid-template-columns: 38px 1fr auto !important;
     align-items: center !important;
-    padding: 6px 10px !important;
-    gap: 8px !important;
+    padding: 6px 8px !important;
+    gap: 6px !important;
     position: relative !important;
   }
   .hamburger-btn {
@@ -71,14 +71,15 @@ html {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
     border-radius: 50% !important;
     background: var(--glass-bg) !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-main) !important;
     margin: 0 !important;
+    flex-shrink: 0 !important;
   }
   .brand-link {
     grid-column: 2 !important;
@@ -88,20 +89,23 @@ html {
     justify-content: center !important;
     text-align: center !important;
     margin: 0 auto !important;
-    gap: 6px !important;
+    gap: 4px !important;
     text-decoration: none !important;
+    max-width: 105px !important;
+    overflow: hidden !important;
   }
   .brand-logo-img {
-    height: 30px !important;
+    height: 26px !important;
     width: auto !important;
-    max-width: 80px !important;
+    max-width: 85px !important;
+    object-fit: contain !important;
     transform-origin: center center !important;
   }
   .brand-logo-icon {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 0.85rem !important;
-    border-radius: 9px !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.8rem !important;
+    border-radius: 8px !important;
   }
   .brand-info {
     display: flex !important;
@@ -110,105 +114,231 @@ html {
     text-align: left !important;
   }
   .brand-title {
-    font-size: 0.95rem !important;
+    font-size: 0.9rem !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em !important;
     color: var(--text-main) !important;
     line-height: 1.1 !important;
   }
   .brand-subtitle {
-    display: block !important;
-    font-size: 0.58rem !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-    color: var(--text-muted) !important;
-    margin: 0 !important;
+    display: none !important;
   }
   .nav-actions {
     grid-column: 3 !important;
     order: 3 !important;
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 5px !important;
     margin-left: auto !important;
+    flex-shrink: 0 !important;
   }
   /* Search button */
   .search-toggle-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
-    border-radius: 50% !important;
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
-    color: var(--text-main) !important;
-    cursor: pointer !important;
-    transition: transform 0.2s ease, background 0.2s ease !important;
-  }
-  .search-toggle-btn:hover {
-    transform: scale(1.05) !important;
-    background: var(--primary-soft) !important;
-  }
-  /* Sound toggle on mobile */
-  .sound-toggle-btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
     border-radius: 50% !important;
     background: var(--glass-bg) !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-main) !important;
     cursor: pointer !important;
     padding: 0 !important;
-    font-size: 0.95rem !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease, background 0.2s ease !important;
   }
-  @media (max-width: 460px) {
-    .header-inner .sound-toggle-btn {
-      display: none !important;
-    }
+  .search-toggle-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .search-toggle-btn:hover {
+    transform: scale(1.05) !important;
+    background: var(--primary-soft) !important;
+  }
+  /* Sound & mist toggles hidden in mobile header to prevent clutter (accessible in mobile drawer & footer) */
+  .header-inner .sound-toggle-btn,
+  .header-inner .mist-toggle-btn {
+    display: none !important;
   }
   /* Theme toggle restored on mobile / Android */
   .theme-toggle-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
     border-radius: 50% !important;
     background: var(--glass-bg) !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-main) !important;
     cursor: pointer !important;
     padding: 0 !important;
+    flex-shrink: 0 !important;
   }
   .theme-toggle-btn svg {
-    width: 18px !important;
-    height: 18px !important;
+    width: 17px !important;
+    height: 17px !important;
   }
+  /* Wishlist toggle pill on mobile */
+  .wishlist-toggle-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    border-radius: 18px !important;
+    padding: 0 8px !important;
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-main) !important;
+    text-decoration: none !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  .wishlist-toggle-btn span:not(.wishlist-count-badge) {
+    display: none !important;
+  }
+  .wishlist-toggle-btn .wishlist-count-badge {
+    min-width: 18px !important;
+    height: 18px !important;
+    font-size: 0.68rem !important;
+    padding: 0 4px !important;
+    display: grid !important;
+    place-items: center !important;
+    line-height: 1 !important;
+  }
+  .wishlist-toggle-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--primary) !important;
+  }
+  /* Cart toggle pill on mobile */
   .cart-toggle-btn {
-    height: 38px !important;
-    border-radius: 20px !important;
-    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    border-radius: 18px !important;
+    padding: 0 8px !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
   }
   .cart-toggle-btn span:not(.cart-count-badge) {
     display: none !important;
+  }
+  .cart-toggle-btn .cart-count-badge {
+    min-width: 18px !important;
+    height: 18px !important;
+    font-size: 0.68rem !important;
+    padding: 0 4px !important;
+    display: grid !important;
+    place-items: center !important;
+    line-height: 1 !important;
+  }
+  .cart-toggle-btn svg {
+    width: 16px !important;
+    height: 16px !important;
   }
   .user-auth-pill,
   #scanImagesBtn {
     display: none !important;
   }
+  /* Admin portal header override */
+  .admin-header-inner,
+  .header-inner.admin-header-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    grid-template-columns: none !important;
+  }
 }
+
+/* Extra narrow screens (< 360px) */
+@media (max-width: 360px) {
+  .site-header {
+    padding: 0 4px !important;
+  }
+  .header-inner {
+    padding: 5px 6px !important;
+    gap: 4px !important;
+    grid-template-columns: 34px 1fr auto !important;
+  }
+  .hamburger-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+  }
+  .brand-logo-img {
+    max-width: 75px !important;
+    height: 24px !important;
+  }
+  .nav-actions {
+    gap: 3px !important;
+  }
+  .search-toggle-btn,
+  .theme-toggle-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+  }
+  .wishlist-toggle-btn,
+  .cart-toggle-btn {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0 6px !important;
+  }
+}
+
 @media (max-width: 480px) {
   .brand-subtitle {
+    display: none !important;
+  }
+}
+
+/* 4B. RITUAL VIDEO & 3-STEP QUICK JUMP BAR RESPONSIVENESS */
+@media (max-width: 900px) {
+  .ritual-player-wrap {
+    aspect-ratio: 4 / 3 !important;
+    min-height: 280px !important;
+    max-height: 480px !important;
+  }
+  .ritual-steps-bar {
+    bottom: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+  .ritual-step-jump-btn {
+    padding: 5px 6px !important;
+    font-size: 0.72rem !important;
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+    gap: 4px !important;
+  }
+  .ritual-step-jump-btn .step-num {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    font-size: 0.65rem !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .ritual-step-jump-btn .step-word-rest {
     display: none !important;
   }
 }

@@ -167,6 +167,7 @@
 
 .ritual-step-jump-btn {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.75);

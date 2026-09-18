@@ -813,4 +813,44 @@ body.theme-morph-smooth .admin-card {
   flex-wrap: wrap;
 }
 
+/* ==========================================================================
+   Admin Mobile & Responsive Refinements
+   ========================================================================== */
+.admin-header-inner,
+.header-inner.admin-header-inner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  grid-template-columns: none !important;
+  gap: 12px !important;
+}
+
+@media (max-width: 768px) {
+  .admin-shell {
+    padding: 0 12px !important;
+    margin: 20px auto 40px !important;
+  }
+  .admin-top-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .admin-actions-group {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+  .admin-card {
+    padding: 20px 16px !important;
+    border-radius: var(--radius-lg) !important;
+  }
+  .admin-title {
+    font-size: 1.4rem !important;
+  }
+  .admin-table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+
 
