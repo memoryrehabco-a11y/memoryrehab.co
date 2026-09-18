@@ -1497,28 +1497,141 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Direct Order via WhatsApp
-  const whatsappOrderBtn = document.getElementById('whatsappOrderBtn');
-  if (whatsappOrderBtn) {
-    whatsappOrderBtn.addEventListener('click', () => {
-      let text = 'Hello Memory Rehab! 🌿%0AI would like to place an order:%0A%0A';
-      if (!cart || cart.length === 0) {
-        text = 'Hello Memory Rehab! 🌿%0AI would like to inquire about your botanical skincare routine formulations.';
-      } else {
-        cart.forEach((item, i) => {
-          text += `${i + 1}. ${item.quantity}x *${item.name}* - ₦${(item.price * item.quantity).toLocaleString()}%0A`;
-        });
-        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        text += `%0A*Subtotal:* ₦${subtotal.toLocaleString()}%0A%0APlease let me know delivery availability and payment details. Thank you!`;
-      }
-      window.open(`https://wa.me/2349112488271?text=${text}`, '_blank');
+  // --- ORDER PLACEMENT & LAB CELEBRATION ENGINE ---
+  function completeOrderFlow({ customerName, customerPhone, email, address, country, method = 'whatsapp' } = {}) {
+    if (!cart || cart.length === 0) {
+      showToast('Your routine bag is empty!', '⚠️');
+      return;
+    }
+
+    const orderId = 'MR-' + Math.floor(10000 + Math.random() * 90000);
+    const orderDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const subtotal = cart.reduce((s, it) => s + Number(it.price) * it.quantity, 0);
+    const shipping = activeShippingCost || 0;
+    const total = subtotal + shipping;
+    const name = customerName || (document.getElementById('checkoutName')?.value.trim()) || 'Valued Client';
+    const phone = customerPhone || (document.getElementById('checkoutPhone')?.value.trim()) || '';
+    const addr = address || (document.getElementById('checkoutAddress')?.value.trim()) || '';
+    const dest = country || (document.getElementById('checkoutCountry')?.value) || 'Nigeria';
+    const em = email || (document.getElementById('checkoutEmail')?.value.trim()) || '';
+
+    // Build rich formatted WhatsApp order text
+    let waText = `🌿 *MEMORY REHAB LAB — OFFICIAL ORDER #${orderId}* 🌿%0A`;
+    waText += `📅 Date: ${orderDate}%0A`;
+    waText += `-----------------------------------%0A`;
+    waText += `🛍️ *ORDERED ROUTINE ACTIVES:*%0A`;
+    cart.forEach((item, i) => {
+      waText += `${i + 1}. ${item.quantity}x *${item.name}* (${item.size || 'Full Size'}) — ${formatCurrency(item.price * item.quantity)}%0A`;
     });
+    waText += `-----------------------------------%0A`;
+    waText += `📦 *Subtotal:* ${formatCurrency(subtotal)}%0A`;
+    waText += `🚚 *Shipping:* ${shipping === 0 ? 'FREE EXPRESS (₦60,000+ Unlocked)' : formatCurrency(shipping)}%0A`;
+    waText += `💰 *TOTAL DUE:* ${formatCurrency(total)}%0A`;
+    waText += `-----------------------------------%0A`;
+    waText += `📍 *DELIVERY DETAILS:*%0A`;
+    waText += `• Client: ${name}%0A`;
+    if (phone) waText += `• Phone: ${phone}%0A`;
+    if (addr) waText += `• Address: ${addr}%0A`;
+    waText += `• Destination: ${dest}%0A`;
+    if (em) waText += `• Email: ${em}%0A`;
+    waText += `• Payment: WhatsApp Concierge / Direct Bank Transfer%0A%0A`;
+    waText += `Kindly confirm availability and account details for immediate lab packaging. Thank you! 🙏`;
+
+    // Persist order in local history
+    try {
+      const orderRecord = {
+        id: orderId,
+        date: orderDate,
+        items: [...cart],
+        subtotal,
+        shipping,
+        total,
+        customer: { name, phone, address: addr, country: dest, email: em },
+        status: 'Order Received — Dispatch In Preparation'
+      };
+      const existingOrders = JSON.parse(localStorage.getItem('mr_order_history') || '[]');
+      existingOrders.unshift(orderRecord);
+      localStorage.setItem('mr_order_history', JSON.stringify(existingOrders));
+    } catch(e) {}
+
+    // 1. TRIGGER MASSIVE CELEBRATION CONFETTI
+    if (typeof window.triggerConfetti === 'function') {
+      window.triggerConfetti({ heavy: true });
+    }
+
+    // 2. Play celebration sound if available
+    try {
+      if (window.MemoryRehabFX && window.MemoryRehabFX.SoundFX && typeof window.MemoryRehabFX.SoundFX.play === 'function') {
+        window.MemoryRehabFX.SoundFX.play('chime');
+      }
+    } catch(e) {}
+
+    // 3. Show Order Success Modal
+    const successModal = document.getElementById('orderSuccessModal');
+    const successIdBadge = document.getElementById('orderSuccessIdBadge');
+    const successSummary = document.getElementById('orderSuccessSummaryBox');
+    const successWaLink = document.getElementById('orderSuccessWaLink');
+
+    if (successIdBadge) successIdBadge.textContent = `Order #${orderId}`;
+    if (successSummary) {
+      successSummary.innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-weight:700;">
+          <span>Items (${cart.reduce((c, i) => c + i.quantity, 0)})</span>
+          <span style="color:var(--primary);">${formatCurrency(total)}</span>
+        </div>
+        <div style="color:var(--text-muted); font-size:0.8rem; max-height:80px; overflow-y:auto; line-height:1.4;">
+          ${cart.map(i => `• ${i.quantity}x ${i.name}`).join('<br/>')}
+        </div>
+        <div style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--glass-border); font-size:0.8rem; color:var(--text-muted);">
+          📍 Destination: <strong>${addr ? `${addr}, ${dest}` : dest}</strong>
+        </div>
+      `;
+    }
+    const waUrl = `https://wa.me/2349112488271?text=${waText}`;
+    if (successWaLink) successWaLink.href = waUrl;
+
+    // Close checkout and cart
+    closeCheckout();
+    closeCartDrawer();
+
+    // Reset cart
+    cart = [];
+    saveCartLocally();
+    renderCart();
+
+    // Show confirmation modal
+    if (successModal) {
+      successModal.style.display = 'grid';
+    }
+
+    // Open WhatsApp
+    window.open(waUrl, '_blank');
+    showToast(`Order #${orderId} confirmed! Opening WhatsApp...`, '🎉');
   }
+
+  // Direct Order via WhatsApp buttons (Cart drawer & PDP)
+  const whatsappOrderBtns = document.querySelectorAll('.whatsapp-cart-btn, #whatsappOrderBtn');
+  whatsappOrderBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!cart || cart.length === 0) {
+        window.open('https://wa.me/2349112488271?text=Hello%20Memory%20Rehab!%20%F0%9F%8C%BF%20I%20would%20like%20to%20inquire%20about%20your%20clinical%20barrier%20skincare%20routines.', '_blank');
+        return;
+      }
+      const checkoutModal = document.getElementById('checkoutModal');
+      if (checkoutModal) {
+        checkoutModal.style.display = 'grid';
+        refreshCheckoutSummary();
+      } else {
+        completeOrderFlow({ method: 'whatsapp' });
+      }
+    });
+  });
 
   // Checkout modal controls
   const checkoutModal = document.getElementById('checkoutModal');
   const checkoutCloseBtn = document.getElementById('checkoutCloseBtn');
   const checkoutCancelBtn = document.getElementById('checkoutCancelBtn');
+  const checkoutWhatsAppBtn = document.getElementById('checkoutWhatsAppBtn');
   const checkoutPayBtn = document.getElementById('checkoutPayBtn');
   const checkoutCountry = document.getElementById('checkoutCountry');
   const checkoutEmail = document.getElementById('checkoutEmail');
@@ -1532,32 +1645,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkoutCloseBtn?.addEventListener('click', closeCheckout);
   checkoutCancelBtn?.addEventListener('click', closeCheckout);
-
   checkoutCountry?.addEventListener('change', refreshCheckoutSummary);
   document.getElementById('checkoutAddress')?.addEventListener('input', refreshCheckoutSummary);
 
+  // Instant WhatsApp Order from checkout modal
+  checkoutWhatsAppBtn?.addEventListener('click', () => {
+    completeOrderFlow({ method: 'whatsapp' });
+  });
+
+  // Pay Online (Card / Paystack) with seamless WhatsApp Concierge fallback
   checkoutPayBtn?.addEventListener('click', async () => {
     if (cart.length === 0) { showToast('Your bag is empty!', '⚠️'); return; }
     const subtotal = cart.reduce((s, it) => s + Number(it.price) * it.quantity, 0);
     const total = subtotal + activeShippingCost;
     const email = (checkoutEmail && checkoutEmail.value.trim()) || '';
-    const country = (checkoutCountry && checkoutCountry.value) || 'NG';
-    const address = document.getElementById('checkoutAddress')?.value.trim() || '';
 
-    // Build WhatsApp order message
-    let waText = 'Hello Memory Rehab! 🌿%0A*New Order Request*%0A%0A';
-    cart.forEach((item, i) => {
-      waText += `${i + 1}. ${item.quantity}x *${item.name}* (${item.size || ''}) — ${formatCurrency(item.price * item.quantity)}%0A`;
-    });
-    waText += `%0A*Subtotal:* ${formatCurrency(subtotal)}%0A`;
-    waText += `*Shipping:* ${activeShippingCost === 0 ? 'FREE' : formatCurrency(activeShippingCost)}%0A`;
-    waText += `*Total:* ${formatCurrency(total)}%0A`;
-    if (country) waText += `*Ship To:* ${country}%0A`;
-    if (address) waText += `*Address:* ${address}%0A`;
-    if (email) waText += `*Email:* ${email}%0A`;
-    waText += `%0AKindly confirm availability and payment details. Thank you! 🙏`;
-
-    // Try payment API first; fall back to WhatsApp if unavailable
+    // If customer entered email and Paystack is live, attempt initiation
     if (email) {
       try {
         const resp = await fetch('/api/payments/initiate', {
@@ -1572,15 +1675,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
         }
-      } catch (e) { /* API unavailable — fall through to WhatsApp */ }
+      } catch (e) { /* API unavailable — fall through seamlessly */ }
     }
 
-    // WhatsApp checkout fallback
-    closeCheckout();
-    closeCartDrawer();
-    window.open(`https://wa.me/2349112488271?text=${waText}`, '_blank');
-    showToast('Opening WhatsApp to complete your order!', '✅');
+    // Paystack is not yet configured or failed: seamlessly fallback to WhatsApp Order with full details and confetti!
+    showToast('Connecting you to WhatsApp Concierge for instant confirmation & dispatch...', '🌿');
+    completeOrderFlow({ method: 'whatsapp' });
   });
+
+  // Order Success Modal controls
+  const orderSuccessModal = document.getElementById('orderSuccessModal');
+  const orderSuccessCloseBtn = document.getElementById('orderSuccessCloseBtn');
+  const orderSuccessContinueBtn = document.getElementById('orderSuccessContinueBtn');
+
+  function closeOrderSuccess() {
+    if (orderSuccessModal) orderSuccessModal.style.display = 'none';
+  }
+  orderSuccessCloseBtn?.addEventListener('click', closeOrderSuccess);
+  orderSuccessContinueBtn?.addEventListener('click', closeOrderSuccess);
 
   // Routine Filter Tabs
   const filterTabs = document.querySelectorAll('.filter-tab-btn');

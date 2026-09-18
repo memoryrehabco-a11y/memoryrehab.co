@@ -190,17 +190,22 @@
    CHECKOUT & SHIPPING MODAL (index.html)
    ========================================================================== */
 
-#checkoutModal {
+#checkoutModal,
+#orderSuccessModal {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  z-index: 2100;
+  z-index: 10008;
   display: grid;
   place-items: center;
   padding: 20px;
   overflow-y: auto;
+}
+
+#orderSuccessModal {
+  z-index: 10015;
 }
 
 .modal-card {

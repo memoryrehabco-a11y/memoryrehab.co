@@ -549,6 +549,33 @@
       </div>
     </aside>
 
+    <!-- ORDER CONFIRMATION & CELEBRATION MODAL -->
+    <div id="orderSuccessModal" class="modal-backdrop" style="display:none; z-index:10010;">
+      <div class="modal-card" style="max-width:440px; text-align:center; padding:32px 24px;">
+        <button id="orderSuccessCloseBtn" class="modal-close" type="button">✕</button>
+        <div style="width:64px; height:64px; margin:0 auto 16px; border-radius:50%; background:rgba(37,211,102,0.15); border:2px solid #25d366; display:grid; place-items:center; color:#25d366; font-size:1.8rem; box-shadow:0 0 24px rgba(37,211,102,0.35);">
+          ✓
+        </div>
+        <div class="admin-badge" id="orderSuccessIdBadge" style="margin-bottom:8px;">Order #MR-00000</div>
+        <h3 style="margin:4px 0 8px; font-size:1.4rem;">Order Placed! 🎉</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:18px; line-height:1.5;">
+          Thank you for trusting Memory Rehab with your skin barrier! Your order has been registered and is being prepared for dispatch.
+        </p>
+        <div id="orderSuccessSummaryBox" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:14px; padding:12px 16px; text-align:left; font-size:0.85rem; margin-bottom:20px;">
+          <!-- Dynamic order details injected here -->
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <a id="orderSuccessWaLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background:#25d366; border-color:#25d366; display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; font-weight:700; text-decoration:none; border-radius:var(--radius-full, 9999px); box-shadow:0 4px 16px rgba(37,211,102,0.35);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.65 3.742-.983z"/></svg>
+            <span>Chat With Apothecary Staff</span>
+          </a>
+          <button id="orderSuccessContinueBtn" type="button" class="btn-secondary" style="padding:10px; border-radius:var(--radius-full, 9999px);">
+            Continue Exploring Formulas
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Floating Glassmorphic WhatsApp Support Button -->
     <a
       href="https://wa.me/2349112488271?text=Hi%20Memory%20Rehab%2C%20I%20would%20like%20to%20inquire%20about%20your%20routine%20skincare"

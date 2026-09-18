@@ -690,10 +690,13 @@
   }
 
   /* ============================================================
-     7. FREE SHIPPING CELEBRATION CONFETTI ENGINE
-     Lightweight canvas particle physics (0 external libraries)
+     7. FREE SHIPPING & ORDER CELEBRATION LAB CONFETTI ENGINE
+     High-density multi-wave canvas particle physics (0 external libraries)
      ============================================================ */
-  function triggerConfetti() {
+  let confettiAnimId = null;
+  let activeParticles = [];
+
+  function triggerConfetti(options = {}) {
     let canvas = document.getElementById('celebrationCanvas');
     if (!canvas) {
       canvas = document.createElement('canvas');
@@ -706,59 +709,129 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const colors = ['#10b981', '#06b6d4', '#f59e0b', '#ec4899', '#8b5cf6', '#ffffff'];
-    const particles = [];
-    const count = 75;
+    const colors = [
+      '#10b981', '#059669', // Botanical Emerald
+      '#f48bb3', '#ec4899', '#db2777', // Apothecary Rose & Faerie Dew
+      '#f59e0b', '#fbbf24', '#ffd700', // Clinical Gold & Amber
+      '#8b5cf6', '#a855f7', // Biocompatible Lavender Quartz
+      '#06b6d4', '#38bdf8', // Blue Blood Cyan
+      '#ffffff', '#fdf2f8'  // Pearlescent White
+    ];
 
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: canvas.width / 2,
-        y: canvas.height * 0.4,
-        vx: (Math.random() - 0.5) * 16,
-        vy: (Math.random() - 0.8) * 18,
-        size: Math.random() * 8 + 4,
+    const isHeavy = options.heavy !== false;
+    const batchCount = isHeavy ? 240 : 80;
+
+    for (let i = 0; i < batchCount; i++) {
+      let originX, originY, vx, vy;
+      const bucket = i % 3;
+
+      if (bucket === 0) {
+        // Bottom Left canon shooting diagonally up-right
+        originX = Math.random() * (canvas.width * 0.25);
+        originY = canvas.height * (0.85 + Math.random() * 0.15);
+        vx = Math.random() * 14 + 3;
+        vy = -(Math.random() * 20 + 12);
+      } else if (bucket === 1) {
+        // Bottom Right canon shooting diagonally up-left
+        originX = canvas.width * (0.75 + Math.random() * 0.25);
+        originY = canvas.height * (0.85 + Math.random() * 0.15);
+        vx = -(Math.random() * 14 + 3);
+        vy = -(Math.random() * 20 + 12);
+      } else {
+        // Center burst halo
+        originX = canvas.width * (0.35 + Math.random() * 0.3);
+        originY = canvas.height * (0.15 + Math.random() * 0.25);
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 14 + 4;
+        vx = Math.cos(angle) * speed;
+        vy = Math.sin(angle) * speed - 5;
+      }
+
+      const shapeType = Math.random() > 0.4 ? 'rect' : (Math.random() > 0.5 ? 'circle' : 'ribbon');
+
+      activeParticles.push({
+        x: originX,
+        y: originY,
+        vx: vx,
+        vy: vy,
+        size: Math.random() * 9 + 5,
         color: colors[Math.floor(Math.random() * colors.length)],
         rotation: Math.random() * 360,
-        rotSpeed: (Math.random() - 0.5) * 12,
+        rotSpeed: (Math.random() - 0.5) * 14,
+        rotX: Math.random() * 360,
+        rotXSpeed: (Math.random() - 0.5) * 12,
+        shape: shapeType,
         opacity: 1,
-        gravity: 0.35
+        drag: 0.985,
+        wobble: Math.random() * 10,
+        wobbleSpeed: Math.random() * 0.08 + 0.04,
+        gravity: Math.random() * 0.2 + 0.25,
+        decay: Math.random() * 0.005 + 0.005
       });
     }
 
-    let animId;
-    function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      let alive = false;
+    if (!confettiAnimId) {
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let aliveCount = 0;
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += p.gravity;
-        p.rotation += p.rotSpeed;
-        p.opacity -= 0.012;
+        for (let i = 0; i < activeParticles.length; i++) {
+          const p = activeParticles[i];
+          p.vx *= p.drag;
+          p.vy *= p.drag;
+          p.vy += p.gravity;
+          p.x += p.vx + Math.sin(p.wobble) * 1.6;
+          p.y += p.vy;
+          p.wobble += p.wobbleSpeed;
+          p.rotation += p.rotSpeed;
+          p.rotX += p.rotXSpeed;
+          p.opacity -= p.decay;
 
-        if (p.opacity > 0) {
-          alive = true;
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate((p.rotation * Math.PI) / 180);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = Math.max(0, p.opacity);
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-          ctx.restore();
+          if (p.opacity > 0 && p.y < canvas.height + 40) {
+            aliveCount++;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.scale(Math.cos((p.rotX * Math.PI) / 180), 1);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = Math.max(0, p.opacity);
+
+            if (p.shape === 'circle') {
+              ctx.beginPath();
+              ctx.arc(0, 0, p.size * 0.45, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (p.shape === 'ribbon') {
+              ctx.fillRect(-p.size * 0.6, -p.size * 0.2, p.size * 1.2, p.size * 0.4);
+            } else {
+              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+            }
+            ctx.restore();
+          }
+        }
+
+        // Filter out dead particles
+        activeParticles = activeParticles.filter(p => p.opacity > 0 && p.y < canvas.height + 40);
+
+        if (activeParticles.length > 0) {
+          confettiAnimId = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(confettiAnimId);
+          confettiAnimId = null;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
       }
-
-      if (alive) {
-        animId = requestAnimationFrame(render);
-      } else {
-        cancelAnimationFrame(animId);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      confettiAnimId = requestAnimationFrame(render);
     }
 
-    render();
+    // Secondary and tertiary wave bursts for continuous, lavish celebration!
+    if (isHeavy && !options._isSecondary) {
+      setTimeout(() => {
+        triggerConfetti({ heavy: true, _isSecondary: true });
+      }, 400);
+      setTimeout(() => {
+        triggerConfetti({ heavy: true, _isSecondary: true });
+      }, 850);
+    }
   }
 
   // Monitor cart drawer subtotal for Free Shipping milestone
@@ -1135,9 +1208,14 @@
     initDevInspectorHUD();
 
     // Export API for global calls
+    window.triggerConfetti = triggerConfetti;
+    window.triggerLabConfetti = triggerConfetti;
+    window.triggerMegaConfetti = () => triggerConfetti({ heavy: true });
+
     window.MemoryRehabFX = {
       SoundFX: SoundFX,
       triggerConfetti: triggerConfetti,
+      triggerMegaConfetti: () => triggerConfetti({ heavy: true }),
       initHoloFoil: initHoloFoil,
       initClinicalTextureLoupe: initClinicalTextureLoupe,
       initDevInspectorHUD: initDevInspectorHUD
