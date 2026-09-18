@@ -1227,9 +1227,19 @@
             });
             persistProductsLocally();
           }
-        } catch (err) {
-          console.warn('Using local catalog fallback:', err.message);
-        }
+        // Auto-normalize legacy/small dollar prices (e.g. 45 -> 45000)
+        Object.keys(currentProducts).forEach(k => {
+          const item = currentProducts[k];
+          if (item) {
+            if (Number(item.price) > 0 && Number(item.price) <= 100) {
+              item.price = Number(item.price) * 1000;
+            }
+            if (Number(item.originalPrice) > 0 && Number(item.originalPrice) <= 100) {
+              item.originalPrice = Number(item.originalPrice) * 1000;
+            }
+          }
+        });
+        persistProductsLocally();
 
         renderProductsTable();
       }
@@ -1779,8 +1789,8 @@
         currentProducts[newId] = {
           id: newId,
           name: 'New Botanical Formulation',
-          price: 45.00,
-          originalPrice: 55.00,
+          price: 45000,
+          originalPrice: 55000,
           badge: 'New Arrival',
           image: 'photo_2026-09-09_17-33-58.jpg',
           size: '30ml / 1.0 fl. oz',

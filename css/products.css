@@ -1,5 +1,5 @@
 /* ==========================================================================
-   RESTRUCTURED "THINGS TO BUY" (HELLO BUBBLE ROUTINE ARCHITECTURE)
+   RESTRUCTURED "THINGS TO BUY" (MEMORY REHAB SYSTEM ROUTINE ARCHITECTURE)
    ========================================================================== */
 
 .products-section {
@@ -500,7 +500,7 @@
   color: var(--primary);
 }
 
-/* Skin Type / Compatibility Pill (Hello Bubble Style) */
+/* Skin Type / Compatibility Pill (Memory Rehab System) */
 .skin-type-tag {
   display: inline-flex;
   align-items: center;
@@ -682,7 +682,7 @@
 
 
 /* ==========================================================================
-   3-STEP ROUTINE BUNDLE BUILDER (HELLO BUBBLE SIGNATURE FEATURE)
+   3-STEP ROUTINE BUNDLE BUILDER (MEMORY REHAB SYSTEM SIGNATURE FEATURE)
    ========================================================================== */
 
 .bundle-builder-section {

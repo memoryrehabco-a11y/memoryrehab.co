@@ -1,6 +1,6 @@
 /* ==========================================================================
    MEMORY REHAB - PROFESSIONAL MOBILE UPGRADE
-   Closes the gap vs hellobubble.com. Android-safe, touch-first, fluid type.
+   Memory Rehab System standard. Android-safe, touch-first, fluid type.
    ========================================================================== */
 
 /* 1. ANDROID TEXT SIZE LOCK */
@@ -49,7 +49,7 @@ html {
   .cart-toggle-btn { min-height: 40px !important; padding: 0 10px !important; }
 }
 
-/* 4. NAV - Mobile Header Layout (Hello Bubble Standard): Hamburger LEFT | Logo CENTER | Actions RIGHT */
+/* 4. NAV - Mobile Header Layout (Memory Rehab System Standard): Hamburger LEFT | Logo CENTER | Actions RIGHT */
 @media (max-width: 900px) {
   .site-header {
     top: 6px !important;
@@ -213,7 +213,7 @@ html {
   }
 }
 
-/* 5. PRODUCT CARDS - hellobubble standard */
+/* 5. PRODUCT CARDS - Memory Rehab System standard */
 @media (max-width: 900px) {
   .product-cards-grid {
     grid-template-columns: repeat(2, 1fr) !important;

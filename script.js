@@ -1,6 +1,6 @@
 /**
  * MEMORY REHAB LAB - CLIENT INTERACTION SCRIPT
- * Glassmorphic UI/UX, Dual Theme Controller, Hello Bubble Layout Architecture,
+ * Glassmorphic UI/UX, Dual Theme Controller, Memory Rehab System Architecture,
  * Interactive Card Click Glow-Up, Face User Welcome Popup, Authentication & PDP
  */
 
@@ -579,15 +579,416 @@ window.PASTEL_ROTATION_PALETTE = PASTEL_ROTATION_PALETTE;
 //  CURRENCY FORMATTER (global — used by cart, PDP, and hydration)
 // ═══════════════════════════════════════════════════════════════
 function formatCurrency(value) {
-  const amount = Number(value || 0);
+  let amount = Number(value || 0);
+  if (amount > 0 && amount <= 100) {
+    amount = amount * 1000;
+  }
   return `₦${amount.toLocaleString('en-NG', { maximumFractionDigits: 0 })}`;
 }
+
+// ═══════════════════════════════════════════════════════════════
+//  ROUTINE WISHLIST PERSISTENCE & STATE MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+const WISHLIST_STORAGE_KEY = 'mr_wishlist';
+
+function loadPersistedWishlist() {
+  try {
+    const raw = localStorage.getItem(WISHLIST_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed.map((item) => {
+          if (Number(item.price) > 0 && Number(item.price) <= 100) {
+            item.price = Number(item.price) * 1000;
+          }
+          if (Number(item.originalPrice) > 0 && Number(item.originalPrice) <= 100) {
+            item.originalPrice = Number(item.originalPrice) * 1000;
+          }
+          return item;
+        });
+      }
+    }
+  } catch (e) {
+    console.warn('Wishlist load notice:', e);
+  }
+  return [];
+}
+
+let wishlist = loadPersistedWishlist();
+
+function saveWishlistLocally() {
+  try {
+    localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlist));
+  } catch (e) {
+    console.warn('Wishlist storage notice:', e);
+  }
+  updateWishlistBadges();
+  syncWishlistCloud();
+}
+
+function getWishlist() {
+  return wishlist;
+}
+
+function isInWishlist(id) {
+  if (!id) return false;
+  return wishlist.some((item) => String(item.id) === String(id));
+}
+
+function updateWishlistBadges() {
+  const totalCount = wishlist.length;
+  const badgeElements = document.querySelectorAll('.wishlist-count-badge, #wishlistCount, #drawerWishlistCount, #mobWishlistCount');
+  badgeElements.forEach((el) => {
+    el.textContent = totalCount;
+    el.classList.remove('bump');
+    void el.offsetWidth;
+    el.classList.add('bump');
+  });
+}
+
+function addToWishlist(product) {
+  if (!product || !product.id) return;
+  if (!isInWishlist(product.id)) {
+    let price = Number(product.price) || 42000;
+    if (price > 0 && price <= 100) price = price * 1000;
+    let origPrice = Number(product.originalPrice) || Number((price * 1.2).toFixed(0));
+    if (origPrice > 0 && origPrice <= 100) origPrice = origPrice * 1000;
+
+    wishlist.push({
+      id: String(product.id),
+      name: product.name || 'Botanical Formulation',
+      price: price,
+      originalPrice: origPrice,
+      image: product.image || 'photo_2026-09-09_17-33-58.jpg',
+      size: product.size || '30ml / 1.0 fl. oz',
+      step: product.step || 'Step 3: Hydrate & Lock',
+      badge: product.badge || 'Curated Actives',
+      skinType: product.skinType || 'Barrier Repair Care'
+    });
+    saveWishlistLocally();
+    syncWishlistCardButtons();
+    if (typeof window.showToast === 'function') {
+      window.showToast(`Saved ${product.name} to routine wishlist`, '❤️');
+    }
+  }
+}
+
+function removeFromWishlist(id) {
+  if (!id) return;
+  const item = wishlist.find((i) => String(i.id) === String(id));
+  const name = item ? item.name : 'Formulation';
+  wishlist = wishlist.filter((i) => String(i.id) !== String(id));
+  saveWishlistLocally();
+  syncWishlistCardButtons();
+  if (typeof window.showToast === 'function') {
+    window.showToast(`Removed ${name} from wishlist`, '🤍');
+  }
+}
+
+function toggleWishlist(product) {
+  if (!product || !product.id) return false;
+  if (isInWishlist(product.id)) {
+    removeFromWishlist(product.id);
+    return false;
+  } else {
+    addToWishlist(product);
+    return true;
+  }
+}
+
+function clearWishlist() {
+  wishlist = [];
+  saveWishlistLocally();
+  syncWishlistCardButtons();
+  if (typeof window.showToast === 'function') {
+    window.showToast('Cleared your routine wishlist', '✨');
+  }
+}
+
+async function syncWishlistCloud() {
+  try {
+    const userRaw = localStorage.getItem('mr_current_user');
+    if (!userRaw) return;
+    const user = JSON.parse(userRaw);
+    if (!user || !user.email) return;
+
+    if (typeof firebase !== 'undefined' && firebase.firestore) {
+      const db = firebase.firestore();
+      await db.collection('user_wishlists').doc(user.email.toLowerCase()).set({
+        items: wishlist,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+  } catch (e) {}
+}
+
+function syncWishlistCardButtons() {
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach((card) => {
+    const id = card.dataset.id || card.getAttribute('data-id');
+    const wishBtn = card.querySelector('.card-wishlist-btn');
+    if (wishBtn && id) {
+      if (isInWishlist(id)) {
+        wishBtn.classList.add('active');
+        wishBtn.setAttribute('aria-label', 'Remove from routine wishlist');
+      } else {
+        wishBtn.classList.remove('active');
+        wishBtn.setAttribute('aria-label', 'Save to routine wishlist');
+      }
+    }
+  });
+
+  const pdpBtn = document.getElementById('pdpWishlistBtn');
+  if (pdpBtn) {
+    const params = new URLSearchParams(window.location.search);
+    const curId = params.get('id') || '1';
+    if (isInWishlist(curId)) {
+      pdpBtn.classList.add('active');
+      pdpBtn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Saved to Routine Wishlist</span>
+      `;
+    } else {
+      pdpBtn.classList.remove('active');
+      pdpBtn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Save to Routine Wishlist</span>
+      `;
+    }
+  }
+}
+
+// Wishlist Page Renderer (wishlist.html)
+function initWishlistPage() {
+  const grid = document.getElementById('wishlistGrid');
+  const emptyState = document.getElementById('wishlistEmptyState');
+  const toolbar = document.getElementById('wishlistToolbar');
+  const statsPill = document.getElementById('wishlistStatsCount');
+  const userBanner = document.getElementById('wishlistUserBanner');
+
+  if (!grid && !emptyState) return;
+
+  const currentItems = getWishlist();
+
+  if (userBanner) {
+    const userRaw = localStorage.getItem('mr_current_user');
+    if (userRaw) {
+      try {
+        const user = JSON.parse(userRaw);
+        userBanner.innerHTML = `
+          <div class="wishlist-sync-info">
+            <span style="font-size: 1.1rem;">✨</span>
+            <span>Saved to Routine Profile for <strong>${user.name || user.email}</strong>. Synced in the cloud.</span>
+          </div>
+        `;
+      } catch (e) {}
+    }
+  }
+
+  if (statsPill) {
+    statsPill.textContent = `${currentItems.length} Formulation${currentItems.length === 1 ? '' : 's'}`;
+  }
+
+  if (currentItems.length === 0) {
+    if (grid) grid.style.display = 'none';
+    if (toolbar) toolbar.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'block';
+
+    const recsGrid = document.getElementById('wishlistRecsGrid');
+    if (recsGrid) {
+      const catalog = window.MEMORY_REHAB_CATALOG || {};
+      const sampleIds = Object.keys(catalog).slice(0, 3);
+      recsGrid.innerHTML = sampleIds.map((id) => {
+        const p = catalog[id];
+        if (!p) return '';
+        const price = (Number(p.price) > 0 && Number(p.price) <= 100) ? Number(p.price) * 1000 : p.price;
+        return `
+          <article class="product-card" data-id="${p.id}" data-name="${p.name}" data-price="${price}" data-image="${p.image}">
+            <div class="card-media-wrap">
+              <span class="step-badge">${p.step || 'Routine Step'}</span>
+              <button class="card-wishlist-btn" type="button" aria-label="Save to wishlist">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+              <a href="product.html?id=${p.id}"><img src="${p.image}" alt="${p.name}" loading="lazy" /></a>
+            </div>
+            <div class="card-content-wrap">
+              <h3 class="card-title"><a href="product.html?id=${p.id}">${p.name}</a></h3>
+              <div class="card-footer-row">
+                <span class="current-price">${formatCurrency(price)}</span>
+                <button class="card-add-cart-btn" type="button" onclick="if(window.addToCart){window.addToCart(window.MEMORY_REHAB_CATALOG['${p.id}']);}">Add</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = 'none';
+  if (grid) {
+    grid.style.display = 'grid';
+    grid.innerHTML = currentItems.map((item) => {
+      const price = (Number(item.price) > 0 && Number(item.price) <= 100) ? Number(item.price) * 1000 : Number(item.price);
+      const origPrice = (Number(item.originalPrice) > 0 && Number(item.originalPrice) <= 100) ? Number(item.originalPrice) * 1000 : Number(item.originalPrice);
+      const hasDiscount = origPrice && origPrice > price;
+      const discountPercent = hasDiscount ? Math.round(((origPrice - price) / origPrice) * 100) : 0;
+      const waMsg = encodeURIComponent(`Hi Memory Rehab! 🌿 I would like to order my wishlisted formulation: ${item.name} (${formatCurrency(price)}).`);
+
+      return `
+        <div class="wishlist-card" data-id="${item.id}">
+          <div class="wishlist-card-media">
+            <span class="wishlist-step-badge">${item.step || 'Routine Step'}</span>
+            <button type="button" class="wishlist-card-remove-btn" data-id="${item.id}" aria-label="Remove ${item.name} from wishlist" title="Remove from wishlist">✕</button>
+            ${hasDiscount ? `<span class="wishlist-discount-badge">SAVE ${discountPercent}%</span>` : ''}
+            <a href="product.html?id=${item.id}">
+              <img src="${item.image || 'photo_2026-09-09_17-33-58.jpg'}" alt="${item.name}" class="wishlist-card-img" />
+            </a>
+          </div>
+          <div class="wishlist-card-body">
+            <span class="wishlist-card-skin">
+              <img src="favicon-32x32.png" width="14" height="14" alt="" />
+              ${item.skinType || 'Barrier Rehabilitation Care'}
+            </span>
+            <h3 class="wishlist-card-title">
+              <a href="product.html?id=${item.id}">${item.name}</a>
+            </h3>
+            <div class="wishlist-card-rating">
+              ★★★★★ <span>4.9 (Verified Barrier Care)</span>
+            </div>
+            <div class="wishlist-price-row">
+              <span class="wishlist-price">${formatCurrency(price)}</span>
+              ${hasDiscount ? `<span class="wishlist-orig-price">${formatCurrency(origPrice)}</span>` : ''}
+            </div>
+            <div class="wishlist-card-actions">
+              <button type="button" class="wishlist-move-bag-btn" data-id="${item.id}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Move to Routine Bag
+              </button>
+              <a href="https://wa.me/2349112488271?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="wishlist-wa-btn">
+                Order via WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (toolbar) toolbar.style.display = 'flex';
+
+  if (grid) {
+    grid.onclick = (e) => {
+      const removeBtn = e.target.closest('.wishlist-card-remove-btn');
+      if (removeBtn) {
+        const id = removeBtn.getAttribute('data-id');
+        const card = removeBtn.closest('.wishlist-card');
+        if (card) {
+          card.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.9)';
+          setTimeout(() => {
+            removeFromWishlist(id);
+            initWishlistPage();
+          }, 200);
+        }
+        return;
+      }
+
+      const moveBtn = e.target.closest('.wishlist-move-bag-btn');
+      if (moveBtn) {
+        const id = moveBtn.getAttribute('data-id');
+        const item = currentItems.find((i) => String(i.id) === String(id));
+        if (item && typeof window.addToCart === 'function') {
+          window.addToCart(item, 1);
+        }
+        return;
+      }
+    };
+  }
+
+  const moveAllBtn = document.getElementById('wishlistMoveAllBtn');
+  if (moveAllBtn) {
+    moveAllBtn.onclick = () => {
+      if (wishlist.length === 0) return;
+      wishlist.forEach((it) => {
+        if (typeof window.addToCart === 'function') {
+          window.addToCart(it, 1);
+        }
+      });
+      if (typeof window.showToast === 'function') {
+        window.showToast(`Moved all ${wishlist.length} formulations to your routine bag!`, '🎉');
+      }
+      if (typeof window.triggerConfetti === 'function') {
+        window.triggerConfetti();
+      }
+      if (typeof window.openCart === 'function') {
+        window.openCart();
+      }
+    };
+  }
+
+  const clearBtn = document.getElementById('wishlistClearBtn');
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      if (wishlist.length === 0) return;
+      if (confirm('Are you sure you want to clear all items from your routine wishlist?')) {
+        clearWishlist();
+        initWishlistPage();
+      }
+    };
+  }
+
+  const shareBtn = document.getElementById('wishlistShareBtn');
+  if (shareBtn) {
+    shareBtn.onclick = async () => {
+      try {
+        const shareUrl = window.location.href.split('?')[0];
+        await navigator.clipboard.writeText(shareUrl);
+        if (typeof window.showToast === 'function') {
+          window.showToast('Wishlist link copied to clipboard!', '📋');
+        }
+      } catch (err) {
+        if (typeof window.showToast === 'function') {
+          window.showToast('Wishlist link ready to share!', '🔗');
+        }
+      }
+    };
+  }
+}
+
+window.getWishlist = getWishlist;
+window.addToWishlist = addToWishlist;
+window.removeFromWishlist = removeFromWishlist;
+window.toggleWishlist = toggleWishlist;
+window.isInWishlist = isInWishlist;
+window.clearWishlist = clearWishlist;
+window.updateWishlistBadges = updateWishlistBadges;
+window.syncWishlistCardButtons = syncWishlistCardButtons;
+window.initWishlistPage = initWishlistPage;
 
 document.addEventListener('DOMContentLoaded', () => {
   // --- 1. DYNAMIC YEAR ---
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
+  }
+
+  // --- WISHLIST INITIALIZATION ---
+  updateWishlistBadges();
+  syncWishlistCardButtons();
+  if (typeof initWishlistPage === 'function') {
+    initWishlistPage();
   }
 
   // --- 2. AUTHENTICATION & USER HEADER STATUS ---
@@ -1040,6 +1441,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addToCart(product, qty = 1) {
+    let normalizedPrice = Number(product.price || 0);
+    if (normalizedPrice > 0 && normalizedPrice <= 100) normalizedPrice = normalizedPrice * 1000;
     const existing = cart.find((i) => i.id === product.id || i.name === product.name);
     if (existing) {
       existing.quantity += qty;
@@ -1047,7 +1450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cart.push({
         id: product.id || String(Date.now()),
         name: product.name,
-        price: Number(product.price),
+        price: normalizedPrice,
         image: product.image,
         size: product.size || '30ml',
         quantity: qty
@@ -1058,7 +1461,10 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast(`Added ${product.name} to routine bag!`, '🛍️');
   }
 
-  // --- 8. HELLO BUBBLE 3-STEP BUNDLE BUILDER ACTION ---
+  window.addToCart = addToCart;
+  window.openCart = openCart;
+
+  // --- 8. MEMORY REHAB SYSTEM 3-STEP BUNDLE BUILDER ACTION ---
   if (addBundleBtn) {
     addBundleBtn.addEventListener('click', () => {
       const bundleItem = {
@@ -1314,11 +1720,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wishBtn) {
       e.preventDefault();
       e.stopPropagation();
-      wishBtn.classList.toggle('active');
-      const isSaved = wishBtn.classList.contains('active');
       const card = wishBtn.closest('.product-card');
-      const name = card?.dataset.name || 'Formulation';
-      showToast(isSaved ? `Saved ${name} to routine wishlist` : `Removed from wishlist`, isSaved ? '❤️' : '🤍');
+      if (!card) return;
+      const id = card.dataset.id || card.getAttribute('data-id');
+      const product = {
+        id: id,
+        name: card.dataset.name || card.querySelector('.card-title')?.textContent || 'Formulation',
+        price: Number(card.dataset.price || card.getAttribute('data-price') || 42000),
+        originalPrice: Number(card.dataset.originalPrice || card.dataset.origPrice || 52000),
+        image: card.dataset.image || card.querySelector('img')?.getAttribute('src') || 'photo_2026-09-09_17-33-58.jpg',
+        size: card.dataset.size || '30ml',
+        step: card.dataset.step || card.querySelector('.step-badge')?.textContent || 'Step 3: Hydrate & Lock',
+        skinType: card.dataset.skinType || 'Barrier Rehabilitation Care'
+      };
+      if (typeof window.toggleWishlist === 'function') {
+        window.toggleWishlist(product);
+      }
       return;
     }
 
@@ -1538,6 +1955,37 @@ document.addEventListener('DOMContentLoaded', () => {
     pdpAddBagBtn?.addEventListener('click', () => {
       addToCart(prod, pdpQty);
     });
+
+    // PDP Routine Wishlist Toggle
+    const pdpWishlistBtn = document.getElementById('pdpWishlistBtn');
+    if (pdpWishlistBtn) {
+      function syncPdpWishlistState() {
+        if (typeof window.isInWishlist === 'function' && window.isInWishlist(prod.id)) {
+          pdpWishlistBtn.classList.add('active');
+          pdpWishlistBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>Saved to Routine Wishlist</span>
+          `;
+        } else {
+          pdpWishlistBtn.classList.remove('active');
+          pdpWishlistBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>Save to Routine Wishlist</span>
+          `;
+        }
+      }
+      syncPdpWishlistState();
+      pdpWishlistBtn.onclick = () => {
+        if (typeof window.toggleWishlist === 'function') {
+          window.toggleWishlist(prod);
+          syncPdpWishlistState();
+        }
+      };
+    }
   };
 
   // --- 11. REAL-TIME CLOUD STORE SYNC (Firebase Firestore) ---
@@ -1943,6 +2391,14 @@ function hydrateStorefrontCatalog() {
       const p = catalog[id];
       if (!p) return;
 
+      // Auto-normalize legacy/small dollar prices (e.g. 45 -> 45000)
+      if (p.price && Number(p.price) > 0 && Number(p.price) <= 100) {
+        p.price = Number(p.price) * 1000;
+      }
+      if (p.originalPrice && Number(p.originalPrice) > 0 && Number(p.originalPrice) <= 100) {
+        p.originalPrice = Number(p.originalPrice) * 1000;
+      }
+
       let card = grid.querySelector(`.product-card[data-id="${id}"]`);
 
       if (card) {
@@ -2086,6 +2542,10 @@ function hydrateStorefrontCatalog() {
     } else {
       initMaintenanceMode();
     }
+
+    if (typeof window.syncWishlistCardButtons === 'function') {
+      window.syncWishlistCardButtons();
+    }
   } catch (err) {
     console.warn('[Memory Rehab] Hydration notice:', err.message);
   }
@@ -2096,6 +2556,12 @@ window.addEventListener('storage', (e) => {
   if (e.key === 'mr_custom_products' || e.key === 'mr_store_settings') {
     hydrateStorefrontCatalog();
     initMaintenanceMode();
+  }
+  if (e.key === 'mr_wishlist') {
+    wishlist = loadPersistedWishlist();
+    updateWishlistBadges();
+    syncWishlistCardButtons();
+    if (typeof initWishlistPage === 'function') initWishlistPage();
   }
 });
 
