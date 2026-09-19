@@ -325,6 +325,12 @@
               <textarea id="settingWelcomeDescription" class="admin-input" rows="3">Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.</textarea>
             </div>
           </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="button" class="btn-primary" id="saveBrandCopyBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Homepage Copy
+            </button>
+          </div>
         </div>
 
         <div class="admin-card">
@@ -385,6 +391,12 @@
               <label class="admin-label" for="welcomeImageUploadInput">Welcome Image Upload</label>
               <input type="file" id="welcomeImageUploadInput" class="admin-input" accept="image/*" />
             </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: right;">
+            <button type="button" class="btn-primary" id="saveVisualAssetsBtn" style="padding: 10px 24px; font-size: 0.88rem;">
+              Save Visual Assets
+            </button>
           </div>
         </div>
 
@@ -788,8 +800,8 @@
         <p class="admin-card-desc">Edit photo, summary description, bottle size, and routine step.</p>
 
         <!-- Image Upload Zone inside Modal -->
+        <input type="file" id="modalFileInput" accept="image/*" style="display: none;" />
         <div class="admin-upload-zone" id="modalUploadZone">
-          <input type="file" id="modalFileInput" accept="image/*" style="display: none;" />
           <img id="modalImgPreview" src="" alt="" style="max-height: 120px; border-radius: var(--radius-md); margin-bottom: 10px; display: none;" />
           <div id="modalUploadPrompt">
             <strong>📷 Click here to Upload a New Product Picture</strong>
@@ -844,9 +856,14 @@
           </div>
         </div>
 
-        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
-          <button type="button" class="btn-secondary" id="cancelEditModalBtn">Cancel</button>
-          <button type="button" class="btn-primary" id="saveModalProdBtn" style="padding: 10px 24px;">Save Formulation</button>
+        <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary" id="deleteModalProdBtn" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.08);">
+            🗑️ Delete Formulation
+          </button>
+          <div style="display: flex; gap: 12px;">
+            <button type="button" class="btn-secondary" id="cancelEditModalBtn">Cancel</button>
+            <button type="button" class="btn-primary" id="saveModalProdBtn" style="padding: 10px 24px;">Save Formulation</button>
+          </div>
         </div>
       </div>
     </div>
@@ -933,12 +950,13 @@
         appId: "1:447945885806:web:6b1e08da09c102671d3e7f"
       };
 
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+      const hasFirebase = typeof firebase !== 'undefined';
+      if (hasFirebase && !firebase.apps.length) {
+        try { firebase.initializeApp(firebaseConfig); } catch (e) { console.warn('Firebase init:', e); }
       }
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-      const storage = firebase.storage ? firebase.storage() : null;
+      const auth = (hasFirebase && firebase.auth) ? firebase.auth() : null;
+      const db = (hasFirebase && firebase.firestore) ? firebase.firestore() : null;
+      const storage = (hasFirebase && firebase.storage) ? firebase.storage() : null;
 
       const adminAuthGate = document.getElementById('adminAuthGate');
       const adminDashboardPanel = document.getElementById('adminDashboardPanel');
@@ -978,26 +996,35 @@
 
       // ── Helper: unlock dashboard ──
       function unlockDashboard() {
-        adminAuthGate.style.display = 'none';
-        adminDashboardPanel.style.display = 'block';
+        if (adminAuthGate) adminAuthGate.style.display = 'none';
+        if (adminDashboardPanel) adminDashboardPanel.style.display = 'block';
         loadAdminData();
       }
 
-      // 2. Auth State Observer
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          unlockDashboard();
-        } else {
-          // Allow passkey session OR any logged-in local user to skip Google auth
-          const passkeyOk = sessionStorage.getItem('mr_admin_passkey') === 'true';
-          if (passkeyOk) {
+      // 2. Auth State Observer (with offline fallback)
+      if (auth) {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
             unlockDashboard();
           } else {
-            adminAuthGate.style.display = 'block';
-            adminDashboardPanel.style.display = 'none';
+            const passkeyOk = sessionStorage.getItem('mr_admin_passkey') === 'true';
+            if (passkeyOk) {
+              unlockDashboard();
+            } else {
+              if (adminAuthGate) adminAuthGate.style.display = 'block';
+              if (adminDashboardPanel) adminDashboardPanel.style.display = 'none';
+            }
           }
+        });
+      } else {
+        const passkeyOk = sessionStorage.getItem('mr_admin_passkey') === 'true';
+        if (passkeyOk) {
+          unlockDashboard();
+        } else {
+          if (adminAuthGate) adminAuthGate.style.display = 'block';
+          if (adminDashboardPanel) adminDashboardPanel.style.display = 'none';
         }
-      });
+      }
 
       // ── Passkey login & 1-Click Owner Unlock ──
       const adminPassInput = document.getElementById('adminPassInput');
@@ -1578,7 +1605,7 @@
             '<td><div style="display:flex;align-items:center;gap:4px;"><span>₦</span><input type="number" step="1" class="admin-price-input admin-input" value="' + (p.originalPrice || p.price || 0) + '" data-field="originalPrice" /></div></td>',
             '<td><input type="text" class="admin-input" style="width:110px;" value="' + (p.badge || 'Popular') + '" data-field="badge" /></td>',
             '<td><select class="admin-input" style="width:100px;padding:6px 10px;" data-field="inStock"><option value="true" ' + (p.inStock !== false ? 'selected' : '') + '>In Stock</option><option value="false" ' + (p.inStock === false ? 'selected' : '') + '>Sold Out</option></select></td>',
-            '<td><div style="display:flex;gap:6px;"><button type="button" class="admin-save-pill-btn" data-action="edit-details" data-id="' + id + '" style="background:rgba(255,255,255,0.25);color:var(--text-main);border:1px solid var(--glass-border);">⚙️ Specs</button><button type="button" class="admin-save-pill-btn" data-action="save-row" data-id="' + id + '">Save</button></div></td>'
+            '<td><div style="display:flex;gap:6px;"><button type="button" class="admin-save-pill-btn" data-action="edit-details" data-id="' + id + '" style="background:rgba(255,255,255,0.25);color:var(--text-main);border:1px solid var(--glass-border);">⚙️ Specs</button><button type="button" class="admin-save-pill-btn" data-action="save-row" data-id="' + id + '">Save</button><button type="button" class="admin-save-pill-btn" data-action="delete-product" data-id="' + id + '" style="background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.3);" title="Delete formulation">🗑️</button></div></td>'
           ].join('');
           adminProductsTbody.appendChild(tr);
         });
@@ -1587,7 +1614,7 @@
         if (badgeCount) badgeCount.textContent = Object.keys(currentProducts).length + ' Formulations';
       }
 
-      // Handle table row clicks: Photo Upload, Specs Modal, Quick Save
+      // Handle table row clicks: Photo Upload, Specs Modal, Quick Save, Delete
       adminProductsTbody?.addEventListener('click', (e) => {
         const thumbWrap = e.target.closest('.admin-thumb-wrap');
         if (thumbWrap) {
@@ -1604,7 +1631,28 @@
 
         const saveBtn = e.target.closest('[data-action="save-row"]');
         if (saveBtn) {
-          saveSingleProduct(saveBtn.dataset.id);
+          saveSingleProduct(saveBtn.dataset.id, saveBtn);
+          return;
+        }
+
+        const deleteBtn = e.target.closest('[data-action="delete-product"]');
+        if (deleteBtn) {
+          const id = deleteBtn.dataset.id;
+          const p = currentProducts[id] || {};
+          const pName = p.name || 'this formulation';
+          if (!confirm(`Are you sure you want to delete "${pName}"?`)) return;
+
+          delete currentProducts[id];
+          persistProductsLocally();
+          renderProductsTable();
+          if (typeof window.showToast === 'function') {
+            window.showToast(`Deleted "${pName}"`, '🗑️');
+          }
+          if (db) {
+            db.collection('products').doc(id).delete().catch((err) => {
+              console.warn('Cloud delete notice:', err.message);
+            });
+          }
         }
       });
 
@@ -1687,7 +1735,10 @@
         document.getElementById('editProdStep').value = p.step || 'Step 1: Prep & Tone';
         document.getElementById('editProdSkinType').value = p.skinType || '';
         document.getElementById('editProdSummary').value = p.summary || '';
-        document.getElementById('editProdIngredients').value = (p.ingredients || []).join(', ');
+        const ingStr = Array.isArray(p.ingredients)
+          ? p.ingredients.join(', ')
+          : (typeof p.ingredients === 'string' ? p.ingredients : '');
+        document.getElementById('editProdIngredients').value = ingStr;
 
         if (p.image) {
           modalImgPreview.src = p.image;
@@ -1707,8 +1758,38 @@
       closeEditModalBtn?.addEventListener('click', closeDetailModal);
       cancelEditModalBtn?.addEventListener('click', closeDetailModal);
 
-      modalUploadZone?.addEventListener('click', () => {
-        modalFileInput?.click();
+      // Delete Product from Modal
+      document.getElementById('deleteModalProdBtn')?.addEventListener('click', async () => {
+        if (!activeEditingId) return;
+        const p = currentProducts[activeEditingId] || {};
+        const pName = p.name || 'this product';
+        if (!confirm(`Are you sure you want to delete "${pName}"? This will remove it from the catalog.`)) {
+          return;
+        }
+
+        const idToDelete = activeEditingId;
+        delete currentProducts[idToDelete];
+        persistProductsLocally();
+        renderProductsTable();
+        closeDetailModal();
+
+        if (typeof window.showToast === 'function') {
+          window.showToast(`Deleted "${pName}"`, '🗑️');
+        }
+
+        if (db) {
+          try {
+            await db.collection('products').doc(idToDelete).delete();
+          } catch(err) {
+            console.warn('Cloud delete notice:', err.message);
+          }
+        }
+      });
+
+      modalUploadZone?.addEventListener('click', (e) => {
+        if (e.target.id !== 'modalFileInput') {
+          modalFileInput?.click();
+        }
       });
 
       modalFileInput?.addEventListener('change', async (e) => {
@@ -1808,15 +1889,26 @@
         openDetailModal(newId);
       });
 
-      async function saveSingleProduct(id) {
+      async function saveSingleProduct(id, triggerBtn) {
         const tr = document.querySelector('tr[data-id="' + id + '"]');
         if (!tr) return;
 
-        const name = tr.querySelector('[data-field="name"]').value.trim();
-        const price = parseFloat(tr.querySelector('[data-field="price"]').value) || 0;
-        const originalPrice = parseFloat(tr.querySelector('[data-field="originalPrice"]').value) || price;
-        const badge = tr.querySelector('[data-field="badge"]').value.trim();
-        const inStock = tr.querySelector('[data-field="inStock"]').value === 'true';
+        if (triggerBtn) {
+          triggerBtn.disabled = true;
+          triggerBtn.textContent = 'Saving…';
+        }
+
+        const nameInput = tr.querySelector('[data-field="name"]');
+        const priceInput = tr.querySelector('[data-field="price"]');
+        const origPriceInput = tr.querySelector('[data-field="originalPrice"]');
+        const badgeInput = tr.querySelector('[data-field="badge"]');
+        const stockSelect = tr.querySelector('[data-field="inStock"]');
+
+        const name = nameInput ? nameInput.value.trim() : (currentProducts[id]?.name || 'Formulation');
+        const price = priceInput ? (parseFloat(priceInput.value) || 0) : (currentProducts[id]?.price || 0);
+        const originalPrice = origPriceInput ? (parseFloat(origPriceInput.value) || price) : (currentProducts[id]?.originalPrice || price);
+        const badge = badgeInput ? badgeInput.value.trim() : (currentProducts[id]?.badge || 'Popular');
+        const inStock = stockSelect ? (stockSelect.value === 'true') : true;
 
         if (!currentProducts[id]) currentProducts[id] = { id };
         currentProducts[id].name = name;
@@ -1832,10 +1924,20 @@
         }
 
         // Cloud sync
-        try {
-          await db.collection('products').doc(id).set(currentProducts[id], { merge: true });
-        } catch (err) {
-          console.warn('Cloud sync error:', err.message);
+        if (db) {
+          try {
+            await db.collection('products').doc(id).set(currentProducts[id], { merge: true });
+          } catch (err) {
+            console.warn('Cloud sync error:', err.message);
+          }
+        }
+
+        if (triggerBtn) {
+          triggerBtn.textContent = '✓ Saved';
+          setTimeout(() => {
+            triggerBtn.disabled = false;
+            triggerBtn.textContent = 'Save';
+          }, 1500);
         }
       }
 
@@ -1947,37 +2049,68 @@
         saveSettingsBtn.disabled = true;
         saveSettingsBtn.textContent = 'Saving…';
 
-        const storeName = document.getElementById('settingStoreName').value.trim() || 'Memory Rehab Lab';
-        const storeTagline = document.getElementById('settingStoreTagline').value.trim() || 'Botanical Skincare';
-        const announcement = document.getElementById('settingAnnouncement').value.trim();
-        const promoCode = document.getElementById('settingPromoCode').value.trim().toUpperCase();
-        const promoDiscount = parseInt(document.getElementById('settingDiscountPercent').value, 10) || 15;
-        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold').value) || 60;
-        const heroEyebrow = document.getElementById('settingHeroEyebrow').value.trim() || 'Step-by-Step Clinical Care';
-        const heroHeadline = document.getElementById('settingHeroHeadline').value.trim() || 'Healthy skin starts with a rehabilitated barrier.';
-        const heroDescription = document.getElementById('settingHeroDescription').value.trim() || 'No complicated million-step routines. Memory Rehab simplifies barrier repair into a targeted 3-product routine designed to soothe inflammation, replenish and lock in hydration, and support the repair of your skin barrier.';
-        const heroPrimaryCta = document.getElementById('settingHeroPrimaryCta').value.trim() || 'Shop 3-Step Routine';
-        const heroSecondaryCta = document.getElementById('settingHeroSecondaryCta').value.trim() || 'Build Routine & Save 15%';
-        const welcomeEyebrow = document.getElementById('settingWelcomeEyebrow').value.trim() || 'Apothecary Welcome';
-        const welcomeTitle = document.getElementById('settingWelcomeTitle').value.trim() || 'Your skin barrier, restored with pure botanicals.';
-        const welcomeDescription = document.getElementById('settingWelcomeDescription').value.trim() || 'Welcome to Memory Rehab. Join our skincare collective today to unlock personalized routine recommendations and save on your first clinical care order.';
-        const heroImageUrl = document.getElementById('settingHeroImageUrl').value.trim() || 'photo_2026-09-09_17-33-58.jpg';
-        const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl')?.value.trim() || 'blue-blooded-welcome.jpg';
-        const brandMonogram = (document.getElementById('settingBrandMonogram')?.value || 'MR').toUpperCase().slice(0,4);
-        const footerBio = document.getElementById('settingFooterBio')?.value.trim() || 'High-performance botanical formulas dedicated to skin barrier recovery, soothing balance, and healthy everyday radiance.';
-        const footerCopyright = document.getElementById('settingFooterCopyright')?.value.trim() || 'Memory Rehab Lab. All rights reserved.';
-        const footerTagline = document.getElementById('settingFooterTagline')?.value.trim() || 'Crafted with botanical purity & clinical precision.';
+        const storeName = document.getElementById('settingStoreName')?.value.trim() || 'Memory Rehab Lab';
+        const storeTagline = document.getElementById('settingStoreTagline')?.value.trim() || 'Botanical Skincare';
+        const announcement = document.getElementById('settingAnnouncement')?.value.trim() || '';
+        const promoCode = document.getElementById('settingPromoCode')?.value.trim().toUpperCase() || 'GLOW15';
+        const promoDiscount = parseInt(document.getElementById('settingDiscountPercent')?.value, 10) || 15;
+        const freeShippingThreshold = parseFloat(document.getElementById('settingShippingThreshold')?.value) || 60000;
         const whatsappNumber = document.getElementById('settingWhatsApp')?.value.trim() || '+2349112488271';
         const instagramHandle = document.getElementById('settingInstagram')?.value.trim() || 'memoryrehab.co';
         const tiktokHandle = document.getElementById('settingTikTok')?.value.trim() || 'memoryrehab.co';
 
-        const settingsData = {
+        const settingsUpdate = {
           storeName,
           storeTagline,
           announcement,
           promoCode,
           promoDiscount,
           freeShippingThreshold,
+          whatsappNumber,
+          instagramHandle,
+          tiktokHandle
+        };
+
+        const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+        const nextSettings = { ...existing, ...settingsUpdate };
+        persistSettingsLocally(nextSettings);
+
+        if (typeof window.showToast === 'function') {
+          window.showToast('Store settings & promos saved live!', '📢');
+        }
+
+        if (db) {
+          try {
+            await db.collection('store_settings').doc('general').set({
+              ...settingsUpdate,
+              updatedAt: firebase?.firestore?.FieldValue ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()
+            }, { merge: true });
+          } catch (err) {
+            console.warn('Cloud settings notice:', err.message);
+          }
+        }
+
+        saveSettingsBtn.disabled = false;
+        saveSettingsBtn.textContent = '✓ Saved!';
+        setTimeout(() => { saveSettingsBtn.textContent = 'Save Store Settings'; }, 1500);
+      });
+
+      // ── Brand & Homepage Copy Save ──
+      const saveBrandCopyBtn = document.getElementById('saveBrandCopyBtn');
+      saveBrandCopyBtn?.addEventListener('click', async () => {
+        saveBrandCopyBtn.disabled = true;
+        saveBrandCopyBtn.textContent = 'Saving…';
+
+        const heroEyebrow = document.getElementById('settingHeroEyebrow')?.value.trim() || 'Step-by-Step Clinical Care';
+        const heroHeadline = document.getElementById('settingHeroHeadline')?.value.trim() || 'Healthy skin starts with a rehabilitated barrier.';
+        const heroDescription = document.getElementById('settingHeroDescription')?.value.trim() || '';
+        const heroPrimaryCta = document.getElementById('settingHeroPrimaryCta')?.value.trim() || 'Shop 3-Step Routine';
+        const heroSecondaryCta = document.getElementById('settingHeroSecondaryCta')?.value.trim() || 'Build Routine & Save 15%';
+        const welcomeEyebrow = document.getElementById('settingWelcomeEyebrow')?.value.trim() || 'Apothecary Welcome';
+        const welcomeTitle = document.getElementById('settingWelcomeTitle')?.value.trim() || 'Your skin barrier, restored with pure botanicals.';
+        const welcomeDescription = document.getElementById('settingWelcomeDescription')?.value.trim() || '';
+
+        const copyData = {
           heroEyebrow,
           heroHeadline,
           heroDescription,
@@ -1985,42 +2118,63 @@
           heroSecondaryCta,
           welcomeEyebrow,
           welcomeTitle,
-          welcomeDescription,
-          heroImageUrl,
-          welcomeImageUrl,
-          brandMonogram,
-          footerBio,
-          footerCopyright,
-          footerTagline,
-          whatsappNumber,
-          instagramHandle,
-          tiktokHandle,
-          maintenanceMode: !!document.getElementById('maintenanceModeToggle')?.checked,
-          maintenanceTitle: document.getElementById('settingMaintenanceTitle')?.value.trim() || 'Laboratory Restock & Routine Formulation Update',
-          maintenanceMessage: document.getElementById('settingMaintenanceMessage')?.value.trim() || 'Our apothecary lab is currently restocking fresh botanical batches and calibrating clinical formulations. We will return shortly with freshly compounded barrier care.',
-          maintenanceEstimatedReturn: document.getElementById('settingMaintenanceEstimatedReturn')?.value.trim() || '',
-          maintenanceBypassKey: document.getElementById('settingMaintenanceBypassKey')?.value.trim() || 'lab2026',
-          maintenanceAllowWhatsAppOrders: !!document.getElementById('settingMaintenanceWhatsApp')?.checked
+          welcomeDescription
         };
 
-        // 1. Save locally
-        persistSettingsLocally(settingsData);
+        const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+        persistSettingsLocally({ ...existing, ...copyData });
+
         if (typeof window.showToast === 'function') {
-          window.showToast('Store copy & promo controls updated live!', '📢');
+          window.showToast('Homepage copy updated live!', '📝');
         }
 
-        // 2. Push to cloud
-        try {
-          await db.collection('store_settings').doc('general').set({
-            ...settingsData,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }, { merge: true });
-        } catch (err) {
-          console.warn('Cloud settings notice:', err.message);
-        } finally {
-          saveSettingsBtn.disabled = false;
-          saveSettingsBtn.textContent = 'Save Store Settings';
+        if (db) {
+          try {
+            await db.collection('store_settings').doc('general').set({
+              ...copyData,
+              updatedAt: firebase?.firestore?.FieldValue ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()
+            }, { merge: true });
+          } catch(err) {
+            console.warn('Cloud copy notice:', err.message);
+          }
         }
+
+        saveBrandCopyBtn.disabled = false;
+        saveBrandCopyBtn.textContent = '✓ Saved!';
+        setTimeout(() => { saveBrandCopyBtn.textContent = 'Save Homepage Copy'; }, 1500);
+      });
+
+      // ── Visual Assets Save ──
+      const saveVisualAssetsBtn = document.getElementById('saveVisualAssetsBtn');
+      saveVisualAssetsBtn?.addEventListener('click', async () => {
+        saveVisualAssetsBtn.disabled = true;
+        saveVisualAssetsBtn.textContent = 'Saving…';
+
+        const heroImageUrl = document.getElementById('settingHeroImageUrl')?.value.trim() || 'photo_2026-09-09_17-33-58.jpg';
+        const welcomeImageUrl = document.getElementById('settingWelcomeImageUrl')?.value.trim() || 'photo_2026-09-09_20-12-25.jpg';
+
+        const assetData = { heroImageUrl, welcomeImageUrl };
+        const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
+        persistSettingsLocally({ ...existing, ...assetData });
+
+        if (typeof window.showToast === 'function') {
+          window.showToast('Visual assets updated live!', '🖼️');
+        }
+
+        if (db) {
+          try {
+            await db.collection('store_settings').doc('general').set({
+              ...assetData,
+              updatedAt: firebase?.firestore?.FieldValue ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()
+            }, { merge: true });
+          } catch(err) {
+            console.warn('Cloud visual assets notice:', err.message);
+          }
+        }
+
+        saveVisualAssetsBtn.disabled = false;
+        saveVisualAssetsBtn.textContent = '✓ Saved!';
+        setTimeout(() => { saveVisualAssetsBtn.textContent = 'Save Visual Assets'; }, 1500);
       });
 
       // ── Footer & Brand Identity Save ──
@@ -2036,13 +2190,11 @@
 
         const footerData = { brandMonogram, footerBio, footerCopyright, footerTagline };
 
-        // Save locally (merge with existing settings)
         try {
           const existing = JSON.parse(localStorage.getItem('mr_store_settings') || '{}');
           localStorage.setItem('mr_store_settings', JSON.stringify({ ...existing, ...footerData }));
         } catch(e) {}
 
-        // Apply live to the page (if admin preview is open alongside)
         if (typeof window.applyStorefrontTextSettings === 'function') {
           window.applyStorefrontTextSettings(footerData);
         }
@@ -2051,18 +2203,20 @@
           window.showToast('Footer & brand identity saved!', '🏷️');
         }
 
-        // Push to cloud
-        try {
-          await db.collection('store_settings').doc('general').set({
-            ...footerData,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }, { merge: true });
-        } catch (err) {
-          console.warn('Cloud footer settings notice:', err.message);
-        } finally {
-          saveFooterSettingsBtn.disabled = false;
-          saveFooterSettingsBtn.textContent = 'Save Footer Settings';
+        if (db) {
+          try {
+            await db.collection('store_settings').doc('general').set({
+              ...footerData,
+              updatedAt: firebase?.firestore?.FieldValue ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()
+            }, { merge: true });
+          } catch (err) {
+            console.warn('Cloud footer settings notice:', err.message);
+          }
         }
+
+        saveFooterSettingsBtn.disabled = false;
+        saveFooterSettingsBtn.textContent = '✓ Saved!';
+        setTimeout(() => { saveFooterSettingsBtn.textContent = 'Save Footer Settings'; }, 1500);
       });
 
       seedDatabaseBtn?.addEventListener('click', async () => {
