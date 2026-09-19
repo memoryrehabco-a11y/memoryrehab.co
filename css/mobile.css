@@ -55,17 +55,17 @@
 
 /* --- PHONE / SMALL MOBILE (480px) --- */
 @media (max-width: 480px) {
-  /* Container compact margins */
+  /* Container comfortable margins */
   .container {
-    width: calc(100% - 20px);
+    width: calc(100% - 28px);
     max-width: 100%;
   }
 
-  /* Product grid: 2 columns on phones — readable cards */
+  /* Product grid: 2 columns on phones with comfortable breathing room */
   .product-cards-grid,
   body.platform-android .product-cards-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 14px;
+    gap: 16px !important;
   }
 
   /* Hero grid single column */

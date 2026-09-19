@@ -308,3 +308,23 @@
   gap: 8px;
 }
 
+@media (max-width: 900px) {
+  .ritual-video-grid {
+    gap: 28px !important;
+  }
+  .ritual-details-wrap {
+    gap: 20px !important;
+  }
+  .ritual-title {
+    margin-bottom: 6px !important;
+  }
+  .ritual-desc {
+    margin-bottom: 6px !important;
+    line-height: 1.65 !important;
+  }
+  .ritual-product-pill {
+    margin-top: 14px !important;
+    padding: 12px 16px !important;
+  }
+}
+
