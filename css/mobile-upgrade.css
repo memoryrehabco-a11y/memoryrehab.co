@@ -65,6 +65,9 @@ html {
     gap: 6px !important;
     position: relative !important;
   }
+  .header-inner > nav {
+    display: none !important;
+  }
   .hamburger-btn {
     grid-column: 1 !important;
     order: 1 !important;
@@ -87,6 +90,7 @@ html {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    justify-self: center !important;
     text-align: center !important;
     margin: 0 auto !important;
     gap: 4px !important;
